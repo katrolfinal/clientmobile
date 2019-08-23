@@ -1,137 +1,370 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
-
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Component } from 'react';
 import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar
+    View,
+    Text,
+    Button,
+    Platform,
+    TouchableOpacity,
+    Linking,
+    TextInput,
+    ScrollView,
 } from 'react-native';
+import NfcManager, {Ndef} from 'react-native-nfc-manager';
+import NFC from './NFC.js'
 
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-import NfcManager, { Ndef, NfcTech, ByteParser , NfcAdapter} from 'react-native-nfc-manager'
-
-const App = () => {
-
-  useEffect(() => {
-    console.debug('masuk');
-  }, [])
-
-  NfcManager.isSupported(NfcTech.MifareClassic)
-    .then(() => console.log('Mifare classic is supported'))
-    .catch(err => console.warn(err))
-
-  NfcManager.registerTagEvent(
-    tag => {
-      console.log('Tag Discovered', tag);
-    },
-    'Hold your device over the tag',
-    {
-      invalidateAfterFirstRead: true,
-      isReaderModeEnabled: true,
-      readerModeFlags:
-        NfcAdapter.FLAG_READER_NFC_A | NfcAdapter.FLAG_READER_SKIP_NDEF_CHECK,
-    },
-  );
-
-  return (
-    <Fragment>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          <Header />
-          {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hffermes</Text>
-            </View>
-          )}
-          <View style={styles.body}>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Step One TOT</Text>
-              <Text style={styles.sectionDescription}>
-                Edit <Text style={styles.highlight}>App.js</Text> to change this
-                screen and then come back to see your edit tes.
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>See Your Changes</Text>
-              <Text style={styles.sectionDescription}>
-                <ReloadInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Debug</Text>
-              <Text style={styles.sectionDescription}>
-                <DebugInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Learn More</Text>
-              <Text style={styles.sectionDescription}>
-                Read the docs to discover what to do next:
-              </Text>
-            </View>
-            <LearnMoreLinks />
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    </Fragment>
-  );
+const RtdType = {
+    URL: 0,
+    TEXT: 1,
 };
 
-const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
-  },
-  engine: {
-    position: 'absolute',
-    right: 0,
-  },
-  body: {
-    backgroundColor: Colors.white,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
-  },
-});
+function buildUrlPayload(valueToWrite) {
+    return Ndef.encodeMessage([
+        Ndef.uriRecord(valueToWrite),
+    ]);
+}
+
+function buildTextPayload(valueToWrite) {
+    return Ndef.encodeMessage([
+        Ndef.textRecord(valueToWrite),
+    ]);
+}
+
+class App extends Component {
+    // constructor(props) {
+    //     super(props);
+    //     this.state = {
+    //         supported: true,
+    //         enabled: false,
+    //         isWriting: false,
+    //         urlToWrite: JSON.stringify({
+    //           name : 'dul',
+    //           position: 'WOT'
+    //         }),
+    //         rtdType: RtdType.TEXT,
+    //         parsedText: null,
+    //         tag: {},
+    //     }
+    // }
+
+    // componentDidMount() {
+    //     NfcManager.isSupported()
+    //         .then(supported => {
+    //             this.setState({ supported });
+    //             if (supported) {
+    //                 this._startNfc();
+    //             }
+    //         })
+    // }
+
+    // componentWillUnmount() {
+    //     if (this._stateChangedSubscription) {
+    //         this._stateChangedSubscription.remove();
+    //     }
+    // }
+
+    render() {
+        // let { supported, enabled, tag, isWriting, urlToWrite, parsedText, rtdType } = this.state;
+        return (
+            <View>
+              {/* <Text>{{
+                _id : "08y4470fv0s897547sv",
+                company : "Hacktiv8 Indonesia",
+                name : "fadlul",
+                position : "teknisi",
+                email : "fadlul@mail.com",
+                address: "tanah kusir",
+                phone: "0864356893",
+                image:"image.jpg"
+              }}</Text> */}
+              <NFC detailCard={JSON.stringify({
+                _id : "08y4470fv0s897547sv",
+                company : "Hacktiv8 Indonesia",
+                name : "fadlul",
+                position : "teknisi",
+                email : "fadlul@mail.com",
+                address: "tanah kusir",
+                phone: "0864356893",
+                image:"image.jpg"
+              })}></NFC>
+            </View>
+            // <ScrollView style={{flex: 1}}>
+            //     { Platform.OS === 'ios' && <View style={{ height: 60 }} /> }
+
+            //     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            //         <Text>{`Is NFC supported ? ${supported}`}</Text>
+            //         <Text>{`Is NFC enabled (Android only)? ${enabled}`}</Text>
+
+            //         <TouchableOpacity style={{ marginTop: 20 }} onPress={this._startDetection}>
+            //             <Text style={{ color: 'blue' }}>Start Tag Detection</Text>
+            //         </TouchableOpacity>
+
+            //         <TouchableOpacity style={{ marginTop: 20 }} onPress={this._stopDetection}>
+            //             <Text style={{ color: 'red' }}>Stop Tag Detection</Text>
+            //         </TouchableOpacity>
+
+            //         <TouchableOpacity style={{ marginTop: 20 }} onPress={this._clearMessages}>
+            //             <Text>Clear</Text>
+            //         </TouchableOpacity>
+
+            //         <TouchableOpacity style={{ marginTop: 20 }} onPress={this._goToNfcSetting}>
+            //             <Text >(android) Go to NFC setting</Text>
+            //         </TouchableOpacity>
+
+            //         {
+            //             <View style={{padding: 10, marginTop: 20, backgroundColor: '#e0e0e0'}}>
+            //                 <Text>(android) Write NDEF Test</Text>
+            //                 <View style={{flexDirection: 'row', marginTop: 10}}>
+            //                     <Text style={{marginRight: 15}}>Types:</Text>
+            //                     {
+            //                         Object.keys(RtdType).map(
+            //                             key => (
+            //                                 <TouchableOpacity 
+            //                                     key={key}
+            //                                     style={{marginRight: 10}}
+            //                                     onPress={() => this.setState({rtdType: RtdType[key]})}
+            //                                 >
+            //                                     <Text style={{color: rtdType === RtdType[key] ? 'blue' : '#aaa'}}>
+            //                                         {key}
+            //                                     </Text>
+            //                                 </TouchableOpacity>
+            //                             )
+            //                         )
+            //                     }
+            //                 </View>
+            //                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            //                     <TextInput
+            //                         style={{width: 200}}
+            //                         value={urlToWrite}
+            //                         onChangeText={urlToWrite => this.setState({ urlToWrite })}
+            //                     />
+            //                 </View>
+
+            //                 <TouchableOpacity 
+            //                     style={{ marginTop: 20, borderWidth: 1, borderColor: 'blue', padding: 10 }} 
+            //                     onPress={isWriting ? this._cancelNdefWrite : this._requestNdefWrite}>
+            //                     <Text style={{color: 'blue'}}>{`(android) ${isWriting ? 'Cancel' : 'Write NDEF'}`}</Text>
+            //                 </TouchableOpacity>
+
+            //                 <TouchableOpacity 
+            //                     style={{ marginTop: 20, borderWidth: 1, borderColor: 'blue', padding: 10 }} 
+            //                     onPress={isWriting ? this._cancelNdefWrite : this._requestFormat}>
+            //                     <Text style={{color: 'blue'}}>{`(android) ${isWriting ? 'Cancel' : 'Format'}`}</Text>
+            //                 </TouchableOpacity>
+
+            //                 <TouchableOpacity 
+            //                     style={{ marginTop: 20, borderWidth: 1, borderColor: 'blue', padding: 10 }} 
+            //                     onPress={isWriting ? this._cancelAndroidBeam : this._requestAndroidBeam}>
+            //                     <Text style={{color: 'blue'}}>{`${isWriting ? 'Cancel ' : ''}Android Beam`}</Text>
+            //                 </TouchableOpacity>
+            //             </View>
+            //         }
+
+            //         <Text style={{ marginTop: 20 }}>{`Current tag JSON: ${JSON.stringify(tag)}`}</Text>
+            //         { parsedText && <Text style={{ marginTop: 10, marginBottom: 20, fontSize: 18 }}>{`Parsed Text: ${parsedText}`}</Text>}
+            //     </View>
+            // </ScrollView>
+        )
+    }
+
+    // _requestFormat = () => {
+    //     let {isWriting} = this.state;
+    //     if (isWriting) {
+    //         return;
+    //     }
+
+    //     this.setState({isWriting: true});
+    //     NfcManager.requestNdefWrite(null, {format: true})
+    //         .then(() => console.log('format completed'))
+    //         .catch(err => console.warn(err))
+    //         .then(() => this.setState({isWriting: false}));
+    // }
+
+    // _requestNdefWrite = () => {
+    //     let {isWriting, urlToWrite, rtdType} = this.state;
+    //     if (isWriting) {
+    //         return;
+    //     }
+
+    //     let bytes;
+
+    //     if (rtdType === RtdType.URL) {
+    //         bytes = buildUrlPayload(urlToWrite);
+    //     } else if (rtdType === RtdType.TEXT) {
+    //         bytes = buildTextPayload(urlToWrite);
+    //     }
+
+    //     this.setState({isWriting: true});
+    //     NfcManager.requestNdefWrite(bytes)
+    //         .then(() => console.log('write completed'))
+    //         .catch(err => console.warn(err))
+    //         .then(() => this.setState({isWriting: false}));
+    // }
+
+    // _cancelNdefWrite = () => {
+    //     this.setState({isWriting: false});
+    //     NfcManager.cancelNdefWrite()
+    //         .then(() => console.log('write cancelled'))
+    //         .catch(err => console.warn(err))
+    // }
+
+    // _requestAndroidBeam = () => {
+    //     let {isWriting, urlToWrite, rtdType} = this.state;
+    //     if (isWriting) {
+    //         return;
+    //     }
+
+    //     let bytes;
+
+    //     if (rtdType === RtdType.URL) {
+    //         bytes = buildUrlPayload(urlToWrite);
+    //     } else if (rtdType === RtdType.TEXT) {
+    //         bytes = buildTextPayload(urlToWrite);
+    //     }
+
+    //     this.setState({isWriting: true});
+    //     NfcManager.setNdefPushMessage(bytes)
+    //         .then(() => console.log('beam request completed'))
+    //         .catch(err => console.warn(err))
+    // }
+
+    // _cancelAndroidBeam = () => {
+    //     this.setState({isWriting: false});
+    //     NfcManager.setNdefPushMessage(null)
+    //         .then(() => console.log('beam cancelled'))
+    //         .catch(err => console.warn(err))
+    // }
+
+    // _startNfc() {
+    //     NfcManager.start({
+    //         onSessionClosedIOS: () => {
+    //             console.log('ios session closed');
+    //         }
+    //     })
+    //         .then(result => {
+    //             console.log('start OK', result);
+    //         })
+    //         .catch(error => {
+    //             console.warn('start fail', error);
+    //             this.setState({supported: false});
+    //         })
+
+    //     if (Platform.OS === 'android') {
+    //         NfcManager.getLaunchTagEvent()
+    //             .then(tag => {
+    //                 console.log('launch tag', tag);
+    //                 if (tag) {
+    //                     this.setState({ tag });
+    //                 }
+    //             })
+    //             .catch(err => {
+    //                 console.log(err);
+    //             })
+    //         NfcManager.isEnabled()
+    //             .then(enabled => {
+    //                 this.setState({ enabled });
+    //             })
+    //             .catch(err => {
+    //                 console.log(err);
+    //             })
+    //         NfcManager.onStateChanged(
+    //             event => {
+    //                 if (event.state === 'on') {
+    //                     this.setState({enabled: true});
+    //                 } else if (event.state === 'off') {
+    //                     this.setState({enabled: false});
+    //                 } else if (event.state === 'turning_on') {
+    //                     // do whatever you want
+    //                 } else if (event.state === 'turning_off') {
+    //                     // do whatever you want
+    //                 }
+    //             }
+    //         )
+    //             .then(sub => {
+    //                 this._stateChangedSubscription = sub; 
+    //                 // remember to call this._stateChangedSubscription.remove()
+    //                 // when you don't want to listen to this anymore
+    //             })
+    //             .catch(err => {
+    //                 console.warn(err);
+    //             })
+    //     }
+    // }
+
+    // _onTagDiscovered = tag => {
+    //     console.log('Tag Discovered', tag);
+    //     this.setState({ tag });
+    //     let url = this._parseUri(tag);
+    //     if (url) {
+    //         Linking.openURL(url)
+    //             .catch(err => {
+    //                 console.warn(err);
+    //             })
+    //     }
+
+    //     let text = this._parseText(tag);
+        
+    //     this.setState({parsedText: text});
+    // }
+
+    // _startDetection = () => {
+    //     NfcManager.registerTagEvent(this._onTagDiscovered)
+    //         .then(result => {
+    //             console.log('registerTagEvent OK', result)
+    //         })
+    //         .catch(error => {
+    //             console.warn('registerTagEvent fail', error)
+    //         })
+    // }
+
+    // _stopDetection = () => {
+    //     NfcManager.unregisterTagEvent()
+    //         .then(result => {
+    //             console.log('unregisterTagEvent OK', result)
+    //         })
+    //         .catch(error => {
+    //             console.warn('unregisterTagEvent fail', error)
+    //         })
+    // }
+
+    // _clearMessages = () => {
+    //     this.setState({tag: null});
+    // }
+
+    // _goToNfcSetting = () => {
+    //     if (Platform.OS === 'android') {
+    //         NfcManager.goToNfcSetting()
+    //             .then(result => {
+    //                 console.log('goToNfcSetting OK', result)
+    //             })
+    //             .catch(error => {
+    //                 console.warn('goToNfcSetting fail', error)
+    //             })
+    //     }
+    // }
+
+    // _parseUri = (tag) => {
+    //     try {
+    //         if (Ndef.isType(tag.ndefMessage[0], Ndef.TNF_WELL_KNOWN, Ndef.RTD_URI)) {
+    //             return Ndef.uri.decodePayload(tag.ndefMessage[0].payload);
+    //         }
+    //     } catch (e) {
+    //         console.log(e);
+    //     }
+    //     return null;
+    // }
+
+    // _parseText = (tag) => {
+    //     try {
+    //         if (Ndef.isType(tag.ndefMessage[0], Ndef.TNF_WELL_KNOWN, Ndef.RTD_TEXT)) {
+    //             console.log(Ndef.text.decodePayload(tag.ndefMessage[0].payload));
+                
+    //             return Ndef.text.decodePayload(tag.ndefMessage[0].payload);
+    //         }
+    //     } catch (e) {
+    //         console.log(e);
+    //     }
+    //     return null;
+    // }
+}
 
 export default App;
