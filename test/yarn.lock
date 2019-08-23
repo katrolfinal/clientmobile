@@ -5200,10 +5200,10 @@ react-is@^16.8.1, react-is@^16.8.4, react-is@^16.8.6:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.9.0.tgz#21ca9561399aad0ff1a7701c01683e8ca981edcb"
   integrity sha512-tJBzzzIgnnRfEm046qRcURvwQnZVXmuCbscxUO5RWrGTXpon2d4c8mI0D8WE6ydVIm29JiLB6+RslkIvym9Rjw==
 
-react-native-nfc-manager@^1.2.4:
-  version "1.2.4"
-  resolved "https://registry.yarnpkg.com/react-native-nfc-manager/-/react-native-nfc-manager-1.2.4.tgz#358b94ea18fca925eec9332d778c65ef721aeb72"
-  integrity sha512-bcU+5O/FUg6olrmPQXMogyvdGx16/WGqUK7Co67t4tMdz2P4WbzgHwSVTkFHgdMIfIN51MhVJbx5gdnXx2dELA==
+react-native-nfc-manager@^2.0.0-beta.2:
+  version "2.0.0-beta.2"
+  resolved "https://registry.yarnpkg.com/react-native-nfc-manager/-/react-native-nfc-manager-2.0.0-beta.2.tgz#0ec0f611606fb7ba9a826584c0c8b9d7f3eb6c2f"
+  integrity sha512-I0PsiS+rcR6IiN4xQHwtcCGyhs75uYlQ2rZQGNx2YZvBYuzbt4ShFJ/VUXICxwoBikBFlhtLOxs12i9oMwAWMQ==
 
 react-native@0.60.5:
   version "0.60.5"
