@@ -36,6 +36,10 @@ class NfcPage extends Component {
   }
 
   componentDidMount() {
+    if(!this.props.isLogin){
+      this.props.navigation.navigate('LoginPage')
+    }
+
     NfcManager.isSupported()
       .then(supported => {
         this.setState({ supported });
