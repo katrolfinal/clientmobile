@@ -26,37 +26,23 @@ class LoginPage extends Component {
     }
   }
 
+  componentDidMount(){
+    if(this.props.isLogin){
+      this.props.navigation.navigate('DashboardPage')
+    }
+  }
+
   onClickListener = async (viewId) => {
     if (viewId === 'login') {
       console.log('masuk');
-      // console.log(this.state.email);
-      // const data = {
-      //   email : this.state.email,
-      //   password : this.state.password
-      // }
-      // try {
-      //   const { data } = await axios({
-      //     method: 'GET',
-      //     url: 'http://api.themoviedb.org/3/search/movie?api_key=eaea6d02bfd01754390086b0464426ce&query=avenger'
-      //   })
-      // } catch (error) {
-      //   console.log(error);
-      // }
-
-      // if (data) {
-      //   console.log(data, 'ini dataaa');
-      //   this.props.login
-      //   this.props.navigation.navigate('Home')
-      // }
         axios.post('http://172.16.12.49:3000/api/employees/login',{
             email : this.state.email,
             password : this.state.password
           }
         )
         .then(({data})=>{
-          console.log(data, 'ini dataaa');
           this.props.login
-          this.props.navigation.navigate('Home')
+          this.props.navigation.navigate('DashboardPage')
         })
         .catch(err =>{
           console.log(err);
