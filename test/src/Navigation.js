@@ -16,14 +16,8 @@ const HomeStack = createStackNavigator({
   })
 
 
-const AppNavigator = createBottomTabNavigator(
+const TabNavigator = createBottomTabNavigator(
   {
-    LoginPage : {
-      screen : LoginPage,
-      navigationOptions : {
-        tabBarVisible : false
-      }
-    },
     Home: {
       screen: HomeStack,
       navigationOptions: {
@@ -40,6 +34,26 @@ const AppNavigator = createBottomTabNavigator(
       //   } 
       // }
     })
+  }
+)
+
+const AppNavigator = createStackNavigator(
+  {
+    LoginPage : {
+      screen : LoginPage,
+      navigationOptions : {
+        header : null
+      }
+    },
+    DashboardPage : {
+      screen : TabNavigator,
+      navigationOptions : {
+        header : null
+      }
+    }
+  },
+  {
+    initialRouteName : 'LoginPage'
   }
 )
 
