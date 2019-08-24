@@ -32,7 +32,7 @@ const AppNavigator = createBottomTabNavigator(
     }
   },
   {
-    initialRouteName: 'LoginPage',
+    initialRouteName: 'Home',
     defaultNavigationOptions: ({ navigation }) =>({
       // tabBarIcon: () =>{
       //   if (navigation.state.routeName === 'Home') {
