@@ -85,7 +85,6 @@ class NfcPage extends Component {
           <ButtonLogout
             navigation={this.props.navigation}
           />
-
           {
             <Text>{JSON.stringify(this.props.dataLogin.employee)}</Text>
           }
