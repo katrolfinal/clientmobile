@@ -2,6 +2,7 @@ import { createStackNavigator, createAppContainer, createBottomTabNavigator } fr
 import React from 'react'
 import NfcPage from './containers/NfcPage'
 import LoginPage from './containers/LoginPage'
+import AuthPage from './containers/AuthPage'
 
 const HomeStack = createStackNavigator({
   Home: {
@@ -50,10 +51,13 @@ const AppNavigator = createStackNavigator(
       navigationOptions : {
         header : null
       }
+    },
+    AuthPage : {
+      screen : AuthPage
     }
   },
   {
-    initialRouteName : 'LoginPage'
+    initialRouteName : 'AuthPage'
   }
 )
 
