@@ -33,7 +33,7 @@ class LoginPage extends Component {
 
   onClickListener = async (viewId) => {
     if (viewId === 'login') {
-      axios.post('http://192.168.43.98:3000/api/employees/login', {
+      axios.post('http://172.16.12.49:3000/api/employees/login', {
         email: this.state.email,
         password: this.state.password
       }

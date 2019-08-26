@@ -28,6 +28,14 @@ export default (state = initState , action) => {
         ...state,
         dataLogin : action.payload
       }
+    case 'ADD_CONTACT' : 
+    return {
+      ...state,
+      dataLogin  : {
+        ...state.dataLogin,
+        contacts : contacts.push(action.payload)
+      }
+    }
     default:
       return state
   }

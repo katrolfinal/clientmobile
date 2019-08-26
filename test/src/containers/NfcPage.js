@@ -1,4 +1,4 @@
-import React, { Component, useEffect } from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Text,
@@ -8,7 +8,7 @@ import {
 import AsyncStorage from '@react-native-community/async-storage'
 import { connect } from 'react-redux';
 import NfcManager, { Ndef } from 'react-native-nfc-manager';
-import { fetchEmpoleyee } from '../../stores/actions'
+import { fetchEmpoleyee, addContact } from '../../stores/actions'
 import ButtonCall from '../components/ButtonCall'
 import ButtonEmail from '../components/ButtonEmail'
 import ButtonLogout from '../components/ButtonLogout'
@@ -35,7 +35,6 @@ class NfcPage extends Component {
       supported: true,
       enabled: false,
       isWriting: false,
-      urlToWrite: JSON.stringify(this.props.dataLogin.employee),
       parsedText: null,
       tag: {},
       iniObject: {}
@@ -94,6 +93,7 @@ class NfcPage extends Component {
           {
             <Text>{JSON.stringify(this.props.dataLogin.employee)}</Text>
           }
+
           {
             iniObject.name && <Text>{`${JSON.stringify(iniObject)}`}</Text>
           }
@@ -103,13 +103,13 @@ class NfcPage extends Component {
   }
 
   _requestAndroidBeam = () => {
-    let { isWriting, urlToWrite } = this.state;
+    let { isWriting } = this.state;
     if (isWriting) {
       return;
     }
     let bytes
-
-    bytes = buildTextPayload(urlToWrite);
+    console.log(this.props.dataLogin.employee , 'ini data employeeenyaaa')
+    bytes = buildTextPayload(JSON.stringify(this.props.dataLogin.employee));
     this.setState({ isWriting: true });
     NfcManager.setNdefPushMessage(bytes)
       .then(() => console.log('beam request completed'))
@@ -194,7 +194,7 @@ class NfcPage extends Component {
       const ndefRecords = tag.ndefMessage;
 
       function decodeNdefRecord(record) {
-        console.log('ini record', record)
+        // console.log('ini record', record)
         if (Ndef.isType(record, Ndef.TNF_WELL_KNOWN, Ndef.RTD_TEXT)) {
           return [Ndef.text.decodePayload(record.payload)];
         }
@@ -202,6 +202,11 @@ class NfcPage extends Component {
       }
       parsed = ndefRecords.map(decodeNdefRecord)
       this.setState({ iniObject: JSON.parse(parsed) })
+
+      this.props.addContact({
+        contact : JSON.parse(parsed)
+      })
+
     }
     this.setState({ parsedText: parsed })
   }
@@ -244,7 +249,6 @@ class NfcPage extends Component {
       if (value === null) {
         this.props.navigation.navigate('LoginPage')
       } else {
-        console.log(value, 'ini anjing')
         this.props.fetchEmpoleyee(JSON.parse(value))
       }
     } catch (error) {
@@ -258,7 +262,8 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = {
-  fetchEmpoleyee
+  fetchEmpoleyee,
+  addContact
 }
 
 
