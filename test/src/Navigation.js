@@ -1,63 +1,93 @@
-import { createStackNavigator, createAppContainer, createBottomTabNavigator } from "react-navigation";
+import { createStackNavigator, createAppContainer, createBottomTabNavigator, createSwitchNavigator } from "react-navigation";
 import React from 'react'
 import NfcPage from './containers/NfcPage'
+import HomePage from './containers/HomePage'
 import LoginPage from './containers/LoginPage'
 import AuthPage from './containers/AuthPage'
 
-const HomeStack = createStackNavigator({
+const HomeNavigator = createStackNavigator({
   Home: {
+    screen: HomePage,
+    navigationOptions: { header: null }
+  },
+  NfcPage: {
     screen: NfcPage,
-    navigationOptions: {
-      header: null
-    }
+    navigationOptions: { header: null }
   }
-},
-  {
-    initialRouteName: 'Home'
+}, {
+    initialRouteName: 'Home',
+    defaultNavigationOptions: {
+      title: 'Home'
+    },
+    headerStyle: {
+      backgroundColor: 'black'
+    }
+  });
+
+const RelationsNavigator = createStackNavigator({
+  Relations: {
+    screen: Relations,
+    navigationOptions: { header: null }
+  },
+}, {
+    initialRouteName: 'Relations',
+    defaultNavigationOptions: {
+      title: 'Relations'
+    },
+    headerStyle: {
+      backgroundColor: 'black'
+    }
+  });
+
+const TabNavigator = createBottomTabNavigator({
+  Home: {
+    screen: HomeNavigator,
+    navigationOptions: {
+      tabBarIcon: ({ tintColor }) => {
+        // return <Ionicons name="md-home" size={30} color={tintColor} />
+      }
+    }
+  },
+  Relations: {
+    screen: RelationsNavigator,
+    navigationOptions: {
+      tabBarIcon: ({ tintColor }) => {
+        // return <MaterialIcons name="movie" size={28} color={tintColor} />
+      }
+    }
+  },
+}, {
+    tabBarOptions: {
+      showIcon: true,
+      activeTintColor: '#FFA500',
+      inactiveTintColor: 'gray',
+      style: {
+        paddingTop: 5,
+        backgroundColor: 'white',
+      },
+      labelStyle: {
+        fontSize: 11
+      }
+    },
   })
 
-
-const TabNavigator = createBottomTabNavigator(
+const AppNavigator = createSwitchNavigator(
   {
-    Home: {
-      screen: HomeStack,
+    LoginPage: {
+      screen: LoginPage,
+    },
+    DashboardPage: {
+      screen: TabNavigator,
       navigationOptions: {
-        title: 'Home',
+        header: null
       }
+    },
+    AuthPage: {
+      screen: AuthPage
     }
   },
   {
-    initialRouteName: 'Home',
-    defaultNavigationOptions: ({ navigation }) =>({
-      // tabBarIcon: () =>{
-      //   if (navigation.state.routeName === 'Home') {
-      //     return <Ionicons name="ios-apps" size={32} color="black" />
-      //   } 
-      // }
-    })
-  }
-)
-
-const AppNavigator = createStackNavigator(
-  {
-    LoginPage : {
-      screen : LoginPage,
-      navigationOptions : {
-        header : null
-      }
-    },
-    DashboardPage : {
-      screen : TabNavigator,
-      navigationOptions : {
-        header : null
-      }
-    },
-    AuthPage : {
-      screen : AuthPage
-    }
-  },
-  {
-    initialRouteName : 'AuthPage'
+    initialRouteName: 'AuthPage'
   }
 )
 
