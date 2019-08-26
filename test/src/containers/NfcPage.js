@@ -8,10 +8,9 @@ import {
 import AsyncStorage  from '@react-native-community/async-storage'
 import { connect } from 'react-redux';
 import NfcManager, { Ndef } from 'react-native-nfc-manager';
-import { fetchEmpoleyee } from '../../stores/actions'
+import { fetchEmpoleyee, addContact } from '../../stores/actions'
 import ButtonCall from '../components/ButtonCall'
 import ButtonEmail from '../components/ButtonEmail'
-import ButtonLogout from '../components/ButtonLogout'
 
 
 function buildTextPayload(valueToWrite) {
@@ -34,8 +33,6 @@ class NfcPage extends Component {
       supported: true,
       enabled: false,
       isWriting: false,
-      urlToWrite: JSON.stringify(this.props.dataLogin.employee),
-      parsedText: null,
       tag: {},
       iniObject: {}
     }
@@ -65,7 +62,7 @@ class NfcPage extends Component {
   }
 
   render() {
-    let { supported, enabled, iniObject } = this.state;
+    let { supported, enabled } = this.state;
     return (
       <ScrollView style={{ flex: 1 }}>
         {Platform.OS === 'ios' && <View style={{ height: 60 }} />}
@@ -82,15 +79,10 @@ class NfcPage extends Component {
             email={test.email}
           />
 
-          <ButtonLogout
-            navigation={this.props.navigation}
-          />
           {
             <Text>{JSON.stringify(this.props.dataLogin.employee)}</Text>
           }
-          {
-            iniObject.name && <Text>{`${JSON.stringify(iniObject)}`}</Text>
-          }
+          
         </View>
       </ScrollView>
     )
@@ -103,7 +95,7 @@ class NfcPage extends Component {
     }
     let bytes
 
-    bytes = buildTextPayload(urlToWrite);
+    bytes = buildTextPayload(JSON.stringify(this.props.dataLogin.employee));
     this.setState({ isWriting: true });
     NfcManager.setNdefPushMessage(bytes)
       .then(() => console.log('beam request completed'))
@@ -177,7 +169,6 @@ class NfcPage extends Component {
   }
 
   _onTagDiscovered = tag => {
-    console.log('Tag Discovered', tag);
     this.setState({ tag })
 
     let parsed = null;
@@ -188,15 +179,14 @@ class NfcPage extends Component {
       const ndefRecords = tag.ndefMessage;
 
       function decodeNdefRecord(record) {
-        console.log('ini record', record)
         if (Ndef.isType(record, Ndef.TNF_WELL_KNOWN, Ndef.RTD_TEXT)) {
           return [Ndef.text.decodePayload(record.payload)];
         }
         return ['unknown', '---']
       }
       parsed = ndefRecords.map(decodeNdefRecord)
-      this.setState({ iniObject: JSON.parse(parsed) })
     }
+    this.props.addContact(JSON.parse(parse))
     this.setState({ parsedText: parsed })
   }
 
@@ -252,7 +242,8 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = {
-  fetchEmpoleyee
+  fetchEmpoleyee,
+  addContact
 }
 
 

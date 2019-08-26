@@ -4,6 +4,7 @@ import NfcPage from './containers/NfcPage'
 import HomePage from './containers/HomePage'
 import LoginPage from './containers/LoginPage'
 import AuthPage from './containers/AuthPage'
+import Relations from './containers/RelationPage'
 
 const HomeNavigator = createStackNavigator({
   Home: {

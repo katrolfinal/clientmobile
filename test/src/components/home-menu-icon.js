@@ -6,17 +6,30 @@ import IconMI from 'react-native-vector-icons/dist/MaterialIcons';
 import IconMCI from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 import { connect } from 'react-redux';
 import { toggleModal } from '../../stores/actions';
+import AsyncStorage from '@react-native-community/async-storage'
 
 const mapDispatchToProps = {
   toggleModal
 }
 
-function MenuIcon({ icon, name, size, text , toggleModal}) {
+
+function MenuIcon({ icon, name, size, text, toggleModal, navigation }) {
+
+  _removeStorage = () => {
+    console.log('masuk sini peler')
+    AsyncStorage.removeItem('token')
+      .then(function () {
+        navigation.navigate('LoginPage')
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
 
   return (
-    <View style={{flexDirection: 'column', justifyContent: 'center'}}>
-      <TouchableHighlight underlayColor='rgba(0,0,0,0.2)' onPress={() => text == 'Relations' ? toggleModal() : Alert.alert('HAHAHA')} style={{justifyContent: 'center', borderRadius: 15}}>
-        <View style={{width: 55, height: 55, backgroundColor: '#fff', borderRadius: 15, alignItems: 'center', justifyContent: 'center'}}>
+    <View style={{ flexDirection: 'column', justifyContent: 'center' }}>
+      <TouchableHighlight underlayColor='rgba(0,0,0,0.2)' onPress={() => text == 'Relations' ? toggleModal() : text == 'Add' ? navigation.navigate('NfcPage') : text == 'Logout' ? _removeStorage() : Alert.alert('HAHAHA')} style={{ justifyContent: 'center', borderRadius: 15 }}>
+        <View style={{ width: 55, height: 55, backgroundColor: '#fff', borderRadius: 15, alignItems: 'center', justifyContent: 'center' }}>
           {
             icon == 'FA' &&
             <IconFA name={name} size={size} color="backgroundColor: 'rgba(0, 0, 0, 0.4)'" />
@@ -32,7 +45,7 @@ function MenuIcon({ icon, name, size, text , toggleModal}) {
         </View>
       </TouchableHighlight>
       <View>
-        <Text style={{color: '#fff', textAlign: 'center', marginTop: 5, fontSize: 14}}>{text}</Text>
+        <Text style={{ color: '#fff', textAlign: 'center', marginTop: 5, fontSize: 14 }}>{text}</Text>
       </View>
     </View>
   );

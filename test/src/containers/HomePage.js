@@ -85,7 +85,7 @@ class HomePage extends Component {
     return (
       <ScrollView>
         <Greeting source={'home-page'} />
-        <MenuNavigator />
+        <MenuNavigator navigation={this.props.navigation} />
         <RecetRelations data={this.state.dummy} />
         <View
           style={{

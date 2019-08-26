@@ -92,7 +92,6 @@ class LoginPage extends Component {
     try {
       const value = await AsyncStorage.getItem('token');
       if (value !== null) {
-        console.log(value, 'ini valuuue');
         this.props.navigation.navigate('DashboardPage')
       }
     } catch (error) {
