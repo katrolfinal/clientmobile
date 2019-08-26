@@ -1,4 +1,7 @@
 import axios from "axios"
+import AsyncStorage from '@react-native-community/async-storage'
+
+
 
 export function fetchData() {
   return dispatch => {
@@ -28,9 +31,38 @@ export function login() {
   }
 }
 
-export function fetchEmpoleyee(params){
+export function fetchEmpoleyee(params) {
   console.log(params)
   return dispatch => {
-    dispatch({type: 'FETCH_EMPLOYEE', payload: params})
+    dispatch({ type: 'FETCH_EMPLOYEE', payload: params })
+  }
+}
+
+export function addContact(params) {
+  console.log(params, 'ini paraamsnya anjingggsdfsdfadasjkdashjkdashdjkashdjaksdh');
+  return async dispatch => {
+    try {
+      const value = await AsyncStorage.getItem('token')
+      if (value !== null) {
+        let token = JSON.parse(value).token
+        console.log(token, 'ini valuuuuue tot')
+        axios({
+          method: 'PUT',
+          url: `http://172.16.12.49:3000/api/employees/contacts/${params.contact._id}`,
+          headers: {
+            token
+          }
+        })
+
+          .then(() => {
+            dispatch({ type: 'ADD_CONTACT', payload: params.contact })
+          })
+          .catch(err => {
+            console.log(err);
+          })
+      }
+    } catch (error) {
+      // Error retrieving data
+    }
   }
 }
