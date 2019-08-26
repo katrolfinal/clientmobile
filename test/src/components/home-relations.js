@@ -25,7 +25,7 @@ function Relations({ data, type, navigation }) {
             <View style={{justifyContent: 'center'}}>
               <Image
                 style={{width: 50, height: 50, borderRadius: 200, marginRight: 15}}
-                source={{uri: `${item.img}`}}
+                source={{uri: (item.img) ? `${item.img}` : 'https://semantic-ui.com/images/avatar2/small/mark.png'}}
               /> 
               <Text style={{color: 'rgba(0,0,0,0.4)', fontSize: 14, textAlign: 'center', marginRight: 15}}>{item.name}</Text>
             </View>

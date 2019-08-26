@@ -16,7 +16,7 @@ function RecentRelations({ data }) {
             <View key={i}>
               <Image
                 style={{width: 50, height: 50, borderRadius: 200, marginRight: 15}}
-                source={{uri: `${el.img}`}}
+                source={{uri: (el.img) ? `${el.img}` : 'https://semantic-ui.com/images/avatar2/small/mark.png'}}
               />
               <Text style={{color: 'rgba(0,0,0,0.4)', fontSize: 14, textAlign: 'center', marginRight: 15}}>{el.name}</Text>
             </View>

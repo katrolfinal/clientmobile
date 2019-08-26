@@ -4,11 +4,11 @@ const initState = {
   error : null,
   dataLogin : {},
   modal: false,
-  option: false
+  option: false,
+  dataEmployeesByCompany:[]
 }
 
 export default (state = initState , action) => {
-  console.log('terpanggil');
   switch (action.type) {
     case 'TOGGLE_LOADING':
       return {
@@ -35,7 +35,10 @@ export default (state = initState , action) => {
       ...state,
       dataLogin  : {
         ...state.dataLogin,
-        contacts : contacts.push(action.payload)
+        employee : {
+          ...state.dataLogin.employee,
+          contacts : state.dataLogin.employee.contacts.concat([action.payload])
+        }
       }
     }
     case 'TOGGLE_MODAL':
@@ -47,6 +50,11 @@ export default (state = initState , action) => {
       return {
         ...state,
         option: !state.option
+      }
+    case 'ADD_EMPLOYEE_BY_COMPANY' :
+      return {
+        ...state,
+        dataEmployeesByCompany : action.payload
       }
     default:
       return state

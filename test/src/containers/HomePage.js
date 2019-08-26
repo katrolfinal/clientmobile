@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
   View,
   ScrollView,
+  Text
 } from 'react-native';
 import { connect } from 'react-redux';
 import Greeting from '../components/home-greeting';
@@ -9,7 +10,8 @@ import MenuNavigator from '../components/home-menu-navigator';
 import RecetRelations from '../components/home-recent-relations';
 import Relations from '../components/home-relations';
 import RelationsModal from '../components/relations-modal';
-
+import { fetchEmpoleyee, fetchOfficeEmployee } from '../../stores/actions'
+import AsyncStorage from '@react-native-community/async-storage'
 
 class HomePage extends Component {
   constructor(props) {
@@ -78,15 +80,19 @@ class HomePage extends Component {
   };
 
   setModalVisible(visible) {
-    this.setState({modalVisible: visible});
+    this.setState({ modalVisible: visible });
   }
-  
+  componentDidMount() {
+    this._retrieveData()
+    this.props.fetchOfficeEmployee()
+  }
+
   render() {
     return (
       <ScrollView>
-        <Greeting source={'home-page'} />
+        <Greeting source={'home-page'} data={this.props.dataLogin} />
         <MenuNavigator navigation={this.props.navigation} />
-        <RecetRelations data={this.state.dummy} />
+        <RecetRelations data={this.props.dataEmployeesByCompany} />
         <View
           style={{
             justifyContent: 'flex-end',
@@ -98,10 +104,24 @@ class HomePage extends Component {
             backgroundColor: '#fff'
           }}
         />
-        <Relations data={this.state.dummy} navigation={this.props.navigation} />
+        <Relations data={this.props.dataEmployeesByCompany} navigation={this.props.navigation} />
         <RelationsModal />
       </ScrollView>
     )
+  }
+
+  _retrieveData = async () => {
+    try {
+      const value = await AsyncStorage.getItem('token')
+      if (value === null) {
+        this.props.navigation.navigate('LoginPage')
+      } else {
+        console.log(value, 'ini value')
+        this.props.fetchEmpoleyee(JSON.parse(value))
+      }
+    } catch (error) {
+      // Error retrieving data
+    }
   }
 }
 
@@ -109,6 +129,11 @@ const mapStateToProps = state => {
   return state
 }
 
+const mapDispatchToProps = {
+  fetchEmpoleyee,
+  fetchOfficeEmployee
+}
 
 
-export default connect(mapStateToProps)(HomePage)
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage)

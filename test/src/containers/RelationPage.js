@@ -9,7 +9,8 @@ import FontAwesome5 from 'react-native-vector-icons/dist/FontAwesome5';
 import { toggleModal } from '../../stores/actions';
 
 const mapStateToProps = state => ({
-  modal: state.modal
+  modal: state.modal,
+  dataEmployeesByCompany : state.dataEmployeesByCompany
 });
 
 const mapDispatchToProps = {
@@ -18,69 +19,12 @@ const mapDispatchToProps = {
 
 function RelationPage(props) {
   const [activeSwitch, setActiveSwitch] = useState('Office')
-  const [dummy, setDummy] = useState([
-    {
-      img: 'https://semantic-ui.com/images/avatar2/small/mark.png',
-      name: 'Irsantyo Hadi',
-      position: 'Full-Stack Developer',
-      company: 'NFCard',
-      showOption: false,
-      id: 1
-    },
-    {
-      name: 'Jays No Limit',
-      position: 'Back-End Developer',
-      company: 'NFCard',
-      showOption: false,
-      id: 2
-    },
-    {
-      name: 'Doel',
-      position: 'Back-End Developer',
-      company: 'NFCard',
-      showOption: false,
-      id: 3
-    },
-    {
-      name: 'Kholis Ganteng',
-      position: 'Front-End Developer',
-      company: 'NFCard',
-      showOption: false,
-      id: 4
-    },
-    {
-      img: 'https://semantic-ui.com/images/avatar2/small/rachel.png',
-      name: 'Irsantyo Hadi',
-      position: 'Full-Stack Developer',
-      company: 'NFCard',
-      showOption: false,
-      id: 5
-    },
-    {
-      img: 'https://semantic-ui.com/images/avatar2/small/lindsay.png',
-      name: 'Jays No Limit',
-      position: 'Back-End Developer',
-      company: 'NFCard',
-      showOption: false,
-      id: 6
-    },
-    {
-      img: 'https://semantic-ui.com/images/avatar2/small/mark.png',
-      name: 'Doel',
-      position: 'Back-End Developer',
-      company: 'NFCard',
-      showOption: false,
-      id: 7
-    },
-    {
-      img: 'https://semantic-ui.com/images/avatar2/small/matthew.png',
-      name: 'Kholis Ganteng',
-      position: 'Front-End Developer',
-      company: 'NFCard',
-      showOption: false,
-      id: 8
-    }
-  ])
+  const data = props.dataEmployeesByCompany.map((el, idx)=>{
+    el.showOption = false
+    el.id = idx + 1
+    return el
+  })
+  const [dummy, setDummy] = useState(data)
 
   clickOptions = (person, index) => {
     Alert.alert(
@@ -108,10 +52,14 @@ function RelationPage(props) {
   }
 
   clickOptionsButton = (index) => {
-    setDummy(dummy.map((el, i) => {
-      if (i == index) el.showOption = !el.showOption
+    let data = dummy.map((el, i) => {
+      if (i === index) {
+        el.showOption = !el.showOption   
+      }
       return el
-    }));
+    }) 
+    console.log(data);
+    setDummy(data)
   };
 
   clickCallButton = (selected) => {
@@ -161,7 +109,6 @@ function RelationPage(props) {
       { cancelable: false }
     );
   };
-
   return (
     <View>
       <View style={props.showClose ? styles.showClose : styles.header}>
@@ -196,6 +143,7 @@ function RelationPage(props) {
             <Icon name="search1" size={20} color="backgroundColor: 'rgba(0, 0, 0, 0.4)'" />
           </View>
         <ScrollView showsVerticalScrollIndicator={false}>
+          <Text>{JSON.stringify(props.dataEmployeesByCompany)}</Text>
           {
             dummy.map((el, i) => (
               <View style={{marginTop: 15, flexDirection: 'row', backgroundColor: '#fff', padding: 20, paddingTop: 10, paddingBottom: 10, borderRadius: 15, shadowColor: '#000', elevation: 1}} key={i}>
@@ -218,7 +166,6 @@ function RelationPage(props) {
                       <View style={{flexDirection: 'column', justifyContent: 'space-between'}}>
                         <Text style={{fontSize: 16, fontWeight: 'bold'}}>{el.name}</Text>
                         <Text style={{color: 'rgba(0,0,0,0.4)', fontSize: 14}}>{el.position}</Text>
-                        <Text style={{color: 'rgba(0,0,0,0.4)', fontSize: 14}}>at {el.company}</Text>
                       </View>
                       <View style={{justifyContent: 'flex-end', alignItems: 'center', flexDirection: 'row', width: '40%'}}>
                         <TouchableHighlight onPress={() => clickOptionsButton(i)} underlayColor='rgba(0,0,0,0.2)' style={{borderRadius:200, padding: 5}}>

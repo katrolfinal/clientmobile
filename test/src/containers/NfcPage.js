@@ -1,17 +1,17 @@
-import React, { Component, useEffect } from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Text,
   Platform,
   ScrollView
 } from 'react-native';
-import AsyncStorage  from '@react-native-community/async-storage'
+import AsyncStorage from '@react-native-community/async-storage'
 import { connect } from 'react-redux';
 import NfcManager, { Ndef } from 'react-native-nfc-manager';
-import { fetchEmpoleyee, addContact } from '../../stores/actions'
+import { addContact } from '../../stores/actions'
 import ButtonCall from '../components/ButtonCall'
 import ButtonEmail from '../components/ButtonEmail'
-
+import ButtonWhatsapp from '../components/ButtonWhatsApp'
 
 function buildTextPayload(valueToWrite) {
   return Ndef.encodeMessage([
@@ -40,7 +40,6 @@ class NfcPage extends Component {
 
   componentDidMount() {
 
-    this._retrieveData()
     NfcManager.isSupported()
       .then(supported => {
         this.setState({ supported });
@@ -79,22 +78,25 @@ class NfcPage extends Component {
             email={test.email}
           />
 
+          <ButtonWhatsapp
+            number={test.phoneNumber}
+          />
           {
-            <Text>{JSON.stringify(this.props.dataLogin.employee)}</Text>
+            <Text>{JSON.stringify(this.props.dataLogin.employee.contacts.length)}</Text>
           }
-          
+
         </View>
       </ScrollView>
     )
   }
 
   _requestAndroidBeam = () => {
-    let { isWriting, urlToWrite } = this.state;
+    let { isWriting } = this.state;
     if (isWriting) {
       return;
     }
     let bytes
-
+    console.log(this.props.dataLogin.employee, 'ini dataaanaadsasdasdasdaacacacasdasd');
     bytes = buildTextPayload(JSON.stringify(this.props.dataLogin.employee));
     this.setState({ isWriting: true });
     NfcManager.setNdefPushMessage(bytes)
@@ -169,6 +171,7 @@ class NfcPage extends Component {
   }
 
   _onTagDiscovered = tag => {
+    console.log(tag, 'ini taaag asuuuuu');
     this.setState({ tag })
 
     let parsed = null;
@@ -185,9 +188,22 @@ class NfcPage extends Component {
         return ['unknown', '---']
       }
       parsed = ndefRecords.map(decodeNdefRecord)
+
+      this.props.addContact({
+        contact: JSON.parse(parsed)
+      })
+        .then(async () => {
+          try {
+            console.log('masuk ke dalam try');
+            await AsyncStorage.setItem('token', JSON.stringify(this.props.dataLogin))
+          } catch (error) {
+            // Error retrieving data
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        })
     }
-    this.props.addContact(JSON.parse(parse))
-    this.setState({ parsedText: parsed })
   }
 
   _startDetection = () => {
@@ -221,20 +237,6 @@ class NfcPage extends Component {
         })
     }
   }
-
-  _retrieveData = async () => {
-    try {
-      const value = await AsyncStorage.getItem('token')
-      if (value === null) {
-        this.props.navigation.navigate('LoginPage')
-      } else {
-        console.log(value, 'ini anjing')
-        this.props.fetchEmpoleyee(JSON.parse(value))
-      }
-    } catch (error) {
-      // Error retrieving data
-    }
-  }
 }
 
 const mapStateToProps = state => {
@@ -242,7 +244,6 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = {
-  fetchEmpoleyee,
   addContact
 }
 

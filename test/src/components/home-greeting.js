@@ -1,13 +1,20 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-function Greeting({ source }) {
-
+function Greeting({ source , data }) {
+  if(data.employee){
+    console.log(data.employee.email, 'ini dataaaaasdasdasdasdasd')
+  }
 
   return (
     <View style={source == 'home-page' ? styles.home : styles.relations}>
-      <Text style={{fontSize: 24, fontWeight: 'bold', color: '#fff', }}>Welcome, Kholis</Text>
-      <Text style={{fontSize: 18, color: '#fff', }}>Front-End Developer</Text>
+      {
+        data.employee && <Text style={{fontSize: 24, fontWeight: 'bold', color: '#fff', }}>Welcome {data.employee.name}</Text>
+        
+      }
+      {
+        data.employee && <Text style={{fontSize: 18, color: '#fff', }}>{data.employee.position}</Text>
+      }
     </View>
   );
 };
