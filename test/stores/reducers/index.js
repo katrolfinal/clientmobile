@@ -1,7 +1,9 @@
 const initState = {
   isLogin : false,
   isLoading : false,
-  error : null
+  error : null,
+  modal: false,
+  option: false
 }
 
 export default (state = initState , action) => {
@@ -20,6 +22,16 @@ export default (state = initState , action) => {
       return {
         ...state,
         isLogin : action.payload
+      }
+    case 'TOGGLE_MODAL':
+      return {
+        ...state,
+        modal: !state.modal
+      }
+    case 'TOGGLE_OPTION':
+      return {
+        ...state,
+        option: !state.option
       }
     default:
       return state

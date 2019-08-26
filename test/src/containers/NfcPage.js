@@ -5,10 +5,17 @@ import {
   Platform,
   TouchableOpacity,
   ScrollView,
+  Image,
+  FlatList,
+  TouchableHighlight
 } from 'react-native';
 import { connect } from 'react-redux';
 import NfcManager, { Ndef } from 'react-native-nfc-manager';
-
+import Greeting from '../components/home-greeting';
+import MenuNavigator from '../components/home-menu-navigator';
+import RecetRelations from '../components/home-recent-relations';
+import Relations from '../components/home-relations';
+import RelationsModal from '../components/relations-modal';
 
 function buildTextPayload(valueToWrite) {
   return Ndef.encodeMessage([
@@ -31,13 +38,69 @@ class NfcPage extends Component {
       urlToWrite: JSON.stringify(test),
       parsedText: null,
       tag: {},
-      iniObject: {}
+      iniObject: {},
+      dummy: [
+        {
+          img: 'https://semantic-ui.com/images/avatar2/small/mark.png',
+          name: 'Mark'
+        },
+        {
+          img: 'https://semantic-ui.com/images/avatar2/small/lindsay.png',
+          name: 'Lindsay'
+        },
+        {
+          img: 'https://semantic-ui.com/images/avatar2/small/matthew.png',
+          name: 'Matthew'
+        },
+        {
+          img: 'https://semantic-ui.com/images/avatar2/small/rachel.png',
+          name: 'Rachel'
+        },
+        {
+          img: 'https://semantic-ui.com/images/avatar2/small/mark.png',
+          name: 'Mark'
+        },
+        {
+          img: 'https://semantic-ui.com/images/avatar2/small/lindsay.png',
+          name: 'Lindsay'
+        },
+        {
+          img: 'https://semantic-ui.com/images/avatar2/small/matthew.png',
+          name: 'Matthew'
+        },
+        {
+          img: 'https://semantic-ui.com/images/avatar2/small/rachel.png',
+          name: 'Rachel'
+        },
+        {
+          img: 'https://semantic-ui.com/images/avatar2/small/mark.png',
+          name: 'Mark'
+        },
+        {
+          img: 'https://semantic-ui.com/images/avatar2/small/lindsay.png',
+          name: 'Lindsay'
+        },
+        {
+          img: 'https://semantic-ui.com/images/avatar2/small/matthew.png',
+          name: 'Matthew'
+        },
+        {
+          img: 'https://semantic-ui.com/images/avatar2/small/rachel.png',
+          name: 'Rachel'
+        }
+      ]
     }
   }
+  state = {
+    modalVisible: false,
+  };
 
+  setModalVisible(visible) {
+    this.setState({modalVisible: visible});
+  }
   componentDidMount() {
     if(!this.props.isLogin){
-      this.props.navigation.navigate('LoginPage')
+      // this.props.navigation.navigate('LoginPage')
     }
 
     NfcManager.isSupported()
@@ -63,20 +126,38 @@ class NfcPage extends Component {
   render() {
     let { supported, enabled, iniObject } = this.state;
     return (
-      <ScrollView style={{ flex: 1 }}>
-        {Platform.OS === 'ios' && <View style={{ height: 60 }} />}
+      // <ScrollView style={{ flex: 1 }}>
+      //   {Platform.OS === 'ios' && <View style={{ height: 60 }} />}
 
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <Text>{`Is NFC supported ? ${supported}`}</Text>
-          <Text>{`Is NFC enabled (Android only)? ${enabled}`}</Text>
+      //   <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      //     <Text>{`Is NFC supported ? ${supported}`}</Text>
+      //     <Text>{`Is NFC enabled (Android only)? ${enabled}`}</Text>
 
-          {/* <TouchableOpacity style={{ marginTop: 20 }} onPress={this._goToNfcSetting}>
-            <Text >(android) Go to NFC setting</Text>
-          </TouchableOpacity> */}
-          {
-            iniObject.name && <Text>{`${JSON.stringify(iniObject)}`}</Text>
-          }
-        </View>
+      //     {/* <TouchableOpacity style={{ marginTop: 20 }} onPress={this._goToNfcSetting}>
+      //       <Text >(android) Go to NFC setting</Text>
+      //     </TouchableOpacity> */}
+      //     {
+      //       iniObject.name && <Text>{`${JSON.stringify(iniObject)}`}</Text>
+      //     }
+      //   </View>
+      // </ScrollView>
+      <ScrollView>
+        <Greeting source={'home-page'} />
+        <MenuNavigator />
+        <RecetRelations data={this.state.dummy} />
+        <View
+          style={{
+            justifyContent: 'flex-end',
+            height: 1,
+            marginLeft: 30,
+            marginRight: 30,
+            shadowColor: '#000',
+            elevation: 2,
+            backgroundColor: '#fff'
+          }}
+        />
+        <Relations data={this.state.dummy} navigation={this.props.navigation} />
+        <RelationsModal />
       </ScrollView>
     )
   }

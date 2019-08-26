@@ -2,59 +2,73 @@ import { createStackNavigator, createAppContainer, createBottomTabNavigator } fr
 import React from 'react'
 import NfcPage from './containers/NfcPage'
 import LoginPage from './containers/LoginPage'
+import Home from './containers/NfcPage';
+import Relations from './containers/RelationPage';
 
-const HomeStack = createStackNavigator({
-  Home: {
-    screen: NfcPage,
+const HomeNavigator = createStackNavigator({
+  Home: { 
+    screen: Home,
+    navigationOptions: { header: null }
+   },
+  
+}, {
+  initialRouteName: 'Home',
+  defaultNavigationOptions: {
+    title: 'Home'
+  },
+  headerStyle: {
+    backgroundColor: 'black'
+  }
+});
+
+const RelationsNavigator = createStackNavigator({
+  Relations: {
+    screen: Relations,
+    navigationOptions: { header: null }
+  },
+  
+}, {
+  initialRouteName: 'Relations',
+  defaultNavigationOptions: {
+    title: 'Relations'
+  },
+  headerStyle: {
+    backgroundColor: 'black'
+  }
+});
+
+const TabNavigator = createBottomTabNavigator({
+  Home: { 
+    screen: HomeNavigator,
     navigationOptions: {
-      header: null
-    }
-  }
-},
-  {
-    initialRouteName: 'Home'
-  })
-
-
-const TabNavigator = createBottomTabNavigator(
-  {
-    Home: {
-      screen: HomeStack,
-      navigationOptions: {
-        title: 'Home',
+      tabBarIcon: ({ tintColor }) => {
+        // return <Ionicons name="md-home" size={30} color={tintColor} />
       }
     }
   },
-  {
-    initialRouteName: 'Home',
-    defaultNavigationOptions: ({ navigation }) =>({
-      // tabBarIcon: () =>{
-      //   if (navigation.state.routeName === 'Home') {
-      //     return <Ionicons name="ios-apps" size={32} color="black" />
-      //   } 
-      // }
-    })
-  }
-)
-
-const AppNavigator = createStackNavigator(
-  {
-    LoginPage : {
-      screen : LoginPage,
-      navigationOptions : {
-        header : null
+  Relations: { 
+    screen: RelationsNavigator,
+    navigationOptions: {
+      tabBarIcon: ({ tintColor }) => {
+        // return <MaterialIcons name="movie" size={28} color={tintColor} />
       }
+    }
+  },
+}, {
+  tabBarOptions: {
+    showIcon: true,
+    activeTintColor: '#FFA500',
+    inactiveTintColor: 'gray',
+    style: {
+      paddingTop: 5,
+      backgroundColor: 'white',
     },
-    DashboardPage : {
-      screen : TabNavigator,
-      navigationOptions : {
-        header : null
-      }
+    labelStyle: {
+      fontSize: 11
     }
   },
-  {
-    initialRouteName : 'LoginPage'
-  }
-)
+})
 
-export default createAppContainer(AppNavigator)
+const Navigation = createAppContainer(TabNavigator);
+
+export default Navigation;

@@ -28,3 +28,15 @@ export function login() {
     dispatch({ type: 'TOGGLE_LOGIN', payload: true })
   }
 }
+
+export function toggleModal() {
+  return dispatch => {
+    dispatch({ type: 'TOGGLE_MODAL' });
+  };
+};
+
+export function toggleOption() {
+  return dispatch => {
+    dispatch({ type: 'TOGGLE_OPTION' });
+  };
+};
