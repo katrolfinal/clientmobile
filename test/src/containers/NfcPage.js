@@ -5,13 +5,14 @@ import {
   Platform,
   ScrollView
 } from 'react-native';
-import AsyncStorage  from '@react-native-community/async-storage'
+import AsyncStorage from '@react-native-community/async-storage'
 import { connect } from 'react-redux';
 import NfcManager, { Ndef } from 'react-native-nfc-manager';
 import { fetchEmpoleyee } from '../../stores/actions'
 import ButtonCall from '../components/ButtonCall'
 import ButtonEmail from '../components/ButtonEmail'
 import ButtonLogout from '../components/ButtonLogout'
+import ButtonWhatsApp from '../components/ButtonWhatsApp'
 
 
 function buildTextPayload(valueToWrite) {
@@ -86,6 +87,10 @@ class NfcPage extends Component {
             navigation={this.props.navigation}
           />
 
+          <ButtonWhatsApp
+            number={test.phoneNumber}
+          />
+
           {
             <Text>{JSON.stringify(this.props.dataLogin.employee)}</Text>
           }
@@ -93,7 +98,7 @@ class NfcPage extends Component {
             iniObject.name && <Text>{`${JSON.stringify(iniObject)}`}</Text>
           }
         </View>
-      </ScrollView>
+      </ScrollView >
     )
   }
 
