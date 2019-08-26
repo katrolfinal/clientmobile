@@ -1,15 +1,19 @@
 import { createStackNavigator, createAppContainer, createBottomTabNavigator, createSwitchNavigator } from "react-navigation";
 import React from 'react'
 import NfcPage from './containers/NfcPage'
+import HomePage from './containers/HomePage'
 import LoginPage from './containers/LoginPage'
 import AuthPage from './containers/AuthPage'
 
 const HomeNavigator = createStackNavigator({
   Home: {
-    screen: Home,
+    screen: HomePage,
     navigationOptions: { header: null }
   },
-  
+  NfcPage: {
+    screen: NfcPage,
+    navigationOptions: { header: null }
+  }
 }, {
     initialRouteName: 'Home',
     defaultNavigationOptions: {
@@ -25,7 +29,6 @@ const RelationsNavigator = createStackNavigator({
     screen: Relations,
     navigationOptions: { header: null }
   },
-
 }, {
     initialRouteName: 'Relations',
     defaultNavigationOptions: {

@@ -1,13 +1,7 @@
 import React, { Component } from 'react';
 import {
   View,
-  Text,
-  Platform,
-  TouchableOpacity,
   ScrollView,
-  Image,
-  FlatList,
-  TouchableHighlight
 } from 'react-native';
 import { connect } from 'react-redux';
 import Greeting from '../components/home-greeting';
@@ -24,7 +18,6 @@ class HomePage extends Component {
       supported: true,
       enabled: false,
       isWriting: false,
-      urlToWrite: JSON.stringify(test),
       parsedText: null,
       tag: {},
       iniObject: {},
