@@ -2,7 +2,9 @@ const initState = {
   isLogin : false,
   isLoading : false,
   error : null,
-  dataLogin : {}
+  dataLogin : {},
+  modal: false,
+  option: false
 }
 
 export default (state = initState , action) => {
@@ -36,6 +38,16 @@ export default (state = initState , action) => {
         contacts : contacts.push(action.payload)
       }
     }
+    case 'TOGGLE_MODAL':
+      return {
+        ...state,
+        modal: !state.modal
+      }
+    case 'TOGGLE_OPTION':
+      return {
+        ...state,
+        option: !state.option
+      }
     default:
       return state
   }
