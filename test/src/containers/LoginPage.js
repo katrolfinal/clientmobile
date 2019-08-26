@@ -7,14 +7,15 @@ import {
   Button,
   TouchableHighlight,
   Image,
-  Alert
+  Alert,
+  AsyncStorage
 } from 'react-native';
 
 import axios from 'axios'
 
 import { connect } from 'react-redux';
 
-import { login } from '../../stores/actions'
+import { login , fetchEmpoleyee} from '../../stores/actions'
 
 class LoginPage extends Component {
 
@@ -26,25 +27,24 @@ class LoginPage extends Component {
     }
   }
 
-  componentDidMount(){
-    if(this.props.isLogin){
-      this.props.navigation.navigate('DashboardPage')
-    }
+  componentDidMount() {
+    this._retrieveData()
   }
 
   onClickListener = async (viewId) => {
     if (viewId === 'login') {
-      console.log('masuk');
-        axios.post('http://172.16.12.49:3000/api/employees/login',{
-            email : this.state.email,
-            password : this.state.password
-          }
-        )
-        .then(({data})=>{
+      axios.post('http://192.168.43.98:3000/api/employees/login', {
+        email: this.state.email,
+        password: this.state.password
+      }
+      )
+        .then(({ data }) => {
+          this._storeData(data)
           this.props.login
+          this.props.fetchEmpoleyee(data)
           this.props.navigation.navigate('DashboardPage')
         })
-        .catch(err =>{
+        .catch(err => {
           console.log(err);
         })
     }
@@ -78,14 +78,38 @@ class LoginPage extends Component {
       </View>
     );
   }
+
+  _storeData = async (data) => {
+    try {
+      await AsyncStorage.setItem('token', JSON.stringify(data));
+    } catch (error) {
+      // Error saving data
+      console.log(error);
+    }
+  };
+
+  _retrieveData = async () => {
+    try {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+        console.log(value, 'ini valuuue');
+        this.props.navigation.navigate('DashboardPage')
+      }
+    } catch (error) {
+      // Error retrieving data
+      console.log(error);
+    }
+  }
 }
+
 
 const mapStateToProps = state => {
   return state
 }
 
 const mapDispatchToProps = {
-  login
+  login,
+  fetchEmpoleyee
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginPage)

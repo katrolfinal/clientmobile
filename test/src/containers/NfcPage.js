@@ -1,24 +1,30 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect } from 'react';
 import {
   View,
   Text,
   Platform,
-  TouchableOpacity,
-  ScrollView,
+  ScrollView
 } from 'react-native';
+import AsyncStorage  from '@react-native-community/async-storage'
 import { connect } from 'react-redux';
 import NfcManager, { Ndef } from 'react-native-nfc-manager';
+import { fetchEmpoleyee } from '../../stores/actions'
+import ButtonCall from '../components/ButtonCall'
+import ButtonEmail from '../components/ButtonEmail'
+import ButtonLogout from '../components/ButtonLogout'
 
 
 function buildTextPayload(valueToWrite) {
   return Ndef.encodeMessage([
     Ndef.textRecord(valueToWrite),
-  ]);
+  ])
 }
 
 const test = {
   name: 'jembut',
-  positon: '69'
+  positon: '69',
+  phoneNumber: '87825478178',
+  email: 'irsantyohadi@gmail.com'
 }
 
 class NfcPage extends Component {
@@ -28,7 +34,7 @@ class NfcPage extends Component {
       supported: true,
       enabled: false,
       isWriting: false,
-      urlToWrite: JSON.stringify(test),
+      urlToWrite: JSON.stringify(this.props.dataLogin.employee),
       parsedText: null,
       tag: {},
       iniObject: {}
@@ -36,10 +42,8 @@ class NfcPage extends Component {
   }
 
   componentDidMount() {
-    if(!this.props.isLogin){
-      this.props.navigation.navigate('LoginPage')
-    }
 
+    this._retrieveData()
     NfcManager.isSupported()
       .then(supported => {
         this.setState({ supported });
@@ -70,9 +74,21 @@ class NfcPage extends Component {
           <Text>{`Is NFC supported ? ${supported}`}</Text>
           <Text>{`Is NFC enabled (Android only)? ${enabled}`}</Text>
 
-          {/* <TouchableOpacity style={{ marginTop: 20 }} onPress={this._goToNfcSetting}>
-            <Text >(android) Go to NFC setting</Text>
-          </TouchableOpacity> */}
+          <ButtonCall
+            number={test.phoneNumber}
+          />
+
+          <ButtonEmail
+            email={test.email}
+          />
+
+          <ButtonLogout
+            navigation={this.props.navigation}
+          />
+
+          {
+            <Text>{JSON.stringify(this.props.dataLogin.employee)}</Text>
+          }
           {
             iniObject.name && <Text>{`${JSON.stringify(iniObject)}`}</Text>
           }
@@ -87,7 +103,7 @@ class NfcPage extends Component {
       return;
     }
     let bytes
-    
+
     bytes = buildTextPayload(urlToWrite);
     this.setState({ isWriting: true });
     NfcManager.setNdefPushMessage(bytes)
@@ -130,7 +146,7 @@ class NfcPage extends Component {
       NfcManager.isEnabled()
         .then(enabled => {
           this.setState({ enabled })
-          if(!enabled){
+          if (!enabled) {
             this._goToNfcSetting()
           }
         })
@@ -205,10 +221,6 @@ class NfcPage extends Component {
       })
   }
 
-  _clearMessages = () => {
-    this.setState({ tag: null });
-  }
-
   _goToNfcSetting = () => {
     if (Platform.OS === 'android') {
       NfcManager.goToNfcSetting()
@@ -221,12 +233,28 @@ class NfcPage extends Component {
     }
   }
 
+  _retrieveData = async () => {
+    try {
+      const value = await AsyncStorage.getItem('token')
+      if (value === null) {
+        this.props.navigation.navigate('LoginPage')
+      } else {
+        console.log(value, 'ini anjing')
+        this.props.fetchEmpoleyee(JSON.parse(value))
+      }
+    } catch (error) {
+      // Error retrieving data
+    }
+  }
 }
 
 const mapStateToProps = state => {
   return state
 }
 
+const mapDispatchToProps = {
+  fetchEmpoleyee
+}
 
 
-export default connect(mapStateToProps)(NfcPage)
+export default connect(mapStateToProps, mapDispatchToProps)(NfcPage)

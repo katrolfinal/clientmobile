@@ -19,12 +19,18 @@ export function fetchData() {
 }
 
 export function login() {
-  console.log('masuk sini');
   return dispatch => {
     // axios({
     //   method: 'get',
     //   url: ``
     // })
     dispatch({ type: 'TOGGLE_LOGIN', payload: true })
+  }
+}
+
+export function fetchEmpoleyee(params){
+  console.log(params)
+  return dispatch => {
+    dispatch({type: 'FETCH_EMPLOYEE', payload: params})
   }
 }

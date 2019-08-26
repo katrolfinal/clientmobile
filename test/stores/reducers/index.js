@@ -1,10 +1,12 @@
 const initState = {
   isLogin : false,
   isLoading : false,
-  error : null
+  error : null,
+  dataLogin : {}
 }
 
 export default (state = initState , action) => {
+  console.log('terpanggil');
   switch (action.type) {
     case 'TOGGLE_LOADING':
       return {
@@ -20,6 +22,11 @@ export default (state = initState , action) => {
       return {
         ...state,
         isLogin : action.payload
+      }
+    case 'FETCH_EMPLOYEE' :
+      return {
+        ...state,
+        dataLogin : action.payload
       }
     default:
       return state
