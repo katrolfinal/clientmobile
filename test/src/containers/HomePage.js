@@ -4,7 +4,7 @@ import {
   ScrollView,
 } from 'react-native';
 import { connect } from 'react-redux';
-import Greeting from '../components/home-greetin';
+import Greeting from '../components/home-greeting';
 import MenuNavigator from '../components/home-menu-navigator';
 import RecetRelations from '../components/home-recent-relations';
 import Relations from '../components/home-relations';
@@ -18,7 +18,6 @@ class HomePage extends Component {
       supported: true,
       enabled: false,
       isWriting: false,
-      urlToWrite: JSON.stringify(test),
       parsedText: null,
       tag: {},
       iniObject: {},

@@ -66,3 +66,14 @@ export function addContact(params) {
     }
   }
 }
+export function toggleModal() {
+  return dispatch => {
+    dispatch({ type: 'TOGGLE_MODAL' });
+  };
+};
+
+export function toggleOption() {
+  return dispatch => {
+    dispatch({ type: 'TOGGLE_OPTION' });
+  };
+};
