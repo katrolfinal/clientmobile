@@ -17,7 +17,7 @@ function MenuIcon({ icon, name, size, text , toggleModal}) {
   return (
     <View style={{flexDirection: 'column', justifyContent: 'center'}}>
       <TouchableHighlight underlayColor='rgba(0,0,0,0.2)' onPress={() => text == 'Relations' ? toggleModal() : Alert.alert('HAHAHA')} style={{justifyContent: 'center', borderRadius: 15}}>
-        <View style={{width: 55, height: 55, backgroundColor: '#fff', borderRadius: 15, alignItems: 'center', justifyContent: 'center'}}>
+        <View style={{width: 55, height: 55, backgroundColor: 'rgba(255, 255, 255, 0.6)', borderRadius: 15, alignItems: 'center', justifyContent: 'center'}}>
           {
             icon == 'FA' &&
             <IconFA name={name} size={size} color="backgroundColor: 'rgba(0, 0, 0, 0.4)'" />

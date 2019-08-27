@@ -29,7 +29,7 @@ function CardPage(props) {
 
   return (
     <ScrollView style={{backgroundColor: '#F2F1F2', height: Dimensions.get('window').height}}>
-      <View style={{backgroundColor: '#374E87', height: 150, borderBottomLeftRadius: 50, borderBottomRightRadius: 50, padding: 35}}>
+      <View style={{backgroundColor: '#374E87', height: 150, borderBottomLeftRadius: 50, borderBottomRightRadius: 50, padding: 30}}>
         <View style={{alignItems: 'flex-end'}}>
             <TouchableHighlight onPress={() => props.toggleCard()} underlayColor='rgba(0,0,0,0.2)' style={{marginRight:-20, marginTop: -20, borderRadius:200,}}>
               <Entypo name="cross" size={30} color="#fff" style={{}}/>

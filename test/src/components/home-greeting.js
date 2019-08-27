@@ -14,7 +14,7 @@ function Greeting({ source }) {
 
 const styles = StyleSheet.create({
   home: {
-    backgroundColor: '#4A15FF', 
+    backgroundColor: '#374E87', 
     height: 180, 
     borderBottomLeftRadius: 50, 
     borderBottomRightRadius: 50, 
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   },
 
   relations: {
-    backgroundColor: '#4A15FF', 
+    backgroundColor: '#374E87', 
     height: 180, 
     borderBottomLeftRadius: 0, 
     borderBottomRightRadius: 0, 

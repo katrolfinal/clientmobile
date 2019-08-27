@@ -271,7 +271,7 @@ const styles = StyleSheet.create({
   },
 
   showClose: {
-    backgroundColor: '#4A15FF', 
+    backgroundColor: '#374E87', 
     height: 180, 
     borderBottomLeftRadius: 0, 
     borderBottomRightRadius: 0, 
@@ -280,7 +280,7 @@ const styles = StyleSheet.create({
   },
 
   header: {
-    backgroundColor: '#4A15FF', 
+    backgroundColor: '#374E87', 
     height: 180, 
     borderBottomLeftRadius: 0, 
     borderBottomRightRadius: 0, 
