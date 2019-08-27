@@ -111,7 +111,7 @@ function RelationPage(props) {
   };
   return (
     <View>
-      <Text>{JSON.stringify(props.dataLogin.employee.contacts)}</Text>
+      {/* <Text>{JSON.stringify(props.dataLogin.employee.contacts)}</Text> */}
       <View style={props.showClose ? styles.showClose : styles.header}>
         {
           props.showClose &&

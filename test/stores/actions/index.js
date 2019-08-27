@@ -19,7 +19,6 @@ export function fetchOfficeEmployee() {
           }
         })
           .then(({data}) => {
-            console.log(data, 'ini datanya bangsaaaat!!!!!');
             dispatch({ type: 'ADD_EMPLOYEE_BY_COMPANY', payload: data })
           })
           .catch(err => {
