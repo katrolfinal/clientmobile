@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableHighlight, ScrollView, Image, Dimensions, Alert, ToastAndroid } from 'react-native';
+import { View, Text,Linking, StyleSheet, TouchableHighlight, ScrollView, Image, Dimensions, Alert, ToastAndroid } from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/dist/AntDesign';
 import Entypo from 'react-native-vector-icons/dist/Entypo';
 import Feather from 'react-native-vector-icons/dist/Feather';
 import FontAwesome from 'react-native-vector-icons/dist/FontAwesome';
 import FontAwesome5 from 'react-native-vector-icons/dist/FontAwesome5';
-import { toggleModal, toggleCard } from '../../stores/actions';
+import { toggleModal, toggleCard, deleteContact, updateContacts } from '../../stores/actions';
 import CardModal from '../components/card-modal';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const mapStateToProps = state => ({
   modal: state.modal,
@@ -18,13 +19,13 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   toggleModal,
-  toggleCard
+  toggleCard,
+  deleteContact,
+  updateContacts
 }
 
 function RelationPage(props) {
   const [activeSwitch, setActiveSwitch] = useState('Office')
-  
-
   const [dummy, setDummy] = useState(props.dataEmployeesByCompany)
 
   clickOptions = (person, index) => {
@@ -68,11 +69,29 @@ function RelationPage(props) {
       ``,
       [
         { text: 'CANCEL', onPress: () => console.log('Options closed') },
-        { text: 'YES', onPress: () => console.log('Yes call pressed') }
+        { text: 'YES', onPress: () =>{
+          let phoneNumber = `tel:0${selected.phone}`
+          Linking.openURL(phoneNumber)
+        } }
       ], 
       { cancelable: false }
     );
   };
+
+  clickWAButton = (selected) => {
+    Alert.alert(
+      `whatsapp ${selected.name}?`,
+      ``,
+      [
+        { text: 'CANCEL', onPress: () => console.log('Options closed') },
+        { text: 'YES', onPress: () =>{
+          Linking.openURL('http://api.whatsapp.com/send?phone=62' + selected.phone)
+        } }
+      ], 
+      { cancelable: false }
+    );
+  };
+
 
   clickEmailButton = (selected) => {
     Alert.alert(
@@ -80,29 +99,44 @@ function RelationPage(props) {
       ``,
       [
         { text: 'CANCEL', onPress: () => console.log('Options closed') },
-        { text: 'YES', onPress: () => console.log('Yes email pressed') }
+        { text: 'YES', onPress: () => {
+          Linking.openURL(`mailto:${selected.email}`)
+        } }
       ], 
       { cancelable: false }
     );
   };
 
   clickDeleteButton = (selected) => {
+    selected.showOption = false
     Alert.alert(
       `Delete ${selected.name}?`,
       ``,
       [
         { text: 'CANCEL', onPress: () => console.log('Options closed') },
-        { text: 'YES', onPress: () => console.log(
-          setDummy(dummy.filter(el => el.id !== selected.id)),
-          ToastAndroid.show(`${selected.name} deleted!`, ToastAndroid.SHORT)
-        ) }
+        { text: 'YES', onPress: async () => {
+          
+          try {
+              await props.deleteContact(selected._id)
+            // console.log('deleted: ', deleted);
+
+              let test = props.dataLogin.employee.contacts.filter(el => el._id !== selected._id)
+              console.log('test: ', test, '===================================');
+              props.updateContacts(test)
+              await AsyncStorage.setItem('token', props.dataLogin)
+              ToastAndroid.show(`${selected.name} deleted!`, ToastAndroid.SHORT)
+            } catch (error) {
+              console.log('error: ', error);
+              ToastAndroid.show(`fail to delete ${selected.name} !`, ToastAndroid.SHORT)
+            }
+          }
+        }
       ], 
       { cancelable: false }
     );
   };
   return (
     <View>
-      {/* <Text>{JSON.stringify(props.dataLogin.employee.contacts)}</Text> */}
       <View style={props.showClose ? styles.showClose : styles.header}>
         {
           props.showClose &&
@@ -113,11 +147,11 @@ function RelationPage(props) {
           </View>
         }
         <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
-          <TouchableHighlight onPress={() => (setActiveSwitch('Office'), setDummy(dummy.reverse()))} underlayColor='rgba(255, 255, 255, 0.2)' style={{justifyContent: 'center', borderRadius: 50}}>
+          <TouchableHighlight onPress={() => (setActiveSwitch('Office'), setDummy(props.dataEmployeesByCompany))} underlayColor='rgba(255, 255, 255, 0.2)' style={{justifyContent: 'center', borderRadius: 50}}>
             <Text style={activeSwitch == 'Office' ? styles.active : styles.unative}>Office</Text>
           </TouchableHighlight>
           
-          <TouchableHighlight onPress={() => (setActiveSwitch('Partner'), setDummy(dummy.reverse()))} underlayColor='rgba(255, 255, 255, 0.2)' style={{justifyContent: 'center', borderRadius: 50}}>
+          <TouchableHighlight onPress={() => (setActiveSwitch('Partner'), setDummy(props.dataLogin.employee.contacts))} underlayColor='rgba(255, 255, 255, 0.2)' style={{justifyContent: 'center', borderRadius: 50}}>
             <Text style={activeSwitch == 'Partner' ? styles.active : styles.unative}>Partner</Text>
           </TouchableHighlight>
         </View>
@@ -135,17 +169,19 @@ function RelationPage(props) {
           <Icon name="search1" size={20} color="backgroundColor: 'rgba(0, 0, 0, 0.4)'" />
         </View>
         <ScrollView showsVerticalScrollIndicator={false} style={{height: 500}}>
-          {
+          <Text>{JSON.stringify(props.dataLogin.employee.contacts, null, 2)}</Text>
+          { 
+            
             dummy.map((el, i) => (
               <View style={{marginTop: 15, flexDirection: 'row', backgroundColor: '#fff', padding: 20, paddingTop: 10, paddingBottom: 10, borderRadius: 15, shadowColor: '#000', elevation: 1}} key={i}>
                 {
                   el.showOption == false &&
                   <View style={{justifyContent: 'center'}}>
                     {
-                      el.img ? 
+                      el.image ? 
                       <Image
                         style={{width: 55, height: 55, borderRadius: 200, marginRight: 15}}
-                        source={{uri: `${el.img}`}}
+                        source={{uri: `${el.image}`}}
                       /> :
                       <View style={{width: 55, height: 55, borderRadius: 200, marginRight: 15, backgroundColor: 'rgba(0, 0, 0, 0.2)', justifyContent: 'center', alignItems: 'center'}}>
                         <Text style={{fontSize: 30, fontWeight: 'bold', color: '#FFF', marginBottom: 3}}>{el.name[0].toUpperCase()}</Text>
@@ -162,7 +198,12 @@ function RelationPage(props) {
                           <View>
                             <Text style={{fontSize: 16, fontWeight: 'bold'}}>{el.name}</Text>
                             <Text style={{color: 'rgba(0,0,0,0.4)', fontSize: 14}}>{el.position}</Text>
-                            <Text style={{color: 'rgba(0,0,0,0.4)', fontSize: 14}}>at {el.company.name}</Text>
+                            {
+                              activeSwitch === 'Office' ? 
+                              <Text style={{color: 'rgba(0,0,0,0.4)', fontSize: 14}}>at {el.company.name}</Text> :
+                              <Text style={{color: 'rgba(0,0,0,0.4)', fontSize: 14}}>at {el.company.name}</Text>
+                            }
+                            
                           </View>
                         </TouchableHighlight>
                       </View>
@@ -183,14 +224,14 @@ function RelationPage(props) {
                       <TouchableHighlight onPress={() => clickCallButton(el)} underlayColor='rgba(0,0,0,0.2)' style={{width: 48, height: 48, borderRadius: 200, marginRight: 15, padding: 5, backgroundColor: '#208088', justifyContent: 'center', alignItems: 'center'}}>
                         <FontAwesome name="phone" size={26} color="rgba(255, 255, 255, 1)" style={{}}/>
                       </TouchableHighlight>
-                      <TouchableHighlight onPress={() => clickCallButton(el)} underlayColor='rgba(0,0,0,0.2)' style={{width: 48, height: 48, borderRadius: 200, marginRight: 15, padding: 5, backgroundColor: '#008500', justifyContent: 'center', alignItems: 'center'}}>
+                      <TouchableHighlight onPress={() => clickWAButton(el)} underlayColor='rgba(0,0,0,0.2)' style={{width: 48, height: 48, borderRadius: 200, marginRight: 15, padding: 5, backgroundColor: '#008500', justifyContent: 'center', alignItems: 'center'}}>
                         <FontAwesome name="whatsapp" size={33} color="rgba(255, 255, 255, 1)" style={{}}/>
                       </TouchableHighlight>
                       <TouchableHighlight onPress={() => clickEmailButton(el)} underlayColor='rgba(0,0,0,0.2)' style={{width: 48, height: 48, borderRadius: 200, marginRight: 15, padding: 5, backgroundColor: '#F29800', justifyContent: 'center', alignItems: 'center'}}>
                         <Entypo name="mail" size={27} color="rgba(255, 255, 255, 1)" style={{}}/>
                       </TouchableHighlight>
                       {
-                        activeSwitch !== 'Office' &&
+                        activeSwitch === 'Partner' &&
                         <TouchableHighlight onPress={() => clickDeleteButton(el)} underlayColor='rgba(0,0,0,0.2)' style={{width: 48, height: 48, borderRadius: 200, marginRight: 15, padding: 5, backgroundColor: 'rgba(255, 0, 0, 0.8)', justifyContent: 'center', alignItems: 'center'}}>
                           <FontAwesome5 name="trash" size={19} color="rgba(255, 255, 255, 1)" style={{}}/>
                         </TouchableHighlight>
@@ -202,7 +243,7 @@ function RelationPage(props) {
                   </View>
                 }
               </View>
-            ))
+            )) 
           }
         </ScrollView>
       </View>

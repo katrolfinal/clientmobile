@@ -5,12 +5,23 @@ const initState = {
   dataLogin: {},
   modal: false,
   option: false,
-  dataEmployeesByCompany: [],
+  dataEmployeesByCompany:[],
   card: false,
 }
 
 export default (state = initState, action) => {
   switch (action.type) {
+    case 'UPDATE_CONTACTS':
+      return {
+        ...state,
+        dataLogin : {
+          ...state.dataLogin,
+          employee: {
+            ...state.dataLogin.employee,
+            contacts : action.payload
+          }
+        }
+      }
     case 'TOGGLE_LOADING':
       return {
         ...state,
@@ -52,15 +63,24 @@ export default (state = initState, action) => {
         ...state,
         option: !state.option
       }
-    case 'ADD_EMPLOYEE_BY_COMPANY':
+    case 'ADD_EMPLOYEE_BY_COMPANY' :
       return {
         ...state,
-        dataEmployeesByCompany: action.payload
+        dataEmployeesByCompany : action.payload
       }
     case 'TOGGLE_CARD':
       return {
         ...state,
         card: !state.card
+      }
+    case 'SET_DATA_AFTER_DELETE':
+      return {
+        ...state,
+        dataLogin : {
+          ...state.dataLogin,
+          employee : action.payload
+          
+        }
       }
     default:
       return state

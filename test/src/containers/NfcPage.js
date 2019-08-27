@@ -84,14 +84,17 @@ class NfcPage extends Component {
               <View>
                 <QRCode
                   value={JSON.stringify({
-                    name: this.props.dataLogin.employee.name,
-                    position: this.props.dataLogin.employee.position,
-                    company: this.props.dataLogin.employee.company.name,
-                    email: this.props.dataLogin.employee.email,
-                    showOption: false
+                    _id : this.props.dataLogin.employee._id,
+                    address : this.props.dataLogin.employee.address,
+                    name : this.props.dataLogin.employee.name,
+                    position : this.props.dataLogin.employee.position,
+                    company : this.props.dataLogin.employee.company.name,
+                    email : this.props.dataLogin.employee.email,
+                    showOption : false
                   })}
                 />
-              </View>
+            </View>
+            <Text>{JSON.stringify(this.props.dataLogin.employee.contacts)}</Text>
             </View>
           </ScrollView>
         </View>

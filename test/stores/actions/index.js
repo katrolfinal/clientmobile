@@ -19,9 +19,12 @@ export function fetchOfficeEmployee() {
           }
         })
           .then(({data}) => {
-            data.forEach(element => {
-              element.showOption = false
-              
+            console.log(data, 'ini datanya bangsaaaat!!!!!');
+            data.forEach(employee => {
+              employee.showOption = false
+              employee.contacts.forEach(partner => {
+                partner.showOption = false
+              })
             });
             dispatch({ type: 'ADD_EMPLOYEE_BY_COMPANY', payload: data })
           })
@@ -46,6 +49,14 @@ export function fetchEmpoleyee(params) {
   console.log(params)
   return dispatch => {
     dispatch({ type: 'FETCH_EMPLOYEE', payload: params })
+  }
+}
+
+export function updateContacts(contacts) {
+  return dispatch => {
+    dispatch({
+      type: 'UPDATE_CONTACTS', payload: contacts
+    })
   }
 }
 
@@ -96,3 +107,27 @@ export function toggleCard() {
     dispatch({ type: 'TOGGLE_CARD' });
   };
 };
+
+export function deleteContact(_id){
+  return dispatch => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const value = await AsyncStorage.getItem('token')
+        let token = JSON.parse(value).token
+        let {data} = await axios({
+          method: 'DELETE',
+          url: `http://35.240.174.62/api/employees/contacts/${_id}`,
+          headers: {
+            token
+          }
+        })
+        resolve()
+        console.log('{data}: ', data);
+        dispatch()
+
+      } catch (error) {
+        reject(error)
+      }
+    })
+  }
+}
