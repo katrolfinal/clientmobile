@@ -87,3 +87,9 @@ export function toggleOption() {
     dispatch({ type: 'TOGGLE_OPTION' });
   };
 };
+
+export function toggleCard() {
+  return dispatch => {
+    dispatch({ type: 'TOGGLE_CARD' });
+  };
+};

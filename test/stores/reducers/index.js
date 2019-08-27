@@ -5,7 +5,8 @@ const initState = {
   dataLogin : {},
   modal: false,
   option: false,
-  dataEmployeesByCompany:[]
+  dataEmployeesByCompany:[],
+  card: false,
 }
 
 export default (state = initState , action) => {
@@ -55,6 +56,11 @@ export default (state = initState , action) => {
       return {
         ...state,
         dataEmployeesByCompany : action.payload
+      }
+    case 'TOGGLE_CARD':
+      return {
+        ...state,
+        card: !state.card
       }
     default:
       return state
