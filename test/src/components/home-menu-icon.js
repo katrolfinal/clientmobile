@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/dist/AntDesign';
 import IconFA from 'react-native-vector-icons/dist/FontAwesome5';
 import IconMI from 'react-native-vector-icons/dist/MaterialIcons';
 import IconMCI from 'react-native-vector-icons/dist/MaterialCommunityIcons';
+import IconE from 'react-native-vector-icons/dist/Entypo';
 import { connect } from 'react-redux';
 import { toggleModal } from '../../stores/actions';
 import AsyncStorage from '@react-native-community/async-storage'
@@ -29,7 +30,7 @@ function MenuIcon({ icon, name, size, text, toggleModal, navigation }) {
   return (
     <View style={{ flexDirection: 'column', justifyContent: 'center' }}>
       <TouchableHighlight underlayColor='rgba(0,0,0,0.2)' onPress={() => text == 'Relations' ? toggleModal() : text == 'Add' ? navigation.navigate('NfcPage') : text == 'Logout' ? _removeStorage() : Alert.alert('HAHAHA')} style={{ justifyContent: 'center', borderRadius: 15 }}>
-        <View style={{ width: 55, height: 55, backgroundColor: '#fff', borderRadius: 15, alignItems: 'center', justifyContent: 'center' }}>
+        <View style={{ width: 55, height: 55, backgroundColor: 'rgba(255, 255, 255, 0.6)', borderRadius: 15, alignItems: 'center', justifyContent: 'center' }}>
           {
             icon == 'FA' &&
             <IconFA name={name} size={size} color="backgroundColor: 'rgba(0, 0, 0, 0.4)'" />
@@ -41,6 +42,10 @@ function MenuIcon({ icon, name, size, text, toggleModal, navigation }) {
           {
             icon == 'MCI' &&
             <IconMCI name={name} size={size} color="backgroundColor: 'rgba(0, 0, 0, 0.4)'" />
+          }
+          {
+            icon == 'E' &&
+            <IconE name={name} size={size} color="backgroundColor: 'rgba(0, 0, 0, 0.4)'" />
           }
         </View>
       </TouchableHighlight>

@@ -78,6 +78,9 @@ class NfcPage extends Component {
               <ButtonWhatsapp
                 number={test.phoneNumber}
               />
+              <Text>
+                {JSON.stringify(this.props.dataLogin.employee.contacts)}
+              </Text>
               <View>
                 <QRCode
                   value={JSON.stringify({
