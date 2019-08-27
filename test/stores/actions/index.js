@@ -19,6 +19,10 @@ export function fetchOfficeEmployee() {
           }
         })
           .then(({data}) => {
+            data.forEach(element => {
+              element.showOption = false
+              
+            });
             dispatch({ type: 'ADD_EMPLOYEE_BY_COMPANY', payload: data })
           })
           .catch(err => {
@@ -84,5 +88,11 @@ export function toggleModal() {
 export function toggleOption() {
   return dispatch => {
     dispatch({ type: 'TOGGLE_OPTION' });
+  };
+};
+
+export function toggleCard() {
+  return dispatch => {
+    dispatch({ type: 'TOGGLE_CARD' });
   };
 };

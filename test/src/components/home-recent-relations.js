@@ -22,7 +22,7 @@ function RecentRelations({ data }) {
             </View>
           ))
         }
-        <View style={{borderRadius: 200, borderColor: 'rgba(0, 0, 0, 0.4)', borderWidth: 1, width: 50, height: 50, justifyContent: 'center', alignItems: 'center'}}>
+        <View style={{borderRadius: 200, borderColor: 'rgba(0, 0, 0, 0.4)', borderWidth: 1, width: 40, height: 40, justifyContent: 'center', alignItems: 'center', marginTop: 5}}>
           <Icon name="plus" size={20} color="backgroundColor: 'rgba(0, 0, 0, 0.4)'" />
         </View>
       </View>

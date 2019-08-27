@@ -1,46 +1,47 @@
 const initState = {
-  isLogin : false,
-  isLoading : false,
-  error : null,
-  dataLogin : {},
+  isLogin: false,
+  isLoading: false,
+  error: null,
+  dataLogin: {},
   modal: false,
   option: false,
-  dataEmployeesByCompany:[]
+  dataEmployeesByCompany: [],
+  card: false,
 }
 
-export default (state = initState , action) => {
+export default (state = initState, action) => {
   switch (action.type) {
     case 'TOGGLE_LOADING':
       return {
         ...state,
-        isLoading : action.payload
+        isLoading: action.payload
       }
     case 'FETCH_ERROR':
       return {
         ...state,
-        error : action.payload
+        error: action.payload
       }
-    case 'TOGGLE_LOGIN' :
+    case 'TOGGLE_LOGIN':
       return {
         ...state,
-        isLogin : action.payload
+        isLogin: action.payload
       }
-    case 'FETCH_EMPLOYEE' :
+    case 'FETCH_EMPLOYEE':
       return {
         ...state,
-        dataLogin : action.payload
+        dataLogin: action.payload
       }
-    case 'ADD_CONTACT' : 
-    return {
-      ...state,
-      dataLogin  : {
-        ...state.dataLogin,
-        employee : {
-          ...state.dataLogin.employee,
-          contacts : state.dataLogin.employee.contacts.concat([action.payload])
+    case 'ADD_CONTACT':
+      return {
+        ...state,
+        dataLogin: {
+          ...state.dataLogin,
+          employee: {
+            ...state.dataLogin.employee,
+            contacts: state.dataLogin.employee.contacts.concat([action.payload])
+          }
         }
       }
-    }
     case 'TOGGLE_MODAL':
       return {
         ...state,
@@ -51,10 +52,15 @@ export default (state = initState , action) => {
         ...state,
         option: !state.option
       }
-    case 'ADD_EMPLOYEE_BY_COMPANY' :
+    case 'ADD_EMPLOYEE_BY_COMPANY':
       return {
         ...state,
-        dataEmployeesByCompany : action.payload
+        dataEmployeesByCompany: action.payload
+      }
+    case 'TOGGLE_CARD':
+      return {
+        ...state,
+        card: !state.card
       }
     default:
       return state
