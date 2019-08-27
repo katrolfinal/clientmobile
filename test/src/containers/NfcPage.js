@@ -61,7 +61,7 @@ class NfcPage extends Component {
     let {supported, enabled} = this.state;
     return (
       <View style={{ flex: 1 }}>
-        <View style={{flex: 1 }}>
+        <View style={{flex: 3 }}>
           <ScrollView style={{ flex: 1 }}>
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
               <Text>{`Is NFC supported ? ${supported}`}</Text>
@@ -91,7 +91,7 @@ class NfcPage extends Component {
             </View>
           </ScrollView>
         </View>
-        <View style={{flex : 6}}>
+        <View style={{flex : 3}}>
         <QRscanner />
         </View>
       </View>
