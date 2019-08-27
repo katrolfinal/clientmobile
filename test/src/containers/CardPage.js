@@ -57,16 +57,16 @@ function CardPage(props) {
             <View style={{marginTop: 15}}>
               <Text style={{textAlign: 'center', fontWeight: 'bold', fontSize: 24}}>{dummy.name}</Text>
               <View style={{backgroundColor: 'rgba(255, 255, 255, 0.6)', borderRadius: 8, padding: 5, paddingLeft: 15, paddingRight: 15, marginTop: 5}}>
-                <Text style={{color: '#8C80BF', fontWeight: 'bold', fontSize: 16, textAlign: 'center'}}>{dummy.position}</Text>
+                <Text style={{color: '#5F6DA1', fontWeight: 'bold', fontSize: 16, textAlign: 'center'}}>{dummy.position}</Text>
               </View>
             </View>
           </View>
           {/* PERSONAL INFORMATION */}
           <View style={{marginTop: 80}}>
 
-            <View style={{flexDirection: 'row', width: '100%', justifyContent: 'space-between', backgroundColor: 'rgba(88, 79, 110, 0.8)', padding: 20, paddingTop: 15, paddingBottom: 15, alignItems: 'center'}}>
+            <View style={{flexDirection: 'row', width: '100%', justifyContent: 'space-between', backgroundColor: '#5F6DA1', padding: 20, paddingTop: 8, paddingBottom: 8, alignItems: 'center'}}>
               <View style={{backgroundColor: '#DFE2C9', borderRadius: 200, padding: 10, width: 45, height: 45, justifyContent: 'center', alignItems: 'center'}}>
-                <FontAwesome name='user' size={25} color='rgba(88, 79, 110, 0.8)' />
+                <FontAwesome name='user' size={25} color='#374E87' />
               </View>
               <View>
                 <Text style={{color: '#FFF', textAlign: 'right'}}>{dummy.phone}</Text>
@@ -74,8 +74,8 @@ function CardPage(props) {
               </View>
             </View>
 
-            <View style={{flexDirection: 'row', width: '100%', justifyContent: 'space-between', padding: 20, paddingTop: 15, paddingBottom: 15, alignItems: 'center'}}>
-              <View style={{backgroundColor: 'rgba(88, 79, 110, 0.8)', borderRadius: 200, padding: 10, width: 45, height: 45, justifyContent: 'center', alignItems: 'center'}}>
+            <View style={{flexDirection: 'row', width: '100%', justifyContent: 'space-between', padding: 20, paddingTop: 8, paddingBottom: 8, alignItems: 'center'}}>
+              <View style={{backgroundColor: '#374E87', borderRadius: 200, padding: 10, width: 45, height: 45, justifyContent: 'center', alignItems: 'center'}}>
                 <MaterialIcons name='location-on' size={25} color='#DFE2C9' />
               </View>
               <View>
@@ -84,9 +84,9 @@ function CardPage(props) {
               </View>
             </View>
 
-            <View style={{flexDirection: 'row', width: '100%', justifyContent: 'space-between', backgroundColor: 'rgba(88, 79, 110, 0.8)', padding: 20, paddingTop: 15, paddingBottom: 15, alignItems: 'center', borderBottomLeftRadius: 15, borderBottomRightRadius: 15}}>
+            <View style={{flexDirection: 'row', width: '100%', justifyContent: 'space-between', backgroundColor: '#5F6DA1', padding: 20, paddingTop: 8, paddingBottom: 8, alignItems: 'center', borderBottomLeftRadius: 15, borderBottomRightRadius: 15}}>
               <View style={{backgroundColor: '#DFE2C9', borderRadius: 200, padding: 10, width: 45, height: 45, justifyContent: 'center', alignItems: 'center'}}>
-                <Feather name='link' size={25} color='rgba(88, 79, 110, 0.8)' />
+                <FontAwesome5 name='link' size={25} color='#374E87' />
               </View>
               <View>
                 <Text style={{color: '#FFF', textAlign: 'right'}}>www.youporn.com</Text>
