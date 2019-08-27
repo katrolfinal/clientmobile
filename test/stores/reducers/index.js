@@ -11,6 +11,17 @@ const initState = {
 
 export default (state = initState , action) => {
   switch (action.type) {
+    case 'UPDATE_CONTACTS':
+      return {
+        ...state,
+        dataLogin : {
+          ...state.dataLogin,
+          employee: {
+            ...state.dataLogin.employee,
+            contacts : action.payload
+          }
+        }
+      }
     case 'TOGGLE_LOADING':
       return {
         ...state,
@@ -61,6 +72,15 @@ export default (state = initState , action) => {
       return {
         ...state,
         card: !state.card
+      }
+    case 'SET_DATA_AFTER_DELETE':
+      return {
+        ...state,
+        dataLogin : {
+          ...state.dataLogin,
+          employee : action.payload
+          
+        }
       }
     default:
       return state
