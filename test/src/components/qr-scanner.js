@@ -60,7 +60,6 @@ class QRscanner extends Component {
     );
   }
   openLink_in_browser = () => {
-    console.log(this.state.QR_Code_Value, 'ini valuenya anjing');
     Linking.openURL(this.state.QR_Code_Value);
   }
 

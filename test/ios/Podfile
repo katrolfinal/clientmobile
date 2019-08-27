@@ -29,7 +29,11 @@ target 'test' do
 
   pod 'react-native-nfc-manager', :path => '../node_modules/react-native-nfc-manager'
 
+<<<<<<< HEAD
+  pod 'RNSVG', :path => '../node_modules/react-native-svg'
+=======
   pod 'react-native-camera-kit', :path => '../node_modules/react-native-camera-kit'
+>>>>>>> scanqrtest
 
   target 'testTests' do
     inherit! :search_paths
