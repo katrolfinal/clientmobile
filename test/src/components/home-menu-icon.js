@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/dist/AntDesign';
 import IconFA from 'react-native-vector-icons/dist/FontAwesome5';
 import IconMI from 'react-native-vector-icons/dist/MaterialIcons';
 import IconMCI from 'react-native-vector-icons/dist/MaterialCommunityIcons';
+import IconE from 'react-native-vector-icons/dist/Entypo';
 import { connect } from 'react-redux';
 import { toggleModal } from '../../stores/actions';
 
@@ -28,6 +29,10 @@ function MenuIcon({ icon, name, size, text , toggleModal}) {
           {
             icon == 'MCI' &&
             <IconMCI name={name} size={size} color="backgroundColor: 'rgba(0, 0, 0, 0.4)'" />
+          }
+          {
+            icon == 'E' &&
+            <IconE name={name} size={size} color="backgroundColor: 'rgba(0, 0, 0, 0.4)'" />
           }
         </View>
       </TouchableHighlight>

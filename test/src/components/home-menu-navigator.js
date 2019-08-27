@@ -17,7 +17,7 @@ function MenuNavigator() {
       <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
         <MenuIcon icon={'MI'} name={'person-add'} size={31.5} text={'Add'} />
         <MenuIcon icon={'FA'} name={'user-friends'} size={25} text={'Relations'} />
-        <MenuIcon icon={'FA'} name={'user-friends'} size={25} text={'Relations'} />
+        <MenuIcon icon={'E'} name={'camera'} size={29} text={'Upload'} />
         <MenuIcon icon={'MCI'} name={'logout'} size={29} text={'Logout'} />
       </View>
     </View>

@@ -3,7 +3,8 @@ const initState = {
   isLoading : false,
   error : null,
   modal: false,
-  option: false
+  option: false,
+  card: false,
 }
 
 export default (state = initState , action) => {
@@ -32,6 +33,11 @@ export default (state = initState , action) => {
       return {
         ...state,
         option: !state.option
+      }
+    case 'TOGGLE_CARD':
+      return {
+        ...state,
+        card: !state.card
       }
     default:
       return state
