@@ -10,7 +10,8 @@ import { toggleModal } from '../../stores/actions';
 
 const mapStateToProps = state => ({
   modal: state.modal,
-  dataEmployeesByCompany : state.dataEmployeesByCompany
+  dataEmployeesByCompany : state.dataEmployeesByCompany,
+  dataLogin : state.dataLogin
 });
 
 const mapDispatchToProps = {
@@ -58,7 +59,6 @@ function RelationPage(props) {
       }
       return el
     }) 
-    console.log(data);
     setDummy(data)
   };
 
@@ -111,6 +111,7 @@ function RelationPage(props) {
   };
   return (
     <View>
+      <Text>{JSON.stringify(props.dataLogin.employee.contacts)}</Text>
       <View style={props.showClose ? styles.showClose : styles.header}>
         {
           props.showClose &&
@@ -143,7 +144,6 @@ function RelationPage(props) {
             <Icon name="search1" size={20} color="backgroundColor: 'rgba(0, 0, 0, 0.4)'" />
           </View>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <Text>{JSON.stringify(props.dataEmployeesByCompany)}</Text>
           {
             dummy.map((el, i) => (
               <View style={{marginTop: 15, flexDirection: 'row', backgroundColor: '#fff', padding: 20, paddingTop: 10, paddingBottom: 10, borderRadius: 15, shadowColor: '#000', elevation: 1}} key={i}>

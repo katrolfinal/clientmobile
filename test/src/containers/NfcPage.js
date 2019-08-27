@@ -82,7 +82,7 @@ class NfcPage extends Component {
             number={test.phoneNumber}
           />
           {
-            <Text>{JSON.stringify(this.props.dataLogin.employee.contacts.length)}</Text>
+            <Text>{JSON.stringify(this.props.dataLogin.employee)}</Text>
           }
 
         </View>
@@ -96,8 +96,11 @@ class NfcPage extends Component {
       return;
     }
     let bytes
-    console.log(this.props.dataLogin.employee, 'ini dataaanaadsasdasdasdaacacacasdasd');
-    bytes = buildTextPayload(JSON.stringify(this.props.dataLogin.employee));
+    let newObj = {...this.props.dataLogin.employee}
+    delete newObj.contacts
+    delete newObj.password
+    newObj.company = newObj.company.name
+    bytes = buildTextPayload(JSON.stringify(newObj));
     this.setState({ isWriting: true });
     NfcManager.setNdefPushMessage(bytes)
       .then(() => console.log('beam request completed'))
@@ -194,7 +197,6 @@ class NfcPage extends Component {
       })
         .then(async () => {
           try {
-            console.log('masuk ke dalam try');
             await AsyncStorage.setItem('token', JSON.stringify(this.props.dataLogin))
           } catch (error) {
             // Error retrieving data

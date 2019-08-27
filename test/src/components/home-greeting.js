@@ -2,10 +2,6 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
 function Greeting({ source , data }) {
-  if(data.employee){
-    console.log(data.employee.email, 'ini dataaaaasdasdasdasdasd')
-  }
-
   return (
     <View style={source == 'home-page' ? styles.home : styles.relations}>
       {

@@ -70,6 +70,9 @@ const TabNavigator = createBottomTabNavigator({
         fontSize: 11
       }
     },
+    defaultNavigationOptions : {
+      tabBarVisible : false
+    }
   })
 
 const AppNavigator = createSwitchNavigator(
