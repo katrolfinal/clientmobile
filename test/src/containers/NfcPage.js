@@ -40,7 +40,7 @@ class NfcPage extends Component {
 
   componentDidMount() {
     NfcManager.isSupported().then(supported => {
-      this.setState({supported});
+      this.setState({ supported });
       if (supported) {
         this._startNfc();
         this._startDetection();
@@ -58,10 +58,10 @@ class NfcPage extends Component {
   }
 
   render() {
-    let {supported, enabled} = this.state;
+    let { supported, enabled } = this.state;
     return (
       <View style={{ flex: 1 }}>
-        <View style={{flex: 3 }}>
+        <View style={{ flex: 3 }}>
           <ScrollView style={{ flex: 1 }}>
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
               <Text>{`Is NFC supported ? ${supported}`}</Text>
@@ -78,28 +78,31 @@ class NfcPage extends Component {
               <ButtonWhatsapp
                 number={test.phoneNumber}
               />
+              <Text>
+                {JSON.stringify(this.props.dataLogin.employee.contacts)}
+              </Text>
               <View>
                 <QRCode
                   value={JSON.stringify({
-                    name : this.props.dataLogin.employee.name,
-                    position : this.props.dataLogin.employee.position,
-                    company : this.props.dataLogin.employee.company.name,
-                    email : this.props.dataLogin.employee.email
+                    name: this.props.dataLogin.employee.name,
+                    position: this.props.dataLogin.employee.position,
+                    company: this.props.dataLogin.employee.company.name,
+                    email: this.props.dataLogin.employee.email
                   })}
                 />
-            </View>
+              </View>
             </View>
           </ScrollView>
         </View>
-        <View style={{flex : 3}}>
-        <QRscanner />
+        <View style={{ flex: 3 }}>
+          <QRscanner navigation={this.props.navigation} />
         </View>
       </View>
     )
   }
 
   _requestAndroidBeam = () => {
-    let {isWriting} = this.state;
+    let { isWriting } = this.state;
     if (isWriting) {
       return;
     }
@@ -109,14 +112,14 @@ class NfcPage extends Component {
     delete newObj.password
     newObj.company = newObj.company.name
     bytes = buildTextPayload(JSON.stringify(newObj));
-    this.setState({isWriting: true});
+    this.setState({ isWriting: true });
     NfcManager.setNdefPushMessage(bytes)
       .then(() => console.log('beam request completed'))
       .catch(err => console.warn(err));
   };
 
   _cancelAndroidBeam = () => {
-    this.setState({isWriting: false});
+    this.setState({ isWriting: false });
     NfcManager.setNdefPushMessage(null)
       .then(() => console.log('beam cancelled'))
       .catch(err => console.warn(err));
@@ -133,7 +136,7 @@ class NfcPage extends Component {
       })
       .catch(error => {
         console.warn('start fail', error);
-        this.setState({supported: false});
+        this.setState({ supported: false });
       });
 
     if (Platform.OS === 'android') {
@@ -141,7 +144,7 @@ class NfcPage extends Component {
         .then(tag => {
           console.log('launch tag', tag);
           if (tag) {
-            this.setState({tag});
+            this.setState({ tag });
           }
         })
         .catch(err => {
@@ -149,7 +152,7 @@ class NfcPage extends Component {
         });
       NfcManager.isEnabled()
         .then(enabled => {
-          this.setState({enabled});
+          this.setState({ enabled });
           if (!enabled) {
             this._goToNfcSetting();
           }
@@ -159,9 +162,9 @@ class NfcPage extends Component {
         });
       NfcManager.onStateChanged(event => {
         if (event.state === 'on') {
-          this.setState({enabled: true});
+          this.setState({ enabled: true });
         } else if (event.state === 'off') {
-          this.setState({enabled: false});
+          this.setState({ enabled: false });
         } else if (event.state === 'turning_on') {
           // do whatever you want
         } else if (event.state === 'turning_off') {
@@ -180,9 +183,7 @@ class NfcPage extends Component {
   }
 
   _onTagDiscovered = tag => {
-    console.log(tag, 'ini taaag asuuuuu');
-    this.setState({tag});
-
+    this.setState({ tag });
     let parsed = null;
     if (tag.ndefMessage && tag.ndefMessage.length > 0) {
       // ndefMessage is actually an array of NdefRecords,
@@ -207,7 +208,8 @@ class NfcPage extends Component {
             await AsyncStorage.setItem(
               'token',
               JSON.stringify(this.props.dataLogin),
-            );
+            )
+            this.props.navigation.navigate('DashboardPage')
           } catch (error) {
             // Error retrieving data
           }

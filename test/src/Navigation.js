@@ -5,6 +5,7 @@ import HomePage from './containers/HomePage'
 import LoginPage from './containers/LoginPage'
 import AuthPage from './containers/AuthPage'
 import Relations from './containers/RelationPage'
+import CardPage from "./containers/CardPage";
 
 const HomeNavigator = createStackNavigator({
   Home: {
@@ -71,7 +72,7 @@ const TabNavigator = createBottomTabNavigator({
       }
     },
     defaultNavigationOptions : {
-      tabBarVisible : false
+      tabBarVisible : true
     }
   })
 
