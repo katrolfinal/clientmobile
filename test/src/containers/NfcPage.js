@@ -12,6 +12,7 @@ import { addContact } from '../../stores/actions'
 import ButtonCall from '../components/ButtonCall'
 import ButtonEmail from '../components/ButtonEmail'
 import ButtonWhatsapp from '../components/ButtonWhatsApp'
+import QRscanner from '../components/qr-scanner'
 
 function buildTextPayload(valueToWrite) {
   return Ndef.encodeMessage([
@@ -63,30 +64,31 @@ class NfcPage extends Component {
   render() {
     let { supported, enabled } = this.state;
     return (
-      <ScrollView style={{ flex: 1 }}>
-        {Platform.OS === 'ios' && <View style={{ height: 60 }} />}
+      <View style={{ flex: 1 }}>
+        <View style={{flex: 1 }}>
+          <ScrollView style={{ flex: 1 }}>
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+              <Text>{`Is NFC supported ? ${supported}`}</Text>
+              <Text>{`Is NFC enabled (Android only)? ${enabled}`}</Text>
 
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <Text>{`Is NFC supported ? ${supported}`}</Text>
-          <Text>{`Is NFC enabled (Android only)? ${enabled}`}</Text>
+              <ButtonCall
+                number={test.phoneNumber}
+              />
 
-          <ButtonCall
-            number={test.phoneNumber}
-          />
+              <ButtonEmail
+                email={test.email}
+              />
 
-          <ButtonEmail
-            email={test.email}
-          />
-
-          <ButtonWhatsapp
-            number={test.phoneNumber}
-          />
-          {
-            <Text>{JSON.stringify(this.props.dataLogin.employee)}</Text>
-          }
-
+              <ButtonWhatsapp
+                number={test.phoneNumber}
+              />
+            </View>
+          </ScrollView>
         </View>
-      </ScrollView>
+        <View style={{flex : 6}}>
+        <QRscanner />
+        </View>
+      </View>
     )
   }
 
@@ -96,7 +98,7 @@ class NfcPage extends Component {
       return;
     }
     let bytes
-    let newObj = {...this.props.dataLogin.employee}
+    let newObj = { ...this.props.dataLogin.employee }
     delete newObj.contacts
     delete newObj.password
     newObj.company = newObj.company.name

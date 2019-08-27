@@ -29,6 +29,8 @@ target 'test' do
 
   pod 'react-native-nfc-manager', :path => '../node_modules/react-native-nfc-manager'
 
+  pod 'react-native-camera-kit', :path => '../node_modules/react-native-camera-kit'
+
   target 'testTests' do
     inherit! :search_paths
     # Pods for testing
