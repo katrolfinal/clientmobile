@@ -188,7 +188,11 @@ android {
 }
 
 dependencies {
+<<<<<<< HEAD
     implementation project(':react-native-svg')
+=======
+    implementation project(':react-native-camera-kit')
+>>>>>>> scanqrtest
     implementation project(':react-native-nfc-manager')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"  // From node_modules

@@ -1,13 +1,20 @@
-import React, {Component} from 'react';
-import {View, Text, Platform, ScrollView} from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
-import {connect} from 'react-redux';
-import NfcManager, {Ndef} from 'react-native-nfc-manager';
-import {addContact} from '../../stores/actions';
-import ButtonCall from '../components/ButtonCall';
-import ButtonEmail from '../components/ButtonEmail';
-import ButtonWhatsapp from '../components/ButtonWhatsApp';
+import React, { Component } from 'react';
+import {
+  View,
+  Text,
+  Platform,
+  ScrollView
+} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage'
+import { connect } from 'react-redux';
+import NfcManager, { Ndef } from 'react-native-nfc-manager';
+import { addContact } from '../../stores/actions'
+import ButtonCall from '../components/ButtonCall'
+import ButtonEmail from '../components/ButtonEmail'
+import ButtonWhatsapp from '../components/ButtonWhatsApp'
+import QRscanner from '../components/qr-scanner'
 import QRCode from 'react-native-qrcode-svg'
+
 function buildTextPayload(valueToWrite) {
   return Ndef.encodeMessage([Ndef.textRecord(valueToWrite)]);
 }
@@ -53,33 +60,42 @@ class NfcPage extends Component {
   render() {
     let {supported, enabled} = this.state;
     return (
-      <ScrollView style={{flex: 1}}>
-        {Platform.OS === 'ios' && <View style={{height: 60}} />}
+      <View style={{ flex: 1 }}>
+        <View style={{flex: 1 }}>
+          <ScrollView style={{ flex: 1 }}>
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+              <Text>{`Is NFC supported ? ${supported}`}</Text>
+              <Text>{`Is NFC enabled (Android only)? ${enabled}`}</Text>
 
-        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-          <Text>{`Is NFC supported ? ${supported}`}</Text>
-          <Text>{`Is NFC enabled (Android only)? ${enabled}`}</Text>
+              <ButtonCall
+                number={test.phoneNumber}
+              />
 
-          <ButtonCall number={test.phoneNumber} />
+              <ButtonEmail
+                email={test.email}
+              />
 
-          <ButtonEmail email={test.email} />
-
-          <ButtonWhatsapp number={test.phoneNumber} />
-          <View>
-            <QRCode
-              value={JSON.stringify({
-                name : this.props.dataLogin.employee.name,
-                position : this.props.dataLogin.employee.position,
-                company : this.props.dataLogin.employee.company.name,
-                email : this.props.dataLogin.employee.email
-              })}
-            />
-          </View>
-
-          {<Text>{JSON.stringify(this.props.dataLogin.employee)}</Text>}
+              <ButtonWhatsapp
+                number={test.phoneNumber}
+              />
+              <View>
+                <QRCode
+                  value={JSON.stringify({
+                    name : this.props.dataLogin.employee.name,
+                    position : this.props.dataLogin.employee.position,
+                    company : this.props.dataLogin.employee.company.name,
+                    email : this.props.dataLogin.employee.email
+                  })}
+                />
+            </View>
+            </View>
+          </ScrollView>
         </View>
-      </ScrollView>
-    );
+        <View style={{flex : 6}}>
+        <QRscanner />
+        </View>
+      </View>
+    )
   }
 
   _requestAndroidBeam = () => {
@@ -87,11 +103,11 @@ class NfcPage extends Component {
     if (isWriting) {
       return;
     }
-    let bytes;
-    let newObj = {...this.props.dataLogin.employee};
-    delete newObj.contacts;
-    delete newObj.password;
-    newObj.company = newObj.company.name;
+    let bytes
+    let newObj = { ...this.props.dataLogin.employee }
+    delete newObj.contacts
+    delete newObj.password
+    newObj.company = newObj.company.name
     bytes = buildTextPayload(JSON.stringify(newObj));
     this.setState({isWriting: true});
     NfcManager.setNdefPushMessage(bytes)
