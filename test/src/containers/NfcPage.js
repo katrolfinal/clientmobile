@@ -87,7 +87,8 @@ class NfcPage extends Component {
                     name: this.props.dataLogin.employee.name,
                     position: this.props.dataLogin.employee.position,
                     company: this.props.dataLogin.employee.company.name,
-                    email: this.props.dataLogin.employee.email
+                    email: this.props.dataLogin.employee.email,
+                    showOption: false
                   })}
                 />
               </View>
@@ -111,6 +112,7 @@ class NfcPage extends Component {
     delete newObj.contacts
     delete newObj.password
     newObj.company = newObj.company.name
+    newObj.showOption = false
     bytes = buildTextPayload(JSON.stringify(newObj));
     this.setState({ isWriting: true });
     NfcManager.setNdefPushMessage(bytes)
