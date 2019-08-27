@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { StyleSheet, View, Text, Platform, TouchableOpacity, Linking, PermissionsAndroid } from 'react-native';
 import { CameraKitCameraScreen, } from 'react-native-camera-kit';
 import { connect } from 'react-redux';
+import { addContact } from '../../stores/actions'
+import AsyncStorage from '@react-native-community/async-storage'
 
 class QRscanner extends Component {
   constructor(props) {
@@ -51,6 +53,13 @@ class QRscanner extends Component {
           offsetForScannerFrame={30}   //(default 30) optional, offset from left and right side of the screen
           heightForScannerFrame={400}
           colorForScannerFrame={'black'}
+          cameraOptions={{
+            flashMode: 'auto',             // on/off/auto(default)
+            focusMode: 'on',               // off/on(default)
+            zoomMode: 'on',                // off/on(default)
+            ratioOverlay: '1:1',            // optional, ratio overlay on the camera and crop the image seamlessly
+            ratioOverlayColor: '#00000077' // optional
+          }}
           onReadCode={event =>
             this.onQR_Code_Scan_Done(event.nativeEvent.codeStringValue)
           }
@@ -65,6 +74,25 @@ class QRscanner extends Component {
 
 
   onQR_Code_Scan_Done = (QR_Code) => {
+    this.props
+      .addContact({
+        contact: JSON.parse(QR_Code),
+      })
+      .then(async () => {
+        try {
+          await AsyncStorage.setItem(
+            'token',
+            JSON.stringify(this.props.dataLogin)
+          )
+          console.log('masuk kesini ga sih', this.props);
+          this.props.navigation.navigate('Home')
+        } catch (error) {
+          // Error retrieving data
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
     this.setState({ QR_Code_Value: QR_Code });
     this.setState({ Start_Scanner: false });
   }
@@ -161,5 +189,8 @@ const mapStateToProps = state => {
   return state
 }
 
+const mapDispatchToProps = {
+  addContact,
+};
 
-export default connect(mapStateToProps)(QRscanner)
+export default connect(mapStateToProps, mapDispatchToProps)(QRscanner)
