@@ -156,7 +156,7 @@ function RelationPage(props) {
                 {
                   el.showOption == false && 
                   <View style={{height: 70, justifyContent: 'center', width: '100%'}}>
-                    <View style={{flexDirection: 'row'}}>
+                    <View style={{flexDirection: 'row', width: '100%'}}>
                       <View style={{flexDirection: 'column', justifyContent: 'space-between'}}>
                         <TouchableHighlight underlayColor='rgba(255, 255, 255, 0.4)' onPress={() => !props.showClose ? props.toggleCard() : null}>
                           <View>
@@ -167,8 +167,10 @@ function RelationPage(props) {
                         </TouchableHighlight>
                       </View>
                       <View style={{justifyContent: 'flex-end', alignItems: 'center', flexDirection: 'row', width: '40%'}}>
-                        <TouchableHighlight onPress={() => clickOptionsButton(i)} underlayColor='rgba(0,0,0,0.2)' style={{borderRadius:200, padding: 5}}>
-                          <Entypo name="dots-three-vertical" size={20} color="rgba(0, 0, 0, 0.6)" style={{}}/>
+                        <TouchableHighlight onPress={() => clickOptionsButton(i)} underlayColor='rgba(0,0,0,0.2)' style={{borderRadius:200, padding: 5, width: '100%', alignItems: 'flex-end', marginRight: -20}}>
+                          {/* <Text style={{textAlign: 'right'}}> */}
+                            <Entypo name="dots-three-vertical" size={20} color="rgba(0, 0, 0, 0.6)" style={{}}/>
+                          {/* </Text> */}
                         </TouchableHighlight>
                       </View>
                     </View>
@@ -177,7 +179,7 @@ function RelationPage(props) {
                 {
                   el.showOption == true && 
                   <View style={{height: 70, justifyContent: 'center'}}>
-                    <View style={{flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', paddingLeft: 15}}>
+                    <View style={{flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', paddingLeft: 15, width: '100%'}}>
                       <TouchableHighlight onPress={() => clickCallButton(el)} underlayColor='rgba(0,0,0,0.2)' style={{width: 48, height: 48, borderRadius: 200, marginRight: 15, padding: 5, backgroundColor: '#208088', justifyContent: 'center', alignItems: 'center'}}>
                         <FontAwesome name="phone" size={26} color="rgba(255, 255, 255, 1)" style={{}}/>
                       </TouchableHighlight>
@@ -187,9 +189,12 @@ function RelationPage(props) {
                       <TouchableHighlight onPress={() => clickEmailButton(el)} underlayColor='rgba(0,0,0,0.2)' style={{width: 48, height: 48, borderRadius: 200, marginRight: 15, padding: 5, backgroundColor: '#F29800', justifyContent: 'center', alignItems: 'center'}}>
                         <Entypo name="mail" size={27} color="rgba(255, 255, 255, 1)" style={{}}/>
                       </TouchableHighlight>
-                      <TouchableHighlight onPress={() => clickDeleteButton(el)} underlayColor='rgba(0,0,0,0.2)' style={{width: 48, height: 48, borderRadius: 200, marginRight: 15, padding: 5, backgroundColor: 'rgba(255, 0, 0, 0.8)', justifyContent: 'center', alignItems: 'center'}}>
-                        <FontAwesome5 name="trash" size={19} color="rgba(255, 255, 255, 1)" style={{}}/>
-                      </TouchableHighlight>
+                      {
+                        activeSwitch !== 'Office' &&
+                        <TouchableHighlight onPress={() => clickDeleteButton(el)} underlayColor='rgba(0,0,0,0.2)' style={{width: 48, height: 48, borderRadius: 200, marginRight: 15, padding: 5, backgroundColor: 'rgba(255, 0, 0, 0.8)', justifyContent: 'center', alignItems: 'center'}}>
+                          <FontAwesome5 name="trash" size={19} color="rgba(255, 255, 255, 1)" style={{}}/>
+                        </TouchableHighlight>
+                      }
                       <TouchableHighlight onPress={() => clickOptionsButton(i)} underlayColor='rgba(0,0,0,0.2)' style={{borderRadius:200, padding: 5}}>
                         <Entypo name="cross" size={25} color="rgba(0, 0, 0, 0.6)" style={{}}/>
                       </TouchableHighlight>
