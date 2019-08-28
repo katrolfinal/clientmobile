@@ -15,7 +15,7 @@ import axios from 'axios'
 import { connect } from 'react-redux';
 import { login , fetchEmpoleyee} from '../../stores/actions'
 import AsyncStorage from '@react-native-community/async-storage'
-// import Feather from 'react-native-vector-icons/dist/Feather';
+import Feather from 'react-native-vector-icons/dist/Feather';
 
 class LoginPage extends Component {
 
@@ -61,13 +61,13 @@ class LoginPage extends Component {
         />
         <View style={{backgroundColor: '#0E005F'}}>
           <View style={{height: '100%', backgroundColor: '#F2F1F2', borderTopRightRadius: 50}}>
-            <View style={{alignItems: 'center', marginTop: 30}}>
+            <View style={{alignItems: 'center', marginTop: 50}}>
               <Text style={{fontSize: 20, fontWeight: 'bold', color: 'rgba(0,0,0,0.8)'}}>Login to your account!</Text>
               
               {/* FORM */}
               <View style={{marginTop: 20}}>
                 <View style={styles.inputContainer}>
-                  {/* <Feather name="user" size={25} color="rgba(0,0,0, 0.6)" style={{marginLeft: 15}} /> */}
+                  <Feather name="user" size={25} color="rgba(0,0,0, 0.6)" style={{marginLeft: 15}} />
                   <TextInput style={styles.inputs}
                     placeholder="Email"
                     keyboardType="email-address"
@@ -75,7 +75,7 @@ class LoginPage extends Component {
                     onChangeText={(email) => this.setState({ email })} />
                 </View>
                 <View style={styles.inputContainer}>
-                  {/* <Feather name="key" size={25} color="rgba(0,0,0, 0.6)" style={{marginLeft: 15}} /> */}
+                  <Feather name="key" size={25} color="rgba(0,0,0, 0.6)" style={{marginLeft: 15}} />
                   <TextInput style={styles.inputs}
                     placeholder="Password"
                     secureTextEntry={true}

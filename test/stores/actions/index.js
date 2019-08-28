@@ -72,7 +72,7 @@ export function updateContacts(contacts) {
 }
 
 export function addContact(params) {
-
+console.log(params, 'ini params cuk');
   return dispatch => {
     return new Promise(async (resolve, reject) => {
       try {
