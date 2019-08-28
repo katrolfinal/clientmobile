@@ -113,9 +113,10 @@ export function toggleOption() {
   };
 };
 
-export function toggleCard() {
+export function toggleCard(el) {
+  console.log(el , 'ini elemen api menyerang');
   return dispatch => {
-    dispatch({ type: 'TOGGLE_CARD' });
+    dispatch({ type: 'TOGGLE_CARD' , payload : el });
   };
 };
 

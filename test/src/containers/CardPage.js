@@ -12,7 +12,8 @@ import Fontisto from 'react-native-vector-icons/dist/Fontisto';
 import QRCode from 'react-native-qrcode-svg';
 
 const mapStateToProps = state => ({
-  card: state.card
+  card: state.card,
+  dataCard : state.dataCard
 });
 
 const mapDispatchToProps = {
@@ -20,13 +21,7 @@ const mapDispatchToProps = {
 };
 
 function CardPage(props) {
-  const [dummy, setDummy] = useState({
-    name: 'Irsantyo Hadi',
-    position: 'Full-Stack Developer',
-    company: 'NFCard',
-    phone: '+6281-321-216-229',
-    email: 'daps@mail.com',
-  })
+  const [dummy, setDummy] = useState(props.dataCard)
 
   return (
     <ScrollView style={{backgroundColor: '#F2F1F2', height: Dimensions.get('window').height}}>
@@ -82,7 +77,7 @@ function CardPage(props) {
                 <FontAwesome name='user' size={25} color='#374E87' />
               </View>
               <View>
-                <Text style={{color: '#FFF', textAlign: 'right'}}>{dummy.phone}</Text>
+                <Text style={{color: '#FFF', textAlign: 'right'}}>0{dummy.phone}</Text>
                 <Text style={{color: '#FFF', textAlign: 'right'}}>{dummy.email}</Text>
               </View>
             </View>
@@ -92,8 +87,8 @@ function CardPage(props) {
                 <MaterialIcons name='location-on' size={25} color='#fff' />
               </View>
               <View>
-                <Text style={{color: 'rgba(0, 0, 0, 0.6)', textAlign: 'right'}}>Jalan Pengen Coli 54</Text>
-                <Text style={{color: 'rgba(0, 0, 0, 0.6)', textAlign: 'right'}}>Jakarta Tenggara</Text>
+                <Text style={{color: 'rgba(0, 0, 0, 0.6)', textAlign: 'right'}}>{dummy.address}</Text>
+                {/* <Text style={{color: 'rgba(0, 0, 0, 0.6)', textAlign: 'right'}}>Jakarta Tenggara</Text> */}
               </View>
             </View>
 
@@ -102,8 +97,8 @@ function CardPage(props) {
                 <FontAwesome5 name='link' size={25} color='#374E87' />
               </View>
               <View>
-                <Text style={{color: '#FFF', textAlign: 'right'}}>www.youporn.com</Text>
-                <Text style={{color: '#FFF', textAlign: 'right'}}>www.pornhub.com</Text>
+                <Text style={{color: '#FFF', textAlign: 'right'}}>www.{dummy.company.name}.com</Text>
+                {/* <Text style={{color: '#FFF', textAlign: 'right'}}>www.pornhub.com</Text> */}
               </View>
             </View>
 

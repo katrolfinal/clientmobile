@@ -213,7 +213,7 @@ function RelationPage(props) {
                   <View style={{ height: 70, justifyContent: 'center', width: '100%' }}>
                     <View style={{ flexDirection: 'row', width: '100%' }}>
                       <View style={{ flexDirection: 'column', justifyContent: 'space-between' }}>
-                        <TouchableHighlight underlayColor='rgba(255, 255, 255, 0.4)' onPress={() => !props.showClose ? props.toggleCard() : null}>
+                        <TouchableHighlight underlayColor='rgba(255, 255, 255, 0.4)' onPress={() => !props.showClose ? props.toggleCard(el) : null}>
                           <View>
                             <Text style={{ fontSize: 16, fontWeight: 'bold' }}>{el.name}</Text>
                             <Text style={{ color: 'rgba(0,0,0,0.4)', fontSize: 14 }}>{el.position}</Text>

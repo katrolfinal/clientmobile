@@ -116,7 +116,6 @@ class HomePage extends Component {
       if (value === null) {
         this.props.navigation.navigate('LoginPage')
       } else {
-        console.log(value, 'ini value')
         this.props.fetchEmpoleyee(JSON.parse(value))
       }
     } catch (error) {
