@@ -9,13 +9,15 @@ import {
   Image,
   Alert,
   Dimensions,
-  ScrollView
+  ScrollView,
+  ToastAndroid
 } from 'react-native';
 import axios from 'axios'
 import { connect } from 'react-redux';
 import { login , fetchEmpoleyee} from '../../stores/actions'
 import AsyncStorage from '@react-native-community/async-storage'
 import Feather from 'react-native-vector-icons/dist/Feather';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 class LoginPage extends Component {
 
@@ -45,8 +47,10 @@ class LoginPage extends Component {
           this.props.login
           this.props.fetchEmpoleyee(data)
           this.props.navigation.navigate('DashboardPage')
+          ToastAndroid.show(`Welcome ${data.employee.name}!`, ToastAndroid.SHORT)
         })
         .catch(err => {
+          ToastAndroid.show(`Email or password wrong!`, ToastAndroid.SHORT)
           console.log(err);
         })
     }
@@ -57,15 +61,15 @@ class LoginPage extends Component {
       <ScrollView style={{backgroundColor: '#F2F1F2'}}>
         <Image 
           source={{uri: 'https://cdn.dribbble.com/users/2132441/screenshots/6691235/blue_4x.png'}}
-          style={{width: Dimensions.get('window').width, height: 200, borderBottomLeftRadius: 50}}
+          style={{width: Dimensions.get('window').width, height: 300, borderBottomLeftRadius: 50}}
         />
         <View style={{backgroundColor: '#0E005F'}}>
           <View style={{height: '100%', backgroundColor: '#F2F1F2', borderTopRightRadius: 50}}>
             <View style={{alignItems: 'center', marginTop: 50}}>
-              <Text style={{fontSize: 20, fontWeight: 'bold', color: 'rgba(0,0,0,0.8)'}}>Login to your account!</Text>
+              <Text style={{fontSize: 22, fontWeight: 'bold', color: 'rgba(0,0,0,0.8)'}}>Login to your account!</Text>
               
               {/* FORM */}
-              <View style={{marginTop: 20}}>
+              <View style={{marginTop: 30}}>
                 <View style={styles.inputContainer}>
                   <Feather name="user" size={25} color="rgba(0,0,0, 0.6)" style={{marginLeft: 15}} />
                   <TextInput style={styles.inputs}
@@ -84,7 +88,7 @@ class LoginPage extends Component {
                 </View>
                 {/* BUTTON LOGIN */}
                 <View style={{alignItems: 'center'}}>
-                  <TouchableHighlight style={[styles.buttonContainer, styles.loginButton]} onPress={() => this.onClickListener('login')}>
+                  <TouchableHighlight underlayColor={{backgroundColor: 'rgba(0, 0, 0, 0.6)'}} style={[styles.buttonContainer, styles.loginButton]} onPress={() => this.onClickListener('login')}>
                     <Text style={styles.loginText}>Login</Text>
                   </TouchableHighlight>
                 </View>
@@ -170,7 +174,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
   },
   loginButton: {
-    backgroundColor: "#00b5ec",
+    backgroundColor: "#374E87",
     shadowColor: '#00b5ec',
     elevation: 10
   },

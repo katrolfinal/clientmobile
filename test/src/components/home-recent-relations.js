@@ -27,13 +27,13 @@ function RecentRelations({ data, toggleCard, navigation }) {
             <View key={i}>
               { 
                 el.image ? 
-                <TouchableHighlight underlayColor='rgba(0, 0, 0, 0.6)' onPress={() => toggleCard(el)} style={{justifyContent: 'center', alignItems: 'center', width: 50, height: 50, borderRadius: 200, marginRight: 15}}>
+                <TouchableHighlight underlayColor='rgba(0, 0, 0, 0.6)' onPress={() => toggleCard(el)} style={{justifyContent: 'center', alignItems: 'center', width: 65, height: 65, borderRadius: 200, marginRight: 10}}>
                   <Image
-                    style={{width: 50, height: 50, borderRadius: 200}}
+                    style={{width: 65, height: 65, borderRadius: 200}}
                     source={{uri: `${el.image}`}}
                   />
                 </TouchableHighlight> : 
-                <TouchableHighlight underlayColor='rgba(0, 0, 0, 0.6)' style={{width: 50, height: 50, borderRadius: 200, marginRight: 15, backgroundColor: 'rgba(0, 0, 0, 0.2)', justifyContent: 'center', alignItems: 'center'}} onPress={() => toggleCard(el)}>
+                <TouchableHighlight underlayColor='rgba(0, 0, 0, 0.6)' style={{width: 65, height: 65, borderRadius: 200, marginRight: 10, backgroundColor: 'rgba(0, 0, 0, 0.2)', justifyContent: 'center', alignItems: 'center'}} onPress={() => toggleCard(el)}>
                   <Text style={{fontSize: 18, fontWeight: 'bold', color: '#FFF', marginBottom: 3}}>{el.name[0].toUpperCase()}</Text>
                 </TouchableHighlight>
               }
@@ -41,7 +41,7 @@ function RecentRelations({ data, toggleCard, navigation }) {
             </View>
           ))
         }
-        <TouchableOpacity onPress={() => navigation.navigate('NfcPage')} style={{borderRadius: 200, borderColor: 'rgba(0, 0, 0, 0.4)', borderWidth: 1, width: 40, height: 40, justifyContent: 'center', alignItems: 'center', marginTop: 5}}>
+        <TouchableOpacity onPress={() => navigation.navigate('NfcPage')} style={{borderRadius: 200, borderColor: 'rgba(0, 0, 0, 0.4)', borderWidth: 1, width: 40, height: 40, justifyContent: 'center', alignItems: 'center', marginTop: 15}}>
           <Icon name="plus" size={20} color="backgroundColor: 'rgba(0, 0, 0, 0.4)'" />
         </TouchableOpacity>
       </View>

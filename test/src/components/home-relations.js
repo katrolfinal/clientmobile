@@ -36,17 +36,17 @@ function Relations({ data, type, navigation, toggleCard }) {
             <View style={{justifyContent: 'center'}}>
               {
                 item.image ? 
-                <TouchableHighlight underlayColor='rgba(0, 0, 0, 0.6)' onPress={() => toggleCard(item)} style={{justifyContent: 'center', alignItems: 'center', width: 50, height: 50, borderRadius: 200, marginRight: 15}}>
+                <TouchableHighlight underlayColor='rgba(0, 0, 0, 0.6)' onPress={() => toggleCard(item)} style={{justifyContent: 'center', alignItems: 'center', width: 65, height: 65, borderRadius: 200, marginRight: 10}}>
                   <Image
-                    style={{width: 50, height: 50, borderRadius: 200}}
+                    style={{width: 65, height: 65, borderRadius: 200}}
                     source={{uri: `${item.image}`}}
                   />
                 </TouchableHighlight> : 
-                <TouchableHighlight underlayColor='rgba(0, 0, 0, 0.6)' style={{width: 50, height: 50, borderRadius: 200, marginRight: 15, backgroundColor: 'rgba(0, 0, 0, 0.2)', justifyContent: 'center', alignItems: 'center'}} onPress={() => toggleCard(item)}>
+                <TouchableHighlight underlayColor='rgba(0, 0, 0, 0.6)' style={{width: 65, height: 65, borderRadius: 200, marginRight: 10, backgroundColor: 'rgba(0, 0, 0, 0.2)', justifyContent: 'center', alignItems: 'center'}} onPress={() => toggleCard(item)}>
                   <Text style={{fontSize: 18, fontWeight: 'bold', color: '#FFF', marginBottom: 3}}>{item.name[0].toUpperCase()}</Text>
                 </TouchableHighlight>
               }
-              <Text style={{color: 'rgba(0,0,0,0.4)', fontSize: 14, textAlign: 'center', marginRight: 15}}>{item.name.split(' ')[0]}</Text>
+              <Text style={{color: 'rgba(0,0,0,0.4)', fontSize: 14, textAlign: 'center', marginRight: 10}}>{item.name.split(' ')[0]}</Text>
             </View>
           )}
         />
