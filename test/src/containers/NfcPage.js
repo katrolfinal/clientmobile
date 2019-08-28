@@ -57,7 +57,7 @@ class NfcPage extends Component {
   render() {
     let { employee } = this.props.dataLogin
     let { navigation } = this.props
-    let { supported, enabled } = this.state;
+    
     return (
       <View>
         <ScrollView style={{ backgroundColor: '#F2F1F2', height: Dimensions.get('window').height }}>
@@ -98,7 +98,10 @@ class NfcPage extends Component {
                     _id : employee._id,
                     name: employee.name,
                     position: employee.position,
-                    company: employee.company.name,
+                    company: {
+                        name : employee.company.name,
+                        color : employee.company.color
+                    },
                     email: employee.email,
                     showOption: false
                   })}
@@ -109,9 +112,9 @@ class NfcPage extends Component {
           {/* PERSONAL INFORMATION */}
           <View style={{ marginTop: 30 }}>
 
-            <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-between', backgroundColor: '#5F6DA1', padding: 20, paddingTop: 8, paddingBottom: 8, alignItems: 'center' }}>
+            <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-between', backgroundColor: employee.company.color, padding: 20, paddingTop: 8, paddingBottom: 8, alignItems: 'center' }}>
               <View style={{ backgroundColor: '#fff', borderRadius: 200, padding: 10, width: 45, height: 45, justifyContent: 'center', alignItems: 'center' }}>
-                <FontAwesome name='user' size={25} color='#374E87' />
+                <FontAwesome name='user' size={25} color={employee.company.color} />
               </View>
               <View>
                 <Text style={{ color: '#FFF', textAlign: 'right' }}>0{employee.phone}</Text>
@@ -120,7 +123,7 @@ class NfcPage extends Component {
             </View>
 
             <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-between', padding: 20, paddingTop: 8, paddingBottom: 8, alignItems: 'center' }}>
-              <View style={{ backgroundColor: '#374E87', borderRadius: 200, padding: 10, width: 45, height: 45, justifyContent: 'center', alignItems: 'center' }}>
+              <View style={{ backgroundColor: employee.company.color, borderRadius: 200, padding: 10, width: 45, height: 45, justifyContent: 'center', alignItems: 'center' }}>
                 <MaterialIcons name='location-on' size={25} color='#fff' />
               </View>
               <View>
@@ -129,9 +132,9 @@ class NfcPage extends Component {
               </View>
             </View>
 
-            <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-between', backgroundColor: '#5F6DA1', padding: 20, paddingTop: 8, paddingBottom: 8, alignItems: 'center', borderBottomLeftRadius: 15, borderBottomRightRadius: 15 }}>
+            <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-between', backgroundColor: employee.company.color, padding: 20, paddingTop: 8, paddingBottom: 8, alignItems: 'center', borderBottomLeftRadius: 15, borderBottomRightRadius: 15 }}>
               <View style={{ backgroundColor: '#fff', borderRadius: 200, padding: 10, width: 45, height: 45, justifyContent: 'center', alignItems: 'center' }}>
-                <FontAwesome5 name='link' size={25} color='#374E87' />
+                <FontAwesome5 name='link' size={25} color={employee.company.color} />
               </View>
               <View>
                 <Text style={{ color: '#FFF', textAlign: 'right' }}>www.{employee.company.name}.com</Text>
@@ -159,7 +162,10 @@ class NfcPage extends Component {
     let newObj = { ...this.props.employee.employee }
     delete newObj.contacts
     delete newObj.password
-    newObj.company = newObj.company.name
+    newObj.company = {
+      name : newObj.company.name,
+      color : newObj.company.color
+    }
     newObj.showOption = false
     bytes = buildTextPayload(JSON.stringify(newObj));
     this.setState({ isWriting: true });
