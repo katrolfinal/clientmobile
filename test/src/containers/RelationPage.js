@@ -9,6 +9,7 @@ import FontAwesome5 from 'react-native-vector-icons/dist/FontAwesome5';
 import { toggleModal, toggleCard, deleteContact, updateContacts } from '../../stores/actions';
 import CardModal from '../components/card-modal';
 import AsyncStorage from '@react-native-community/async-storage';
+import AntDesign from 'react-native-vector-icons/dist/AntDesign';
 
 const mapStateToProps = state => ({
   modal: state.modal,
@@ -189,7 +190,7 @@ function RelationPage(props) {
           <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 15 }}>{activeSwitch} Relations</Text>
           <Icon name="search1" size={20} color="backgroundColor: 'rgba(0, 0, 0, 0.4)'" />
         </View>
-        <ScrollView showsVerticalScrollIndicator={false} style={{ height: 500 }}>
+        <ScrollView showsVerticalScrollIndicator={false} style={{ height: Dimensions.get('window').height}}>
           {/* <Text>{JSON.stringify(props.dataLogin.employee.contacts, null, 2)}</Text> */}
           {
 
@@ -201,10 +202,10 @@ function RelationPage(props) {
                     {
                       el.image ?
                         <Image
-                          style={{ width: 55, height: 55, borderRadius: 200, marginRight: 15 }}
+                          style={{ width: 75, height: 75, borderRadius: 200, marginRight: 15 }}
                           source={{ uri: `${el.image}` }}
                         /> :
-                        <View style={{ width: 55, height: 55, borderRadius: 200, marginRight: 15, backgroundColor: 'rgba(0, 0, 0, 0.2)', justifyContent: 'center', alignItems: 'center' }}>
+                        <View style={{ width: 75, height: 75, borderRadius: 200, marginRight: 15, backgroundColor: 'rgba(0, 0, 0, 0.2)', justifyContent: 'center', alignItems: 'center' }}>
                           <Text style={{ fontSize: 30, fontWeight: 'bold', color: '#FFF', marginBottom: 3 }}>{el.name[0].toUpperCase()}</Text>
                         </View>
                     }
@@ -212,10 +213,10 @@ function RelationPage(props) {
                 }
                 {
                   el.showOption == false &&
-                  <View style={{ height: 70, justifyContent: 'center', width: '100%' }}>
+                  <View style={{ height: 75, justifyContent: 'center', width: '100%' }}>
                     <View style={{ flexDirection: 'row', width: '100%' }}>
                       <View style={{ flexDirection: 'column', justifyContent: 'space-between' }}>
-                        <TouchableHighlight underlayColor='rgba(255, 255, 255, 0.4)' onPress={() => !props.showClose ? props.toggleCard(el) : null}>
+                        <TouchableHighlight underlayColor='rgba(255, 255, 255, 0.4)' onPress={() => !props.showClose ? props.toggleCard(el) : null} style={{minWidth: 200}}>
                           <View>
                             <Text style={{ fontSize: 16, fontWeight: 'bold' }}>{el.name}</Text>
                             <Text style={{ color: 'rgba(0,0,0,0.4)', fontSize: 14 }}>{el.position}</Text>
@@ -228,7 +229,7 @@ function RelationPage(props) {
                           </View>
                         </TouchableHighlight>
                       </View>
-                      <View style={{ justifyContent: 'flex-end', alignItems: 'center', flexDirection: 'row', width: '40%' }}>
+                      <View style={{ justifyContent: 'flex-end', alignItems: 'center', flexDirection: 'row', width: '10%'}}>
                         <TouchableHighlight onPress={() => clickOptionsButton(i)} underlayColor='rgba(0,0,0,0.2)' style={{ borderRadius: 200, padding: 5, width: '100%', alignItems: 'flex-end', marginRight: -20 }}>
                           {/* <Text style={{textAlign: 'right'}}> */}
                           <Entypo name="dots-three-vertical" size={20} color="rgba(0, 0, 0, 0.6)" style={{}} />
@@ -240,7 +241,7 @@ function RelationPage(props) {
                 }
                 {
                   el.showOption == true &&
-                  <View style={{ height: 70, justifyContent: 'center' }}>
+                  <View style={{ height: 75, justifyContent: 'center' }}>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', paddingLeft: 15, width: '100%' }}>
                       <TouchableHighlight onPress={() => clickCallButton(el)} underlayColor='rgba(0,0,0,0.2)' style={{ width: 48, height: 48, borderRadius: 200, marginRight: 15, padding: 5, backgroundColor: '#208088', justifyContent: 'center', alignItems: 'center' }}>
                         <FontAwesome name="phone" size={26} color="rgba(255, 255, 255, 1)" style={{}} />
@@ -257,6 +258,12 @@ function RelationPage(props) {
                           <FontAwesome5 name="trash" size={19} color="rgba(255, 255, 255, 1)" style={{}} />
                         </TouchableHighlight>
                       }
+                      {
+                        activeSwitch === 'Office' &&
+                        <TouchableHighlight onPress={() => Alert.alert('Soon')} underlayColor='rgba(0,0,0,0.2)' style={{ width: 48, height: 48, borderRadius: 200, marginRight: 15, padding: 5, backgroundColor: 'rgba(255, 0, 0, 0.8)', justifyContent: 'center', alignItems: 'center' }}>
+                          <Feather name="share-2" size={19} color="rgba(255, 255, 255, 1)" style={{}} />
+                        </TouchableHighlight>
+                      }
                       <TouchableHighlight onPress={() => clickOptionsButton(i)} underlayColor='rgba(0,0,0,0.2)' style={{ borderRadius: 200, padding: 5 }}>
                         <Entypo name="cross" size={25} color="rgba(0, 0, 0, 0.6)" style={{}} />
                       </TouchableHighlight>
@@ -266,6 +273,7 @@ function RelationPage(props) {
               </View>
             ))
           }
+          <View style={{height: 250}}></View>
         </ScrollView>
       </View>
       <CardModal navigation={props.navigation} />

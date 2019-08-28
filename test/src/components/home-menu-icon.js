@@ -29,6 +29,7 @@ function MenuIcon({ icon, name, size, text, toggleModal, navigation, uploadImage
     
     AsyncStorage.removeItem('token')
       .then(function () {
+        ToastAndroid.show(`Logout success`, ToastAndroid.SHORT)
         navigation.navigate('LoginPage')
       })
       .catch(err => {
