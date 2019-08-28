@@ -100,6 +100,7 @@ class NfcPage extends Component {
                     _id : employee._id,
                     name: employee.name,
                     position: employee.position,
+                    phone: employee.phone,
                     image : employee.image,
                     company: {
                         name : employee.company.name,
@@ -170,6 +171,7 @@ class NfcPage extends Component {
       color : newObj.company.color
     }
     newObj.showOption = false
+    console.log('OBJECT', newObj);
     bytes = buildTextPayload(JSON.stringify(newObj));
     this.setState({ isWriting: true });
     NfcManager.setNdefPushMessage(bytes)

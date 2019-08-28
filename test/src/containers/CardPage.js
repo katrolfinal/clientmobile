@@ -234,6 +234,7 @@ function CardPage(props) {
                     _id: dummy._id,
                     name: dummy.name,
                     image: dummy.image,
+                    phone : dummy.phone,
                     position: dummy.position,
                     company: {
                       name: dummy.company.name,
