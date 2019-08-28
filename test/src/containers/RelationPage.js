@@ -201,10 +201,10 @@ function RelationPage(props) {
                     {
                       el.image ?
                         <Image
-                          style={{ width: 55, height: 55, borderRadius: 200, marginRight: 15 }}
+                          style={{ width: 75, height: 75, borderRadius: 200, marginRight: 15 }}
                           source={{ uri: `${el.image}` }}
                         /> :
-                        <View style={{ width: 55, height: 55, borderRadius: 200, marginRight: 15, backgroundColor: 'rgba(0, 0, 0, 0.2)', justifyContent: 'center', alignItems: 'center' }}>
+                        <View style={{ width: 75, height: 75, borderRadius: 200, marginRight: 15, backgroundColor: 'rgba(0, 0, 0, 0.2)', justifyContent: 'center', alignItems: 'center' }}>
                           <Text style={{ fontSize: 30, fontWeight: 'bold', color: '#FFF', marginBottom: 3 }}>{el.name[0].toUpperCase()}</Text>
                         </View>
                     }
