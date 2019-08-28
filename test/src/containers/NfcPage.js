@@ -5,7 +5,8 @@ import {
   Platform,
   ScrollView,
   Dimensions,
-  TouchableHighlight
+  TouchableHighlight,
+  Image
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage'
 import { connect } from 'react-redux';
@@ -75,11 +76,12 @@ class NfcPage extends Component {
         <View style={{ width: '100%', marginTop: 50 }}>
           {/* IMG */}
           <View style={{ alignItems: 'center' }}>
+            <Text></Text>
             {
-              employee.img ?
+              employee ?
                 <Image
                   style={{ width: 110, height: 110, borderRadius: 200 }}
-                  source={{ uri: `${employee.img}` }}
+                  source={{ uri: `${employee.image}` }}
                 /> :
                 <View style={{ width: 110, height: 110, borderRadius: 200, backgroundColor: 'rgba(0, 0, 0, 0.2)', justifyContent: 'center', alignItems: 'center' }}>
                   <Text style={{ fontSize: 48, fontWeight: 'bold', color: '#FFF', marginBottom: 3 }}>{employee.name[0].toUpperCase()}</Text>

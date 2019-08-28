@@ -23,6 +23,18 @@ export default (state = initState, action) => {
           }
         }
       }
+    case 'UPDATE_EMPLOYEE_IMAGE':
+      return {
+        ...state,
+        dataLogin : {
+          ...state.dataLogin,
+          employee : {
+            ...state.dataLogin.employee,
+            image : action.payload
+          }
+        }
+
+      }  
     case 'TOGGLE_LOADING':
       return {
         ...state,

@@ -67,6 +67,8 @@ export function uploadImageEmployee(file) {
           },
           data: formData,
         });
+        await fetchOfficeEmployee()
+        console.log('data: ', data);
         resolve(data)
       } catch (error) {
         console.log('error: ', error.response.data);
@@ -74,6 +76,15 @@ export function uploadImageEmployee(file) {
       }
     });
   };
+}
+
+export function updateImage(imageURL){
+  return async dispatch => {
+    await dispatch({
+      type : "UPDATE_EMPLOYEE_IMAGE",
+      payload : imageURL
+    })
+  }
 }
 
 export function fetchEmpoleyee(params) {

@@ -5,7 +5,7 @@ function Greeting({ source , data }) {
   return (
     <View style={source == 'home-page' ? styles.home : styles.relations}>
       {
-        data.employee && <Text style={{fontSize: 24, fontWeight: 'bold', color: '#fff', }}>Welcome {data.employee.name}</Text>
+        data.employee && <Text style={{fontSize: 24, fontWeight: 'bold', color: '#fff', }}>Welcome, {data.employee.name}</Text>
         
       }
       {

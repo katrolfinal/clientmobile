@@ -17,6 +17,7 @@ function RelationsModal(props) {
         transparent={false}
         visible={props.modal}
         onRequestClose={() => {
+          props.navigation.navigate('Home')
           Alert.alert('Modal has been closed.');
         }}>
         <RelationsPage showClose={true} />
