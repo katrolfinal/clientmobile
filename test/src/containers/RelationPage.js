@@ -222,7 +222,7 @@ function RelationPage(props) {
                             {
                               activeSwitch === 'Office' ?
                                 <Text style={{ color: 'rgba(0,0,0,0.4)', fontSize: 14 }}>at {el.company.name}</Text> :
-                                <Text style={{ color: 'rgba(0,0,0,0.4)', fontSize: 14 }}>at {el.company.name}</Text>
+                                <Text style={{ color: 'rgba(0,0,0,0.4)', fontSize: 14 }}>at {el.company}</Text>
                             }
 
                           </View>

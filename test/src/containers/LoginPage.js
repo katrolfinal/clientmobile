@@ -61,7 +61,7 @@ class LoginPage extends Component {
         />
         <View style={{backgroundColor: '#0E005F'}}>
           <View style={{height: '100%', backgroundColor: '#F2F1F2', borderTopRightRadius: 50}}>
-            <View style={{alignItems: 'center', marginTop: 30}}>
+            <View style={{alignItems: 'center', marginTop: 50}}>
               <Text style={{fontSize: 20, fontWeight: 'bold', color: 'rgba(0,0,0,0.8)'}}>Login to your account!</Text>
               
               {/* FORM */}

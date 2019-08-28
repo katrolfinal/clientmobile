@@ -74,6 +74,7 @@ class QRscanner extends Component {
 
 
   onQR_Code_Scan_Done = (QR_Code) => {
+    console.log('masuk sini QR', QR_Code);
     this.props
       .addContact({
         contact: JSON.parse(QR_Code),
@@ -84,8 +85,6 @@ class QRscanner extends Component {
             'token',
             JSON.stringify(this.props.dataLogin)
           )
-          console.log('masuk kesini ga sih', this.props);
-          this.props.navigation.navigate('Home')
         } catch (error) {
           // Error retrieving data
         }
@@ -190,7 +189,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = {
-  addContact,
+  addContact
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(QRscanner)

@@ -228,6 +228,7 @@ function CardPage(props) {
                 <QRCode
                   size={135}
                   value={JSON.stringify({
+                    _id : dummy._id,
                     name: dummy.name,
                     position: dummy.position,
                     company: dummy.company.name,
