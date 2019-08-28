@@ -133,6 +133,7 @@ export function deleteContact(_id){
             token
           }
         })
+        resolve()
       } catch (error) {
         reject(error)
       }

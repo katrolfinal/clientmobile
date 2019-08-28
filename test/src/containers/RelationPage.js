@@ -125,26 +125,28 @@ function RelationPage(props) {
       [
         { text: 'CANCEL', onPress: () => console.log('Options closed') },
         {
-          text: 'YES', onPress: async () => {
-            try {
-              await props.deleteContact(selected._id)
-              // console.log('deleted: ', deleted);
+          text: 'YES', onPress: () => {
+            console.log('masuk sini')
+            props.deleteContact(selected._id)
+              .then(() => {
+                let test = props.dataLogin.employee.contacts.filter(el => el._id !== selected._id)
+                props.dataLogin.employee.contacts = test
+                props.updateContacts(test)
+                  .then(async () => {
+                    await AsyncStorage.setItem('token', JSON.stringify(props.dataLogin))
+                    setDummy(props.dataLogin.employee.contacts)
+                    ToastAndroid.show(`${selected.name} deleted!`, ToastAndroid.SHORT)
+                  })
+                  .catch(err => {
+                    console.log(err)
+                    ToastAndroid.show(`fail to delete ${selected.name} !`, ToastAndroid.SHORT)
+                  })
+              })
+              .catch(err => {
+                console.log(err);
+              })
 
-              let test = props.dataLogin.employee.contacts.filter(el => el._id !== selected._id)
-              props.dataLogin.employee.contacts = test
-              props.updateContacts(test)
-                .then(async () => {
-                  await AsyncStorage.setItem('token', JSON.stringify(props.dataLogin))
-                  setDummy(props.dataLogin.employee.contacts)
-                  ToastAndroid.show(`${selected.name} deleted!`, ToastAndroid.SHORT)
-                })
-                .catch(err => {
-                  console.log(err)
-                  ToastAndroid.show(`fail to delete ${selected.name} !`, ToastAndroid.SHORT)
-                })
-            } catch (error) {
-              ToastAndroid.show(`fail to delete ${selected.name} !`, ToastAndroid.SHORT)
-            }
+            // console.log('deleted: ', deleted);
 
           }
         }
@@ -266,7 +268,7 @@ function RelationPage(props) {
           }
         </ScrollView>
       </View>
-      <CardModal navigation={props.navigation}/>
+      <CardModal navigation={props.navigation} />
     </View>
   );
 };
