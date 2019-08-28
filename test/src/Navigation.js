@@ -40,7 +40,7 @@ const RelationsNavigator = createStackNavigator({
 
 const TabNavigator = createBottomTabNavigator({
   Home: { 
-    screen: HomeNavigator,
+    screen: LoginPage,
     navigationOptions: {
       tabBarIcon: ({ tintColor }) => {
         // return <Ionicons name="md-home" size={30} color={tintColor} />
@@ -48,7 +48,7 @@ const TabNavigator = createBottomTabNavigator({
     }
   },
   Relations: { 
-    screen: RelationsNavigator,
+    screen: HomeNavigator,
     navigationOptions: {
       tabBarIcon: ({ tintColor }) => {
         // return <MaterialIcons name="movie" size={28} color={tintColor} />
