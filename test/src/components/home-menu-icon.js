@@ -21,7 +21,7 @@ function MenuIcon({ icon, name, size, text, toggleModal, navigation, uploadImage
   // const [image, setimage] = useState(null)
 
   _removeStorage = () => {
-    console.log('masuk sini peler')
+    // console.log('masuk sini peler')
     AsyncStorage.removeItem('token')
       .then(function () {
         navigation.navigate('LoginPage')
