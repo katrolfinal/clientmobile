@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { View, Text, Linking, StyleSheet, TouchableHighlight, ScrollView, Image, Dimensions, Alert, ToastAndroid } from 'react-native';
+import React, { useState ,useEffect } from 'react';
+import { View, Text, Linking, StyleSheet, RefreshControl, TouchableHighlight, ScrollView, Image, Dimensions, Alert, ToastAndroid } from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/dist/AntDesign';
 import Entypo from 'react-native-vector-icons/dist/Entypo';
 import Feather from 'react-native-vector-icons/dist/Feather';
 import FontAwesome from 'react-native-vector-icons/dist/FontAwesome';
 import FontAwesome5 from 'react-native-vector-icons/dist/FontAwesome5';
-import { toggleModal, toggleCard, deleteContact, updateContacts } from '../../stores/actions';
+import { toggleModal, toggleCard, deleteContact, updateContacts ,fetchOfficeEmployee } from '../../stores/actions';
 import CardModal from '../components/card-modal';
 import AsyncStorage from '@react-native-community/async-storage';
 import AntDesign from 'react-native-vector-icons/dist/AntDesign';
@@ -22,12 +22,32 @@ const mapDispatchToProps = {
   toggleModal,
   toggleCard,
   deleteContact,
-  updateContacts
+  updateContacts,
+  fetchOfficeEmployee
 }
 
 function RelationPage(props) {
   const [activeSwitch, setActiveSwitch] = useState('Office')
   const [dummy, setDummy] = useState(props.dataEmployeesByCompany)
+  const [refreshing, setRefreshing] = useState(false)
+  const [list, setList] = useState([])
+
+
+  useEffect(()=>{
+    if(!refreshing) {
+      setDummy(props.dataEmployeesByCompany)
+    }
+  },[refreshing])
+
+  _onRefresh = async () => {
+    setRefreshing(true)
+    setDummy([])
+    await props.fetchOfficeEmployee()
+    setTimeout(() => {
+      // setDummy(props.dataEmployeesByCompany)
+      setRefreshing(false)
+    }, 2000)
+  }
 
   clickOptions = (person, index) => {
     Alert.alert(
@@ -190,7 +210,8 @@ function RelationPage(props) {
           <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 15 }}>{activeSwitch} Relations</Text>
           <Icon name="search1" size={20} color="backgroundColor: 'rgba(0, 0, 0, 0.4)'" />
         </View>
-        <ScrollView showsVerticalScrollIndicator={false} style={{ height: Dimensions.get('window').height}}>
+        <ScrollView refreshControl={<RefreshControl refreshing={refreshing}
+            onRefresh={_onRefresh}/>} showsVerticalScrollIndicator={false} style={{ height: Dimensions.get('window').height }}>
           {/* <Text>{JSON.stringify(props.dataLogin.employee.contacts, null, 2)}</Text> */}
           {
 
@@ -216,7 +237,7 @@ function RelationPage(props) {
                   <View style={{ height: 75, justifyContent: 'center', width: '100%' }}>
                     <View style={{ flexDirection: 'row', width: '100%' }}>
                       <View style={{ flexDirection: 'column', justifyContent: 'space-between' }}>
-                        <TouchableHighlight underlayColor='rgba(255, 255, 255, 0.4)' onPress={() => !props.showClose ? props.toggleCard(el) : null} style={{minWidth: 200}}>
+                        <TouchableHighlight underlayColor='rgba(255, 255, 255, 0.4)' onPress={() => !props.showClose ? props.toggleCard(el) : null} style={{ minWidth: 200 }}>
                           <View>
                             <Text style={{ fontSize: 16, fontWeight: 'bold' }}>{el.name}</Text>
                             <Text style={{ color: 'rgba(0,0,0,0.4)', fontSize: 14 }}>{el.position}</Text>
@@ -229,7 +250,7 @@ function RelationPage(props) {
                           </View>
                         </TouchableHighlight>
                       </View>
-                      <View style={{ justifyContent: 'flex-end', alignItems: 'center', flexDirection: 'row', width: '10%'}}>
+                      <View style={{ justifyContent: 'flex-end', alignItems: 'center', flexDirection: 'row', width: '10%' }}>
                         <TouchableHighlight onPress={() => clickOptionsButton(i)} underlayColor='rgba(0,0,0,0.2)' style={{ borderRadius: 200, padding: 5, width: '100%', alignItems: 'flex-end', marginRight: -20 }}>
                           {/* <Text style={{textAlign: 'right'}}> */}
                           <Entypo name="dots-three-vertical" size={20} color="rgba(0, 0, 0, 0.6)" style={{}} />
@@ -273,7 +294,7 @@ function RelationPage(props) {
               </View>
             ))
           }
-          <View style={{height: 250}}></View>
+          <View style={{ height: 250 }}></View>
         </ScrollView>
       </View>
       <CardModal navigation={props.navigation} />

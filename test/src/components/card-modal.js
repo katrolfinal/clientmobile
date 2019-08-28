@@ -16,8 +16,10 @@ function CardModal(props) {
         animationType="slide"
         // transparent={false}
         visible={props.card}
+        // visible={false}
         onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
+          props.navigation.navigate('Home')
+          // Alert.alert('Modal has been closed.');
         }}>
         <CardPage navigation={props.navigation} />
       </Modal>

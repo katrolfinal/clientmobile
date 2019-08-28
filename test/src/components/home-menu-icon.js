@@ -77,7 +77,9 @@ function MenuIcon({ icon, name, size, text, toggleModal, navigation, uploadImage
 
           ToastAndroid.show(`Photo Updated`, ToastAndroid.SHORT)
         })
-        .catch(console.log)
+        .catch(err=>{
+          ToastAndroid.show(`failed jing`, ToastAndroid.SHORT)
+        })
       }
     });
   }
