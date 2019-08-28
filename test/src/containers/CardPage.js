@@ -43,7 +43,10 @@ function CardPage(props) {
     let newObj = { ...props.dataCard }
     delete newObj.contacts
     delete newObj.password
-    newObj.company = newObj.company.name
+    newObj.company = {
+      name: newObj.company.name,
+      color: newObj.company.color
+    }
     newObj.showOption = false
     console.log(newObj, 'ini data yang dikirimnya coki');
     bytes = buildTextPayload(JSON.stringify(newObj))
@@ -228,12 +231,16 @@ function CardPage(props) {
                 <QRCode
                   size={135}
                   value={JSON.stringify({
-                    _id : dummy._id,
+                    _id: dummy._id,
                     name: dummy.name,
                     position: dummy.position,
-                    company: dummy.company.name,
+                    company: {
+                      name: dummy.company.name,
+                      color: dummy.company.color
+                    },
                     email: dummy.email,
-                    showOption: false
+                    showOption: false,
+                    _id: dummy._id
                   })}
                 />
               </View>
@@ -242,9 +249,9 @@ function CardPage(props) {
           {/* PERSONAL INFORMATION */}
           <View style={{ marginTop: 30 }}>
 
-            <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-between', backgroundColor: '#5F6DA1', padding: 20, paddingTop: 8, paddingBottom: 8, alignItems: 'center' }}>
+            <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-between', backgroundColor: dummy.company.color, padding: 20, paddingTop: 8, paddingBottom: 8, alignItems: 'center' }}>
               <View style={{ backgroundColor: '#fff', borderRadius: 200, padding: 10, width: 45, height: 45, justifyContent: 'center', alignItems: 'center' }}>
-                <FontAwesome name='user' size={25} color='#374E87' />
+                <FontAwesome name='user' size={25} color={dummy.company.color} />
               </View>
               <View>
                 <Text style={{ color: '#FFF', textAlign: 'right' }}>0{dummy.phone}</Text>
@@ -253,7 +260,7 @@ function CardPage(props) {
             </View>
 
             <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-between', padding: 20, paddingTop: 8, paddingBottom: 8, alignItems: 'center' }}>
-              <View style={{ backgroundColor: '#374E87', borderRadius: 200, padding: 10, width: 45, height: 45, justifyContent: 'center', alignItems: 'center' }}>
+              <View style={{ backgroundColor: dummy.company.color, borderRadius: 200, padding: 10, width: 45, height: 45, justifyContent: 'center', alignItems: 'center' }}>
                 <MaterialIcons name='location-on' size={25} color='#fff' />
               </View>
               <View>
@@ -262,9 +269,9 @@ function CardPage(props) {
               </View>
             </View>
 
-            <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-between', backgroundColor: '#5F6DA1', padding: 20, paddingTop: 8, paddingBottom: 8, alignItems: 'center', borderBottomLeftRadius: 15, borderBottomRightRadius: 15 }}>
+            <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-between', backgroundColor: dummy.company.color, padding: 20, paddingTop: 8, paddingBottom: 8, alignItems: 'center', borderBottomLeftRadius: 15, borderBottomRightRadius: 15 }}>
               <View style={{ backgroundColor: '#fff', borderRadius: 200, padding: 10, width: 45, height: 45, justifyContent: 'center', alignItems: 'center' }}>
-                <FontAwesome5 name='link' size={25} color='#374E87' />
+                <FontAwesome5 name='link' size={25} color={dummy.company.color} />
               </View>
               <View>
                 <Text style={{ color: '#FFF', textAlign: 'right' }}>www.{dummy.company.name}.com</Text>

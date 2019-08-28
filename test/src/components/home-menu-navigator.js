@@ -4,7 +4,6 @@ import MenuIcon from '../components/home-menu-icon';
 
 function MenuNavigator({ navigation }) {
 
-
   return (
     <View style={{backgroundColor: '#374E87', height: 100, marginLeft: 35, marginRight: 35, marginTop: -55, borderRadius: 15, justifyContent: 'center', shadowColor: '#374E87',
     shadowOffset: {

@@ -13,6 +13,7 @@ import RelationsModal from '../components/relations-modal';
 import { fetchEmpoleyee, fetchOfficeEmployee } from '../../stores/actions'
 import AsyncStorage from '@react-native-community/async-storage'
 
+
 class HomePage extends Component {
   constructor(props) {
     super(props);
@@ -23,56 +24,7 @@ class HomePage extends Component {
       parsedText: null,
       tag: {},
       iniObject: {},
-      dummy: [
-        {
-          img: 'https://semantic-ui.com/images/avatar2/small/mark.png',
-          name: 'Mark'
-        },
-        {
-          img: 'https://semantic-ui.com/images/avatar2/small/lindsay.png',
-          name: 'Lindsay'
-        },
-        {
-          img: 'https://semantic-ui.com/images/avatar2/small/matthew.png',
-          name: 'Matthew'
-        },
-        {
-          img: 'https://semantic-ui.com/images/avatar2/small/rachel.png',
-          name: 'Rachel'
-        },
-        {
-          img: 'https://semantic-ui.com/images/avatar2/small/mark.png',
-          name: 'Mark'
-        },
-        {
-          img: 'https://semantic-ui.com/images/avatar2/small/lindsay.png',
-          name: 'Lindsay'
-        },
-        {
-          img: 'https://semantic-ui.com/images/avatar2/small/matthew.png',
-          name: 'Matthew'
-        },
-        {
-          img: 'https://semantic-ui.com/images/avatar2/small/rachel.png',
-          name: 'Rachel'
-        },
-        {
-          img: 'https://semantic-ui.com/images/avatar2/small/mark.png',
-          name: 'Mark'
-        },
-        {
-          img: 'https://semantic-ui.com/images/avatar2/small/lindsay.png',
-          name: 'Lindsay'
-        },
-        {
-          img: 'https://semantic-ui.com/images/avatar2/small/matthew.png',
-          name: 'Matthew'
-        },
-        {
-          img: 'https://semantic-ui.com/images/avatar2/small/rachel.png',
-          name: 'Rachel'
-        }
-      ]
+      
     }
   }
   state = {
