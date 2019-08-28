@@ -209,10 +209,10 @@ function CardPage(props) {
           {/* IMG */}
           <View style={{ alignItems: 'center' }}>
             {
-              dummy.img ?
+              dummy.image ?
                 <Image
                   style={{ width: 110, height: 110, borderRadius: 200 }}
-                  source={{ uri: `${dummy.img}` }}
+                  source={{ uri: `${dummy.image}` }}
                 /> :
                 <View style={{ width: 110, height: 110, borderRadius: 200, backgroundColor: 'rgba(0, 0, 0, 0.2)', justifyContent: 'center', alignItems: 'center' }}>
                   <Text style={{ fontSize: 48, fontWeight: 'bold', color: '#FFF', marginBottom: 3 }}>{dummy.name[0].toUpperCase()}</Text>
@@ -233,7 +233,8 @@ function CardPage(props) {
                     position: dummy.position,
                     company: dummy.company.name,
                     email: dummy.email,
-                    showOption: false
+                    showOption: false,
+                    _id: dummy._id
                   })}
                 />
               </View>
