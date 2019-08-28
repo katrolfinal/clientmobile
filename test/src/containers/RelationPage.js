@@ -188,7 +188,7 @@ function RelationPage(props) {
           <Icon name="search1" size={20} color="backgroundColor: 'rgba(0, 0, 0, 0.4)'" />
         </View>
         <ScrollView showsVerticalScrollIndicator={false} style={{ height: 500 }}>
-          <Text>{JSON.stringify(props.dataLogin.employee.contacts, null, 2)}</Text>
+          {/* <Text>{JSON.stringify(props.dataLogin.employee.contacts, null, 2)}</Text> */}
           {
 
             dummy.map((el, i) => (
