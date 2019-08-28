@@ -1,20 +1,24 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableHighlight, Alert, Modal } from 'react-native';
+import { View, Text, TouchableHighlight, Alert, Modal, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/dist/AntDesign';
 import IconFA from 'react-native-vector-icons/dist/FontAwesome5';
 import IconMI from 'react-native-vector-icons/dist/MaterialIcons';
 import IconMCI from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 import IconE from 'react-native-vector-icons/dist/Entypo';
 import { connect } from 'react-redux';
-import { toggleModal } from '../../stores/actions';
+import { toggleModal, uploadImageEmployee } from '../../stores/actions';
 import AsyncStorage from '@react-native-community/async-storage'
+import ImagePicker from 'react-native-image-picker'
 
 const mapDispatchToProps = {
-  toggleModal
+  toggleModal,
+  uploadImageEmployee
 }
 
 
-function MenuIcon({ icon, name, size, text, toggleModal, navigation }) {
+function MenuIcon({ icon, name, size, text, toggleModal, navigation, uploadImageEmployee }) {
+
+  // const [image, setimage] = useState(null)
 
   _removeStorage = () => {
     console.log('masuk sini peler')
@@ -27,9 +31,40 @@ function MenuIcon({ icon, name, size, text, toggleModal, navigation }) {
       })
   }
 
+  
+  const options = {
+    title: 'Select Avatar',
+    customButtons: [{ name: 'fb', title: 'Choose Photo from Facebook' }],
+    storageOptions: {
+      skipBackup: true,
+      path: 'images',
+    },
+  };
+
+  const uploadImage = () => {
+    ImagePicker.launchImageLibrary(options, (response) => {
+      // Same code as in above section!
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      } else {
+        // console.log(response, '=============');
+        // setimage({ uri: response.uri });
+        uploadImageEmployee(response)
+        .then(data => {
+          console.log(data, 'di menu icon')
+        })
+        .catch(console.log)
+      }
+    });
+  }
+
   return (
     <View style={{ flexDirection: 'column', justifyContent: 'center' }}>
-      <TouchableHighlight underlayColor='rgba(0,0,0,0.2)' onPress={() => text == 'Relations' ? toggleModal() : text == 'Add' ? navigation.navigate('NfcPage') : text == 'Logout' ? _removeStorage() : Alert.alert('HAHAHA')} style={{ justifyContent: 'center', borderRadius: 15 }}>
+      <TouchableHighlight underlayColor='rgba(0,0,0,0.2)' onPress={() => text == 'Relations' ? toggleModal() : text == 'Add' ? navigation.navigate('NfcPage') : text == 'Logout' ? _removeStorage() : text == 'Upload' ? uploadImage() : Alert.alert('HAHAHA') } style={{ justifyContent: 'center', borderRadius: 15 }}>
         <View style={{ width: 55, height: 55, backgroundColor: 'rgba(255, 255, 255, 0.6)', borderRadius: 15, alignItems: 'center', justifyContent: 'center' }}>
           {
             icon == 'FA' &&

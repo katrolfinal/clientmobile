@@ -233,7 +233,8 @@ function CardPage(props) {
                     position: dummy.position,
                     company: dummy.company.name,
                     email: dummy.email,
-                    showOption: false
+                    showOption: false,
+                    _id: dummy._id
                   })}
                 />
               </View>
