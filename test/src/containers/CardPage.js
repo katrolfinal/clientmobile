@@ -188,7 +188,6 @@ function CardPage(props) {
   }, [props.dataCard])
 
   closeCard = () => {
-    _stateChangedSubscription.remove()
     _stopDetection();
     _cancelAndroidBeam();
     props.toggleCard()
