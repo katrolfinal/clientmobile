@@ -1,22 +1,29 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableHighlight, Alert, Modal, Image } from 'react-native';
+import { View, Text, TouchableHighlight, Alert, Modal, Image, ToastAndroid } from 'react-native';
 import Icon from 'react-native-vector-icons/dist/AntDesign';
 import IconFA from 'react-native-vector-icons/dist/FontAwesome5';
 import IconMI from 'react-native-vector-icons/dist/MaterialIcons';
 import IconMCI from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 import IconE from 'react-native-vector-icons/dist/Entypo';
 import { connect } from 'react-redux';
-import { toggleModal, uploadImageEmployee } from '../../stores/actions';
+import { toggleModal, uploadImageEmployee, updateImage, fetchOfficeEmployee } from '../../stores/actions';
 import AsyncStorage from '@react-native-community/async-storage'
 import ImagePicker from 'react-native-image-picker'
 
+const mapStateToProps = state => ({
+  ...state,
+  dataLogin : state.dataLogin
+})
+
 const mapDispatchToProps = {
   toggleModal,
-  uploadImageEmployee
+  uploadImageEmployee,
+  updateImage,
+  fetchOfficeEmployee
 }
 
 
-function MenuIcon({ icon, name, size, text, toggleModal, navigation, uploadImageEmployee }) {
+function MenuIcon({ icon, name, size, text, toggleModal, navigation, uploadImageEmployee, dataLogin, updateImage, fetchOfficeEmployee }) {
 
   _removeStorage = () => {
     
@@ -51,9 +58,23 @@ function MenuIcon({ icon, name, size, text, toggleModal, navigation, uploadImage
       } else {
         // console.log(response, '=============');
         // setimage({ uri: response.uri });
+        ToastAndroid.show(`Loading ...`, ToastAndroid.SHORT)
         uploadImageEmployee(response)
-        .then(data => {
+        .then(async data => {
+          dataLogin.employee.image = data.image
           console.log(data, 'di menu icon')
+
+          console.log('dataLogin: sebelum ', dataLogin, '<<<<<<<<<<<<<<<<<<<');
+
+          await updateImage(data.image)
+
+          // await fetchOfficeEmployee()
+
+          await AsyncStorage.setItem('token', JSON.stringify(dataLogin))
+
+          console.log('dataLogin: setelah', dataLogin, '>>>>>>>>>>>>>>>>>>>');
+
+          ToastAndroid.show(`Photo Updated`, ToastAndroid.SHORT)
         })
         .catch(console.log)
       }
@@ -89,4 +110,4 @@ function MenuIcon({ icon, name, size, text, toggleModal, navigation, uploadImage
   );
 };
 
-export default connect(null, mapDispatchToProps)(MenuIcon);
+export default connect(mapStateToProps, mapDispatchToProps)(MenuIcon);
