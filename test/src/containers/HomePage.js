@@ -92,7 +92,7 @@ class HomePage extends Component {
       <ScrollView>
         <Greeting source={'home-page'} data={this.props.dataLogin} />
         <MenuNavigator navigation={this.props.navigation} />
-        <RecetRelations data={this.props.dataEmployeesByCompany} />
+        <RecetRelations data={this.props.dataEmployeesByCompany} navigation={this.props.navigation} />
         <View
           style={{
             justifyContent: 'flex-end',

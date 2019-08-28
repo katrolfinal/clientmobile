@@ -1,7 +1,18 @@
 import React from 'react';
-import { View, Text, Image, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, Image, FlatList, TouchableOpacity, TouchableHighlight } from 'react-native';
+import { connect } from 'react-redux';
+import { toggleCard } from '../../stores/actions';
+import CardModal from '../components/card-modal';
 
-function Relations({ data, type, navigation }) {
+const mapStateToProps = state => ({
+  card: state.card
+});
+
+const mapDispatchToProps = {
+  toggleCard
+};
+
+function Relations({ data, type, navigation, toggleCard }) {
 
 
   return (
@@ -24,22 +35,25 @@ function Relations({ data, type, navigation }) {
           renderItem={({item}) => (
             <View style={{justifyContent: 'center'}}>
               {
-                item.img ? 
-                <Image
-                  style={{width: 50, height: 50, borderRadius: 200, marginRight: 15}}
-                  source={{uri: `${item.img}`}}
-                /> : 
-                <View style={{width: 50, height: 50, borderRadius: 200, marginRight: 15, backgroundColor: 'rgba(0, 0, 0, 0.2)', justifyContent: 'center', alignItems: 'center'}}>
+                item.image ? 
+                <TouchableHighlight underlayColor='rgba(0, 0, 0, 0.6)' onPress={() => toggleCard(item)} style={{justifyContent: 'center', alignItems: 'center', width: 50, height: 50, borderRadius: 200, marginRight: 15}}>
+                  <Image
+                    style={{width: 50, height: 50, borderRadius: 200}}
+                    source={{uri: `${item.image}`}}
+                  />
+                </TouchableHighlight> : 
+                <TouchableHighlight underlayColor='rgba(0, 0, 0, 0.6)' style={{width: 50, height: 50, borderRadius: 200, marginRight: 15, backgroundColor: 'rgba(0, 0, 0, 0.2)', justifyContent: 'center', alignItems: 'center'}} onPress={() => toggleCard(item)}>
                   <Text style={{fontSize: 18, fontWeight: 'bold', color: '#FFF', marginBottom: 3}}>{item.name[0].toUpperCase()}</Text>
-                </View>
+                </TouchableHighlight>
               }
               <Text style={{color: 'rgba(0,0,0,0.4)', fontSize: 14, textAlign: 'center', marginRight: 15}}>{item.name.split(' ')[0]}</Text>
             </View>
           )}
         />
       </View>
+      <CardModal navigation={navigation} />
     </View>
   );
 };
 
-module.exports = Relations;
+export default connect(mapStateToProps, mapDispatchToProps)(Relations);

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, Platform, TouchableOpacity, Linking, PermissionsAndroid } from 'react-native';
+import { StyleSheet, View, Text, Platform, TouchableOpacity, Linking, PermissionsAndroid, TouchableHighlight, Dimensions } from 'react-native';
 import { CameraKitCameraScreen, } from 'react-native-camera-kit';
 import { connect } from 'react-redux';
 import { addContact } from '../../stores/actions'
 import AsyncStorage from '@react-native-community/async-storage'
+import MaterialCommunityIcons from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 
 class QRscanner extends Component {
   constructor(props) {
@@ -31,12 +32,10 @@ class QRscanner extends Component {
             </TouchableOpacity> : null
           }
 
-          <TouchableOpacity
-            onPress={this.open_QR_Code_Scanner}
-            style={styles.button}>
-            <Text style={{ color: '#FFF', fontSize: 14 }}>
-              Open QR Scanner
-            </Text>
+          <TouchableOpacity onPress={this.open_QR_Code_Scanner} style={{borderRadius: 15, alignItems: 'flex-end', width: '100%', marginTop: 50, marginRight: 80}}>
+              <View style={{backgroundColor: '#FFF', padding: 10, borderRadius: 15, shadowColor: '#000', elevation: 15}}>
+                <MaterialCommunityIcons name="qrcode-scan" size={40} />
+              </View>
           </TouchableOpacity>
 
         </View>
