@@ -193,6 +193,7 @@ dependencies {
     implementation project(':react-native-camera-kit')
     implementation project(':react-native-nfc-manager')
     implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation project(':lottie-react-native')
     implementation "com.facebook.react:react-native:+"  // From node_modules
 
     if (enableHermes) {

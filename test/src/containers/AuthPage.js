@@ -5,6 +5,7 @@ import {
   StatusBar,
   View,
 } from 'react-native';
+import Loading from '../components/Loading'
 
 class AuthLoadingScreen extends React.Component {
   constructor(props) {
@@ -24,9 +25,10 @@ class AuthLoadingScreen extends React.Component {
   // Render any loading content that you like here
   render() {
     return (
-      <View>
-        <ActivityIndicator />
-        <StatusBar barStyle="default" />
+      <View style={{ justifyContent: 'center', flex: 1, alignItems: 'center' }}>
+        {/* <ActivityIndicator />
+        <StatusBar barStyle="default" /> */}
+        <Loading />
       </View>
     );
   }
