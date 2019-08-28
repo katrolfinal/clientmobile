@@ -20,9 +20,9 @@ class QRscanner extends Component {
 
       return (
         <View style={styles.MainContainer}>
-          <Text style={styles.QR_text}>
+          {/* <Text style={styles.QR_text}>
             {this.state.QR_Code_Value ? 'Scanned QR Code: ' + this.state.QR_Code_Value : ''}
-          </Text>
+          </Text> */}
 
           {this.state.QR_Code_Value.includes("http") ?
             <TouchableOpacity

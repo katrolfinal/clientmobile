@@ -233,6 +233,7 @@ function CardPage(props) {
                   value={JSON.stringify({
                     _id: dummy._id,
                     name: dummy.name,
+                    image: dummy.image,
                     position: dummy.position,
                     company: {
                       name: dummy.company.name,

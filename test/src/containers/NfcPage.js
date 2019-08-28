@@ -76,7 +76,7 @@ class NfcPage extends Component {
         <View style={{ width: '100%', marginTop: 50 }}>
           {/* IMG */}
           <View style={{ alignItems: 'center' }}>
-            <Text></Text>
+            
             {
               employee ?
                 <Image
@@ -100,6 +100,7 @@ class NfcPage extends Component {
                     _id : employee._id,
                     name: employee.name,
                     position: employee.position,
+                    image : employee.image,
                     company: {
                         name : employee.company.name,
                         color : employee.company.color
@@ -161,7 +162,7 @@ class NfcPage extends Component {
       return;
     }
     let bytes
-    let newObj = { ...this.props.employee.employee }
+    let newObj = { ...this.props.dataLogin.employee }
     delete newObj.contacts
     delete newObj.password
     newObj.company = {
