@@ -19,7 +19,7 @@ function CardModal(props) {
         onRequestClose={() => {
           Alert.alert('Modal has been closed.');
         }}>
-        <CardPage />
+        <CardPage navigation={props.navigation} />
       </Modal>
     </View>
   );

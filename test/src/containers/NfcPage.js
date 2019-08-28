@@ -177,7 +177,7 @@ class NfcPage extends Component {
         }
       })
         .then(sub => {
-          this._stateChangedSubscription = sub;
+          this._stateChangedSubscription = sub
           // remember to call this._stateChangedSubscription.remove()
           // when you don't want to listen to this anymore
         })
@@ -243,7 +243,7 @@ class NfcPage extends Component {
       .catch(error => {
         console.warn('unregisterTagEvent fail', error);
       });
-  };
+  }
 
   _goToNfcSetting = () => {
     if (Platform.OS === 'android') {

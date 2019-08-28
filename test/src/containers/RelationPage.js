@@ -266,7 +266,7 @@ function RelationPage(props) {
           }
         </ScrollView>
       </View>
-      <CardModal />
+      <CardModal navigation={props.navigation}/>
     </View>
   );
 };
