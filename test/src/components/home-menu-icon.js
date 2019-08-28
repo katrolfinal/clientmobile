@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableHighlight, Alert, Modal, Image, ToastAndroid } from 'react-native';
 import Icon from 'react-native-vector-icons/dist/AntDesign';
 import IconFA from 'react-native-vector-icons/dist/FontAwesome5';
@@ -25,6 +25,8 @@ const mapDispatchToProps = {
 
 function MenuIcon({ icon, name, size, text, toggleModal, navigation, uploadImageEmployee, dataLogin, updateImage, fetchOfficeEmployee }) {
 
+  const [isLoading, setLoading] = useState(false)
+  
   _removeStorage = () => {
     
     AsyncStorage.removeItem('token')
@@ -59,7 +61,7 @@ function MenuIcon({ icon, name, size, text, toggleModal, navigation, uploadImage
       } else {
         // console.log(response, '=============');
         // setimage({ uri: response.uri });
-        ToastAndroid.show(`Loading ...`, ToastAndroid.SHORT)
+        setLoading(true)
         uploadImageEmployee(response)
         .then(async data => {
           dataLogin.employee.image = data.image
@@ -76,6 +78,7 @@ function MenuIcon({ icon, name, size, text, toggleModal, navigation, uploadImage
           console.log('dataLogin: setelah', dataLogin, '>>>>>>>>>>>>>>>>>>>');
 
           ToastAndroid.show(`Photo Updated`, ToastAndroid.SHORT)
+          setLoading(false)
         })
         .catch(err=>{
           ToastAndroid.show(`failed jing`, ToastAndroid.SHORT)
@@ -106,6 +109,7 @@ function MenuIcon({ icon, name, size, text, toggleModal, navigation, uploadImage
           }
         </View>
       </TouchableHighlight>
+      <Text>{ isLoading && 'loading pak'}</Text>
       <View>
         <Text style={{ color: '#fff', textAlign: 'center', marginTop: 5, fontSize: 14 }}>{text}</Text>
       </View>
