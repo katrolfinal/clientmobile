@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableHighlight, Alert, Modal, Image, ToastAndroid } from 'react-native';
+import { View, Text, TouchableHighlight, Alert, Modal, Image, ToastAndroid, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/dist/AntDesign';
 import IconFA from 'react-native-vector-icons/dist/FontAwesome5';
 import IconMI from 'react-native-vector-icons/dist/MaterialIcons';
 import IconMCI from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 import IconE from 'react-native-vector-icons/dist/Entypo';
 import { connect } from 'react-redux';
+import Loading from '../components/Loading'
 import { toggleModal, uploadImageEmployee, updateImage, fetchOfficeEmployee } from '../../stores/actions';
 import AsyncStorage from '@react-native-community/async-storage'
 import ImagePicker from 'react-native-image-picker'
@@ -109,12 +110,12 @@ function MenuIcon({ icon, name, size, text, toggleModal, navigation, uploadImage
           }
         </View>
       </TouchableHighlight>
-      <Text>{ isLoading && 'loading pak'}</Text>
       <View>
         <Text style={{ color: '#fff', textAlign: 'center', marginTop: 5, fontSize: 14 }}>{text}</Text>
       </View>
     </View>
   );
 };
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(MenuIcon);
