@@ -15,7 +15,7 @@ function MenuNavigator({ navigation }) {
     elevation: 20,}}>
       <View style={{flexDirection: 'row', justifyContent: 'space-between', backgroundColor: 'rgba(255, 255, 255, 0.2)', padding: 20, borderRadius: 15}}>
         <MenuIcon icon={'MI'} name={'person-add'} size={31.5} text={'Add'} navigation={navigation} />
-        <MenuIcon icon={'FA'} name={'user-friends'} size={25} text={'Relations'} />
+        <MenuIcon icon={'FA'} name={'user-friends'} size={25} text={'Relations'} navigation={navigation} />
         <MenuIcon icon={'E'} name={'camera'} size={29} text={'Upload'} />
         <MenuIcon icon={'MCI'} name={'logout'} size={29} text={'Logout'} navigation={navigation} />
       </View>

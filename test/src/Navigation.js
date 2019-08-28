@@ -72,7 +72,7 @@ const TabNavigator = createBottomTabNavigator({
       }
     },
     defaultNavigationOptions : {
-      tabBarVisible : true
+      tabBarVisible : false
     }
   })
 
