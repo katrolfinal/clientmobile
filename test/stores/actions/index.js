@@ -19,7 +19,7 @@ export function fetchOfficeEmployee() {
           }
         })
           .then(({data}) => {
-            console.log(data, 'ini datanya bangsaaaat!!!!!');
+            // console.log(data, 'ini datanya bangsaaaat!!!!!');
             data.forEach(employee => {
               employee.showOption = false
               employee.contacts.forEach(partner => {
@@ -46,7 +46,11 @@ export function login() {
 }
 
 export function fetchEmpoleyee(params) {
-  console.log(params)
+  
+  params.employee.contacts.forEach(el =>{
+    el.showOption = false
+  })
+  // console.log(params.employee.contacts , 'ini pas fetch employee')
   return dispatch => {
     dispatch({ type: 'FETCH_EMPLOYEE', payload: params })
   }
@@ -54,8 +58,15 @@ export function fetchEmpoleyee(params) {
 
 export function updateContacts(contacts) {
   return dispatch => {
-    dispatch({
-      type: 'UPDATE_CONTACTS', payload: contacts
+    return new Promise (async (resolve,reject)=>{
+      try {
+        await dispatch({
+          type: 'UPDATE_CONTACTS', payload: contacts
+        })
+        resolve()
+      } catch (error) {
+        reject(error)
+      }
     })
   }
 }
@@ -121,10 +132,6 @@ export function deleteContact(_id){
             token
           }
         })
-        resolve()
-        console.log('{data}: ', data);
-        dispatch()
-
       } catch (error) {
         reject(error)
       }
