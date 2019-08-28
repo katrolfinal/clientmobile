@@ -18,10 +18,8 @@ const mapDispatchToProps = {
 
 function MenuIcon({ icon, name, size, text, toggleModal, navigation, uploadImageEmployee }) {
 
-  // const [image, setimage] = useState(null)
-
   _removeStorage = () => {
-    // console.log('masuk sini peler')
+    
     AsyncStorage.removeItem('token')
       .then(function () {
         navigation.navigate('LoginPage')

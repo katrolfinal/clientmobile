@@ -57,7 +57,7 @@ class NfcPage extends Component {
   render() {
     let { employee } = this.props.dataLogin
     let { navigation } = this.props
-    let { supported, enabled } = this.state;
+    
     return (
       <View>
         <ScrollView style={{ backgroundColor: '#F2F1F2', height: Dimensions.get('window').height }}>
