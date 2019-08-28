@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableHighlight, Alert, Modal, Image } from 'react-native';
+import { View, Text, TouchableHighlight, Alert, Modal, Image, ToastAndroid } from 'react-native';
 import Icon from 'react-native-vector-icons/dist/AntDesign';
 import IconFA from 'react-native-vector-icons/dist/FontAwesome5';
 import IconMI from 'react-native-vector-icons/dist/MaterialIcons';
@@ -22,6 +22,7 @@ function MenuIcon({ icon, name, size, text, toggleModal, navigation, uploadImage
     
     AsyncStorage.removeItem('token')
       .then(function () {
+        ToastAndroid.show(`Logout success`, ToastAndroid.SHORT)
         navigation.navigate('LoginPage')
       })
       .catch(err => {
