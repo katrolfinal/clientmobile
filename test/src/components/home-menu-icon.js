@@ -7,7 +7,7 @@ import IconMCI from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 import IconE from 'react-native-vector-icons/dist/Entypo';
 import { connect } from 'react-redux';
 import Loading from '../components/Loading'
-import { toggleModal, uploadImageEmployee, updateImage, fetchOfficeEmployee } from '../../stores/actions';
+import { toggleModal, uploadImageEmployee, updateImage, fetchOfficeEmployee, getLoginEmployee } from '../../stores/actions';
 import AsyncStorage from '@react-native-community/async-storage'
 import ImagePicker from 'react-native-image-picker'
 
@@ -20,13 +20,13 @@ const mapDispatchToProps = {
   toggleModal,
   uploadImageEmployee,
   updateImage,
-  fetchOfficeEmployee
+  fetchOfficeEmployee,
+  getLoginEmployee
 }
 
 
-function MenuIcon({ icon, name, size, text, toggleModal, navigation, uploadImageEmployee, dataLogin, updateImage, fetchOfficeEmployee }) {
+function MenuIcon({ icon, name, size, text, toggleModal, navigation, uploadImageEmployee, dataLogin, updateImage, fetchOfficeEmployee , getLoginEmployee}) {
 
-  const [isLoading, setLoading] = useState(false)
   
   _removeStorage = () => {
     
@@ -60,26 +60,21 @@ function MenuIcon({ icon, name, size, text, toggleModal, navigation, uploadImage
       } else if (response.customButton) {
         console.log('User tapped custom button: ', response.customButton);
       } else {
-        // console.log(response, '=============');
-        // setimage({ uri: response.uri });
-        setLoading(true)
+        
         uploadImageEmployee(response)
         .then(async data => {
-          dataLogin.employee.image = data.image
-          console.log(data, 'di menu icon')
+          dataLogin.image = data.image
 
           console.log('dataLogin: sebelum ', dataLogin, '<<<<<<<<<<<<<<<<<<<');
 
           await updateImage(data.image)
-
-          // await fetchOfficeEmployee()
-
-          await AsyncStorage.setItem('token', JSON.stringify(dataLogin))
-
-          console.log('dataLogin: setelah', dataLogin, '>>>>>>>>>>>>>>>>>>>');
-
+          
+          const dataNow = await getLoginEmployee()
+          if(dataNow){
+            fetchOfficeEmployee()
+          }
+          console.log('dataLogin' , dataLogin);
           ToastAndroid.show(`Photo Updated`, ToastAndroid.SHORT)
-          setLoading(false)
         })
         .catch(err=>{
           ToastAndroid.show(`failed jing`, ToastAndroid.SHORT)

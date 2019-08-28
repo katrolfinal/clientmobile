@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, View, Text, Platform, TouchableOpacity, Linking, PermissionsAndroid, TouchableHighlight, Dimensions } from 'react-native';
 import { CameraKitCameraScreen, } from 'react-native-camera-kit';
 import { connect } from 'react-redux';
-import { addContact } from '../../stores/actions'
+import { addContact , getLoginEmployee} from '../../stores/actions'
 import AsyncStorage from '@react-native-community/async-storage'
 import MaterialCommunityIcons from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 
@@ -80,12 +80,12 @@ class QRscanner extends Component {
       })
       .then(async () => {
         try {
-          await AsyncStorage.setItem(
-            'token',
-            JSON.stringify(this.props.dataLogin)
-          )
+          const dataLogin = await this.props.getLoginEmployee()
+          if(dataLogin){
+            this.props.navigation.navigate('Relations')
+          }
         } catch (error) {
-          // Error retrieving data
+          console.log(error)
         }
       })
       .catch(err => {
@@ -188,7 +188,8 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = {
-  addContact
+  addContact,
+  getLoginEmployee
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(QRscanner)
