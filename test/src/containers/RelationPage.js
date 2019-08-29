@@ -1,4 +1,4 @@
-import React, { useState ,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, Linking, StyleSheet, RefreshControl, TouchableHighlight, ScrollView, Image, Dimensions, Alert, ToastAndroid } from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/dist/AntDesign';
@@ -6,8 +6,8 @@ import Entypo from 'react-native-vector-icons/dist/Entypo';
 import Feather from 'react-native-vector-icons/dist/Feather';
 import FontAwesome from 'react-native-vector-icons/dist/FontAwesome';
 import FontAwesome5 from 'react-native-vector-icons/dist/FontAwesome5';
-import { toggleModal, toggleCard, deleteContact, updateContacts ,fetchOfficeEmployee , getLoginEmployee} from '../../stores/actions';
-import CardModal from '../components/card-modal';
+import { toggleModal, toggleCard, deleteContact, toggleCardRelationsPage, updateContacts, fetchOfficeEmployee, getLoginEmployee } from '../../stores/actions';
+import CardModal from '../components/card-modal-relations-page';
 import AsyncStorage from '@react-native-community/async-storage';
 import AntDesign from 'react-native-vector-icons/dist/AntDesign';
 
@@ -15,12 +15,12 @@ const mapStateToProps = state => ({
   modal: state.modal,
   dataEmployeesByCompany: state.dataEmployeesByCompany,
   dataLogin: state.dataLogin,
-  card: state.card
+  cardRelationsPage: state.cardRelationsPage
 });
 
 const mapDispatchToProps = {
   toggleModal,
-  toggleCard,
+  toggleCardRelationsPage,
   deleteContact,
   updateContacts,
   fetchOfficeEmployee,
@@ -31,19 +31,19 @@ function RelationPage(props) {
   const [activeSwitch, setActiveSwitch] = useState('Office')
   const [dummy, setDummy] = useState(props.dataEmployeesByCompany)
   const [refreshing, setRefreshing] = useState(false)
-  
-  useEffect(()=>{
-    if(!refreshing) {
-      if(activeSwitch == 'Office'){
+
+  useEffect(() => {
+    if (!refreshing) {
+      if (activeSwitch == 'Office') {
         setDummy(props.dataEmployeesByCompany)
-      }else{
+      } else {
         setDummy(props.dataLogin.contacts)
       }
     }
-  },[refreshing])
+  }, [refreshing])
 
   _onRefresh = async () => {
-    if(activeSwitch === 'Office'){
+    if (activeSwitch === 'Office') {
       setRefreshing(true)
       setDummy([])
       await props.fetchOfficeEmployee()
@@ -51,11 +51,11 @@ function RelationPage(props) {
         // setDummy(props.dataEmployeesByCompany)
         setRefreshing(false)
       }, 2000)
-    }else{
+    } else {
       setRefreshing(true)
       setDummy([])
-     const data =  await props.getLoginEmployee()
-      if(data){
+      const data = await props.getLoginEmployee()
+      if (data) {
         setRefreshing(false)
       }
     }
@@ -164,7 +164,7 @@ function RelationPage(props) {
             props.deleteContact(selected._id)
               .then(async () => {
                 const data = await props.getLoginEmployee()
-                if(data){
+                if (data) {
                   setRefreshing(false)
                 }
               })
@@ -213,7 +213,7 @@ function RelationPage(props) {
           <Icon name="search1" size={20} color="backgroundColor: 'rgba(0, 0, 0, 0.4)'" />
         </View>
         <ScrollView refreshControl={<RefreshControl refreshing={refreshing}
-            onRefresh={_onRefresh}/>} showsVerticalScrollIndicator={false} style={{ height: Dimensions.get('window').height }}>
+          onRefresh={_onRefresh} />} showsVerticalScrollIndicator={false} style={{ height: Dimensions.get('window').height }}>
           {
 
             dummy.map((el, i) => (
@@ -238,7 +238,7 @@ function RelationPage(props) {
                   <View style={{ height: 75, justifyContent: 'center', width: '100%' }}>
                     <View style={{ flexDirection: 'row', width: '100%' }}>
                       <View style={{ flexDirection: 'column', justifyContent: 'space-between' }}>
-                        <TouchableHighlight underlayColor='rgba(255, 255, 255, 0.4)' onPress={() => !props.showClose ? props.toggleCard(el) : null} style={{ minWidth: 200 }}>
+                        <TouchableHighlight underlayColor='rgba(255, 255, 255, 0.4)' onPress={() => !props.showClose ? props.toggleCardRelationsPage(el) : null} style={{ minWidth: 200 }}>
                           <View>
                             <Text style={{ fontSize: 16, fontWeight: 'bold' }}>{el.name}</Text>
                             <Text style={{ color: 'rgba(0,0,0,0.4)', fontSize: 14 }}>{el.position}</Text>
