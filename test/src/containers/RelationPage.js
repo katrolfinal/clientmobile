@@ -165,6 +165,7 @@ function RelationPage(props) {
               .then(async () => {
                 const data = await props.getLoginEmployee()
                 if (data) {
+                  ToastAndroid.show(`${selected.name} deleted!`, ToastAndroid.SHORT)
                   setRefreshing(false)
                 }
               })
