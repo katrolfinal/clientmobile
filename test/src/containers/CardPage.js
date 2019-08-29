@@ -195,11 +195,11 @@ function CardPage(props) {
   closeCard = () => {
     _stopDetection();
     _cancelAndroidBeam();
-    props.source == 'recent-relations' ? 
-    props.toggleCardRecentRelations() :
-    props.source == 'relations-page' ?
-    props.toggleCardRelationsPage() :
-    props.toggleCard()
+    props.source == 'recent-relations' ?
+      props.toggleCardRecentRelations() :
+      props.source == 'relations-page' ?
+        props.toggleCardRelationsPage() :
+        props.toggleCard()
   }
   return (
     <ScrollView style={{ backgroundColor: '#F2F1F2', height: Dimensions.get('window').height }}>
@@ -229,9 +229,9 @@ function CardPage(props) {
             }
             {/* NAME & POSITION */}
             <View style={{ marginTop: 15 }}>
-                <Text style={{ color: 'rgba(0, 0, 0, 0.6)', textAlign: 'center', fontWeight: 'bold', fontSize: 24 }}>{dummy.name}</Text>
+              <Text style={{ color: 'rgba(0, 0, 0, 0.6)', textAlign: 'center', fontWeight: 'bold', fontSize: 24 }}>{dummy.name}</Text>
               <View style={{ backgroundColor: 'rgba(202, 221, 250, 0.2)', borderRadius: 8, padding: 5, paddingLeft: 15, paddingRight: 15, marginTop: 5 }}>
-              <Text style={{ color: '#5F6DA1', fontWeight: 'bold', fontSize: 16, textAlign: 'center' }}>{dummy.position}</Text>
+                <Text style={{ color: '#5F6DA1', fontWeight: 'bold', fontSize: 16, textAlign: 'center' }}>{dummy.position}</Text>
               </View>
               <View style={{ alignItems: 'center', marginTop: 25 }}>
                 <QRCode
@@ -240,7 +240,7 @@ function CardPage(props) {
                     _id: dummy._id,
                     name: dummy.name,
                     image: dummy.image,
-                    phone : dummy.phone,
+                    phone: dummy.phone,
                     position: dummy.position,
                     company: {
                       name: dummy.company.name,
@@ -272,8 +272,7 @@ function CardPage(props) {
                 <MaterialIcons name='location-on' size={25} color='#fff' />
               </View>
               <View>
-                <Text style={{color: 'rgba(0, 0, 0, 0.6)', textAlign: 'right'}}>Jalan Mahandrio No. 54</Text>
-                <Text style={{ color: 'rgba(0, 0, 0, 0.6)', textAlign: 'right' }}>{dummy.address} Selatan</Text>
+                <Text style={{ color: 'rgba(0, 0, 0, 0.6)', textAlign: 'right' }}>{dummy.address}</Text>
               </View>
             </View>
 
