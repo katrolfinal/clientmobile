@@ -17,7 +17,8 @@ export function getLoginEmployee() {
           })
           data.contacts.forEach(el => {
             el.showOption = false;
-          });
+          })
+          data.contacts = data.contacts.reverse()
           await dispatch({ type: 'FETCH_EMPLOYEE', payload: data })
           resolve(data)
         }
