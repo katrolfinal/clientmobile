@@ -43,15 +43,13 @@ class LoginPage extends Component {
       )
         .then(({ data }) => {
           console.log(data, 'ini datanya login');
-          this._storeData(data)
-          this.props.login
-          this.props.fetchEmpoleyee(data)
+          this._storeData({token : data.token , _id : data.employee._id})
           this.props.navigation.navigate('DashboardPage')
           ToastAndroid.show(`Welcome ${data.employee.name}!`, ToastAndroid.SHORT)
         })
         .catch(err => {
           ToastAndroid.show(`Email or password wrong!`, ToastAndroid.SHORT)
-          console.log(err);
+          console.log(err)
         })
     }
   }

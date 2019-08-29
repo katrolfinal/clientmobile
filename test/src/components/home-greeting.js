@@ -5,11 +5,11 @@ function Greeting({ source , data }) {
   return (
     <View style={source == 'home-page' ? styles.home : styles.relations}>
       {
-        data.employee && <Text style={{fontSize: 24, fontWeight: 'bold', color: '#fff', }}>Welcome, {data.employee.name}</Text>
+        data && <Text style={{fontSize: 24, fontWeight: 'bold', color: '#fff', }}>Welcome, {data.name}</Text>
         
       }
       {
-        data.employee && <Text style={{fontSize: 18, color: '#fff', }}>{data.employee.position}</Text>
+        data && <Text style={{fontSize: 18, color: '#fff', }}>{data.position}</Text>
       }
     </View>
   );
