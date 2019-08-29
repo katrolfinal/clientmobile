@@ -7,26 +7,29 @@ import IconMCI from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 import IconE from 'react-native-vector-icons/dist/Entypo';
 import { connect } from 'react-redux';
 import Loading from '../components/Loading'
-import { toggleModal, uploadImageEmployee, updateImage, fetchOfficeEmployee } from '../../stores/actions';
+import { toggleModal, uploadImageEmployee, updateImage, fetchOfficeEmployee, getLoginEmployee, setLoading } from '../../stores/actions';
 import AsyncStorage from '@react-native-community/async-storage'
 import ImagePicker from 'react-native-image-picker'
+import Loader from '../components/Loading';
 
 const mapStateToProps = state => ({
   ...state,
-  dataLogin : state.dataLogin
+  dataLogin : state.dataLogin,
+  isLoading: state.isLoading
 })
 
 const mapDispatchToProps = {
   toggleModal,
   uploadImageEmployee,
   updateImage,
-  fetchOfficeEmployee
+  fetchOfficeEmployee,
+  getLoginEmployee,
+  setLoading
 }
 
 
-function MenuIcon({ icon, name, size, text, toggleModal, navigation, uploadImageEmployee, dataLogin, updateImage, fetchOfficeEmployee }) {
-
-  const [isLoading, setLoading] = useState(false)
+function MenuIcon({ icon, name, size, text, toggleModal, navigation, uploadImageEmployee, dataLogin, updateImage, fetchOfficeEmployee , getLoginEmployee, setLoading, isLoading}) {
+  const [loader, setLoader] = useState(false)
   
   _removeStorage = () => {
     
@@ -60,26 +63,23 @@ function MenuIcon({ icon, name, size, text, toggleModal, navigation, uploadImage
       } else if (response.customButton) {
         console.log('User tapped custom button: ', response.customButton);
       } else {
-        // console.log(response, '=============');
-        // setimage({ uri: response.uri });
-        setLoading(true)
+        
+        setLoading();
         uploadImageEmployee(response)
         .then(async data => {
-          dataLogin.employee.image = data.image
-          console.log(data, 'di menu icon')
+          dataLogin.image = data.image
 
           console.log('dataLogin: sebelum ', dataLogin, '<<<<<<<<<<<<<<<<<<<');
 
           await updateImage(data.image)
-
-          // await fetchOfficeEmployee()
-
-          await AsyncStorage.setItem('token', JSON.stringify(dataLogin))
-
-          console.log('dataLogin: setelah', dataLogin, '>>>>>>>>>>>>>>>>>>>');
-
+          
+          const dataNow = await getLoginEmployee()
+          if (dataNow){
+            fetchOfficeEmployee()
+            setLoading();
+          }
+          console.log('dataLogin' , dataLogin);
           ToastAndroid.show(`Photo Updated`, ToastAndroid.SHORT)
-          setLoading(false)
         })
         .catch(err=>{
           ToastAndroid.show(`failed jing`, ToastAndroid.SHORT)
@@ -91,24 +91,47 @@ function MenuIcon({ icon, name, size, text, toggleModal, navigation, uploadImage
   return (
     <View style={{ flexDirection: 'column', justifyContent: 'center' }}>
       <TouchableHighlight underlayColor='rgba(0,0,0,0.2)' onPress={() => text == 'Relations' ? navigation.navigate('Relations') : text == 'Add' ? navigation.navigate('NfcPage') : text == 'Logout' ? _removeStorage() : text == 'Upload' ? uploadImage() : Alert.alert('HAHAHA') } style={{ justifyContent: 'center', borderRadius: 15 }}>
-        <View style={{ width: 55, height: 55, backgroundColor: 'rgba(255, 255, 255, 0.6)', borderRadius: 15, alignItems: 'center', justifyContent: 'center' }}>
-          {
-            icon == 'FA' &&
-            <IconFA name={name} size={size} color="backgroundColor: 'rgba(0, 0, 0, 0.4)'" />
-          }
-          {
-            icon == 'MI' &&
-            <IconMI name={name} size={size} color="backgroundColor: 'rgba(0, 0, 0, 0.4)'" />
-          }
-          {
-            icon == 'MCI' &&
-            <IconMCI name={name} size={size} color="backgroundColor: 'rgba(0, 0, 0, 0.4)'" />
-          }
-          {
-            icon == 'E' &&
-            <IconE name={name} size={size} color="backgroundColor: 'rgba(0, 0, 0, 0.4)'" />
-          }
-        </View>
+        {
+          isLoading == false ?
+          <View style={{ width: 55, height: 55, backgroundColor: 'rgba(255, 255, 255, 0.6)', borderRadius: 15, alignItems: 'center', justifyContent: 'center' }}>
+            {
+              icon == 'FA' && 
+              <IconFA name={name} size={size} color="backgroundColor: 'rgba(0, 0, 0, 0.4)'" />
+              
+            }
+            {
+              icon == 'MI' && 
+              <IconMI name={name} size={size} color="backgroundColor: 'rgba(0, 0, 0, 0.4)'" />
+            }
+            {
+              icon == 'MCI' &&
+              <IconMCI name={name} size={size} color="backgroundColor: 'rgba(0, 0, 0, 0.4)'" /> 
+            }
+            {
+              icon == 'E' && 
+              <IconE name={name} size={size} color="backgroundColor: 'rgba(0, 0, 0, 0.4)'" /> 
+            }
+          </View> :
+          <View style={{ width: 55, height: 55, backgroundColor: 'rgba(255, 255, 255, 0.6)', borderRadius: 15, alignItems: 'center', justifyContent: 'center' }}>
+            {
+              icon == 'FA' && 
+              <IconFA name={name} size={size} color="backgroundColor: 'rgba(0, 0, 0, 0.4)'" />
+              
+            }
+            {
+              icon == 'MI' && 
+              <IconMI name={name} size={size} color="backgroundColor: 'rgba(0, 0, 0, 0.4)'" />
+            }
+            {
+              icon == 'MCI' &&
+              <IconMCI name={name} size={size} color="backgroundColor: 'rgba(0, 0, 0, 0.4)'" /> 
+            }
+            {
+              icon == 'E' && 
+              <Loader />
+            }
+          </View>
+        }
       </TouchableHighlight>
       <View>
         <Text style={{ color: '#fff', textAlign: 'center', marginTop: 5, fontSize: 14 }}>{text}</Text>

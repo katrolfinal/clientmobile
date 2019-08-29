@@ -1,10 +1,39 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
-import {decode as atob, encode as btoa} from 'base-64';
+
+export function getLoginEmployee() {
+  return dispatch => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const value = await AsyncStorage.getItem('token')
+        if (value !== null) {
+          let storage = JSON.parse(value)
+          const { data } = await axios({
+            method: 'get',
+            url: `http://35.240.174.62/api/employees/byId/${storage._id}`,
+            headers: {
+              token: storage.token
+            }
+          })
+          data.contacts.forEach(el => {
+            el.showOption = false;
+          })
+          data.contacts = data.contacts.reverse()
+          await dispatch({ type: 'FETCH_EMPLOYEE', payload: data })
+          resolve(data)
+        }
+      } catch (error) {
+        reject(error)
+        console.log(error);
+      }
+
+    })
+  }
+}
 
 export function fetchOfficeEmployee() {
   return async dispatch => {
-    dispatch({type: 'TOGGLE_LOADING', payload: true});
+    // dispatch({ type: 'TOGGLE_LOADING', payload: true });
     try {
       const value = await AsyncStorage.getItem('token');
       if (value !== null) {
@@ -17,15 +46,16 @@ export function fetchOfficeEmployee() {
             token,
           },
         })
-          .then(({data}) => {
+          .then(({ data }) => {
             // console.log(data, 'ini datanya bangsaaaat!!!!!');
             data.forEach(employee => {
               employee.showOption = false;
               employee.contacts.forEach(partner => {
                 partner.showOption = false;
-              });
-            });
-            dispatch({type: 'ADD_EMPLOYEE_BY_COMPANY', payload: data});
+              })
+            })
+            let filtered = data.filter(el=> el._id !== JSON.parse(value)._id)
+            dispatch({ type: 'ADD_EMPLOYEE_BY_COMPANY', payload: filtered });
           })
           .catch(err => {
             console.log(err);
@@ -39,7 +69,7 @@ export function fetchOfficeEmployee() {
 
 export function login() {
   return dispatch => {
-    dispatch({type: 'TOGGLE_LOGIN', payload: true});
+    dispatch({ type: 'TOGGLE_LOGIN', payload: true });
   };
 }
 
@@ -53,12 +83,12 @@ export function uploadImageEmployee(file) {
 
         const formData = new FormData();
         formData.append('image', {
-          uri : file.uri,
-          type : file.type,
-          name : file.fileName
+          uri: file.uri,
+          type: file.type,
+          name: file.fileName
         })
 
-        let {data} = await axios({
+        let { data } = await axios({
           method: 'PUT',
           url: `http://35.240.174.62/api/employees/uploadImage`,
           headers: {
@@ -67,8 +97,6 @@ export function uploadImageEmployee(file) {
           },
           data: formData,
         });
-        await fetchOfficeEmployee()
-        console.log('data: ', data);
         resolve(data)
       } catch (error) {
         console.log('error: ', error.response.data);
@@ -78,24 +106,27 @@ export function uploadImageEmployee(file) {
   };
 }
 
-export function updateImage(imageURL){
-  return async dispatch => {
-    await dispatch({
-      type : "UPDATE_EMPLOYEE_IMAGE",
-      payload : imageURL
+export function updateImage(imageURL) {
+  return dispatch => {
+    return new Promise ((resolve,reject)=>{
+      dispatch({
+       type: "UPDATE_EMPLOYEE_IMAGE",
+       payload: imageURL
+     })
+     resolve()
     })
   }
 }
 
-export function fetchEmpoleyee(params) {
-  params.employee.contacts.forEach(el => {
-    el.showOption = false;
-  });
-  // console.log(params.employee.contacts , 'ini pas fetch employee')
-  return dispatch => {
-    dispatch({type: 'FETCH_EMPLOYEE', payload: params});
-  };
-}
+// export function fetchEmpoleyee(params) {
+//   params.employee.contacts.forEach(el => {
+//     el.showOption = false;
+//   });
+//   // console.log(params.employee.contacts , 'ini pas fetch employee')
+//   return dispatch => {
+//     dispatch({type: 'FETCH_EMPLOYEE', payload: params});
+//   };
+// }
 
 export function updateContacts(contacts) {
   return dispatch => {
@@ -120,7 +151,6 @@ export function addContact(params) {
         const value = await AsyncStorage.getItem('token');
         if (value !== null) {
           let token = JSON.parse(value).token;
-          // console.log(token, 'ini valuuuuue tot')
           axios({
             method: 'PUT',
             url: `http://35.240.174.62/api/employees/contacts/${params.contact._id}`,
@@ -128,9 +158,9 @@ export function addContact(params) {
               token,
             },
           })
-            .then(() => {
-              dispatch({type: 'ADD_CONTACT', payload: params.contact});
-              resolve();
+            .then(async () => {
+              await dispatch({ type: 'ADD_CONTACT', payload: params.contact });
+              resolve()
             })
             .catch(err => {
               reject(err);
@@ -144,21 +174,41 @@ export function addContact(params) {
 }
 export function toggleModal() {
   return dispatch => {
-    dispatch({type: 'TOGGLE_MODAL'});
+    dispatch({ type: 'TOGGLE_MODAL' });
   };
 }
 
 export function toggleOption() {
   return dispatch => {
-    dispatch({type: 'TOGGLE_OPTION'});
+    dispatch({ type: 'TOGGLE_OPTION' });
   };
 }
 
 export function toggleCard(el) {
   // console.log(el , 'ini elemen api menyerang')
   return dispatch => {
-    dispatch({type: 'TOGGLE_CARD', payload: el});
+    dispatch({ type: 'TOGGLE_CARD', payload: el });
   };
+}
+
+export function toggleCardRecentRelations(el) {
+  // console.log(el , 'ini elemen api menyerang')
+  return dispatch => {
+    dispatch({type: 'TOGGLE_CARD_RECENT_RELATIONS', payload: el});
+  };
+}
+
+export function toggleCardRelationsPage(el) {
+  // console.log(el , 'ini elemen api menyerang')
+  return dispatch => {
+    dispatch({type: 'TOGGLE_CARD_RELATIONS_PAGE', payload: el});
+  };
+}
+
+export function setLoading() {
+  return dispatch => {
+    dispatch({ type: 'SET_LOADING' })
+  }
 }
 
 export function deleteContact(_id) {
@@ -167,7 +217,7 @@ export function deleteContact(_id) {
       try {
         const value = await AsyncStorage.getItem('token');
         let token = JSON.parse(value).token;
-        let {data} = await axios({
+        let { data } = await axios({
           method: 'DELETE',
           url: `http://35.240.174.62/api/employees/contacts/${_id}`,
           headers: {

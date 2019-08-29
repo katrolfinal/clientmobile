@@ -10,8 +10,9 @@ import MenuNavigator from '../components/home-menu-navigator';
 import RecetRelations from '../components/home-recent-relations';
 import Relations from '../components/home-relations';
 import RelationsModal from '../components/relations-modal';
-import { fetchEmpoleyee, fetchOfficeEmployee } from '../../stores/actions'
-import AsyncStorage from '@react-native-community/async-storage'
+import { getLoginEmployee, fetchOfficeEmployee } from '../../stores/actions';
+import AsyncStorage from '@react-native-community/async-storage';
+import Loader from '../components/Loading';
 
 
 class HomePage extends Component {
@@ -45,6 +46,7 @@ class HomePage extends Component {
         <Greeting source={'home-page'} data={this.props.dataLogin} />
         <MenuNavigator navigation={this.props.navigation} />
         <RecetRelations data={this.props.dataEmployeesByCompany} navigation={this.props.navigation} />
+        
         <View
           style={{
             justifyContent: 'flex-end',
@@ -68,10 +70,12 @@ class HomePage extends Component {
       if (value === null) {
         this.props.navigation.navigate('LoginPage')
       } else {
-        this.props.fetchEmpoleyee(JSON.parse(value))
+       const dataLogin =  await this.props.getLoginEmployee()
+      //  console.log('ini dataLogin', dataLogin)
       }
     } catch (error) {
       // Error retrieving data
+      console.log(error);
     }
   }
 }
@@ -81,8 +85,8 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = {
-  fetchEmpoleyee,
-  fetchOfficeEmployee
+  fetchOfficeEmployee,
+  getLoginEmployee
 }
 
 

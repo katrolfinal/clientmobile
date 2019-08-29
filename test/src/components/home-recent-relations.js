@@ -2,18 +2,18 @@ import React from 'react';
 import { View, Text, Image, TouchableHighlight, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/dist/AntDesign';
 import { connect } from 'react-redux';
-import { toggleCard } from '../../stores/actions';
-import CardModal from '../components/card-modal';
+import { toggleCardRecentRelations } from '../../stores/actions';
+import CardModal from '../components/card-modal-recent-relations';
 
 const mapStateToProps = state => ({
-  card: state.card
+  cardRecentRelations: state.cardRecentRelations
 });
 
 const mapDispatchToProps = {
-  toggleCard
+  toggleCardRecentRelations
 };
 
-function RecentRelations({ data, toggleCard, navigation }) {
+function RecentRelations({ data, toggleCardRecentRelations, navigation }) {
 
 
   return (
@@ -27,13 +27,13 @@ function RecentRelations({ data, toggleCard, navigation }) {
             <View key={i}>
               { 
                 el.image ? 
-                <TouchableHighlight underlayColor='rgba(0, 0, 0, 0.6)' onPress={() => toggleCard(el)} style={{justifyContent: 'center', alignItems: 'center', width: 65, height: 65, borderRadius: 200, marginRight: 10}}>
+                <TouchableHighlight underlayColor='rgba(0, 0, 0, 0.6)' onPress={() => toggleCardRecentRelations(el)} style={{justifyContent: 'center', alignItems: 'center', width: 65, height: 65, borderRadius: 200, marginRight: 10}}>
                   <Image
                     style={{width: 65, height: 65, borderRadius: 200}}
                     source={{uri: `${el.image}`}}
                   />
                 </TouchableHighlight> : 
-                <TouchableHighlight underlayColor='rgba(0, 0, 0, 0.6)' style={{width: 65, height: 65, borderRadius: 200, marginRight: 10, backgroundColor: 'rgba(0, 0, 0, 0.2)', justifyContent: 'center', alignItems: 'center'}} onPress={() => toggleCard(el)}>
+                <TouchableHighlight underlayColor='rgba(0, 0, 0, 0.6)' style={{width: 65, height: 65, borderRadius: 200, marginRight: 10, backgroundColor: 'rgba(0, 0, 0, 0.2)', justifyContent: 'center', alignItems: 'center'}} onPress={() => toggleCardRecentRelations(el)}>
                   <Text style={{fontSize: 18, fontWeight: 'bold', color: '#FFF', marginBottom: 3}}>{el.name[0].toUpperCase()}</Text>
                 </TouchableHighlight>
               }

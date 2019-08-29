@@ -1,4 +1,4 @@
-import React, { useState ,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, Linking, StyleSheet, RefreshControl, TouchableHighlight, ScrollView, Image, Dimensions, Alert, ToastAndroid } from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/dist/AntDesign';
@@ -6,8 +6,8 @@ import Entypo from 'react-native-vector-icons/dist/Entypo';
 import Feather from 'react-native-vector-icons/dist/Feather';
 import FontAwesome from 'react-native-vector-icons/dist/FontAwesome';
 import FontAwesome5 from 'react-native-vector-icons/dist/FontAwesome5';
-import { toggleModal, toggleCard, deleteContact, updateContacts ,fetchOfficeEmployee } from '../../stores/actions';
-import CardModal from '../components/card-modal';
+import { toggleModal, toggleCard, deleteContact, toggleCardRelationsPage, updateContacts, fetchOfficeEmployee, getLoginEmployee } from '../../stores/actions';
+import CardModal from '../components/card-modal-relations-page';
 import AsyncStorage from '@react-native-community/async-storage';
 import AntDesign from 'react-native-vector-icons/dist/AntDesign';
 
@@ -15,38 +15,50 @@ const mapStateToProps = state => ({
   modal: state.modal,
   dataEmployeesByCompany: state.dataEmployeesByCompany,
   dataLogin: state.dataLogin,
-  card: state.card
+  cardRelationsPage: state.cardRelationsPage
 });
 
 const mapDispatchToProps = {
   toggleModal,
-  toggleCard,
+  toggleCardRelationsPage,
   deleteContact,
   updateContacts,
-  fetchOfficeEmployee
+  fetchOfficeEmployee,
+  getLoginEmployee
 }
 
 function RelationPage(props) {
   const [activeSwitch, setActiveSwitch] = useState('Office')
   const [dummy, setDummy] = useState(props.dataEmployeesByCompany)
   const [refreshing, setRefreshing] = useState(false)
-  const [list, setList] = useState([])
 
-
-  useEffect(()=>{
-    if(!refreshing) {
-      setDummy(props.dataEmployeesByCompany)
+  useEffect(() => {
+    if (!refreshing) {
+      if (activeSwitch == 'Office') {
+        setDummy(props.dataEmployeesByCompany)
+      } else {
+        setDummy(props.dataLogin.contacts)
+      }
     }
-  },[refreshing])
+  }, [refreshing])
 
   _onRefresh = async () => {
-    setRefreshing(true)
-    setDummy([])
-    await props.fetchOfficeEmployee()
-    setTimeout(() => {
-      // setDummy(props.dataEmployeesByCompany)
-      setRefreshing(false)
-    }, 2000)
+    if (activeSwitch === 'Office') {
+      setRefreshing(true)
+      setDummy([])
+      await props.fetchOfficeEmployee()
+      setTimeout(() => {
+        // setDummy(props.dataEmployeesByCompany)
+        setRefreshing(false)
+      }, 2000)
+    } else {
+      setRefreshing(true)
+      setDummy([])
+      const data = await props.getLoginEmployee()
+      if (data) {
+        setRefreshing(false)
+      }
+    }
   }
 
   clickOptions = (person, index) => {
@@ -147,28 +159,19 @@ function RelationPage(props) {
         { text: 'CANCEL', onPress: () => console.log('Options closed') },
         {
           text: 'YES', onPress: () => {
-            console.log('masuk sini')
+            setRefreshing(true)
+            setDummy([])
             props.deleteContact(selected._id)
-              .then(() => {
-                let test = props.dataLogin.employee.contacts.filter(el => el._id !== selected._id)
-                props.dataLogin.employee.contacts = test
-                props.updateContacts(test)
-                  .then(async () => {
-                    await AsyncStorage.setItem('token', JSON.stringify(props.dataLogin))
-                    setDummy(props.dataLogin.employee.contacts)
-                    ToastAndroid.show(`${selected.name} deleted!`, ToastAndroid.SHORT)
-                  })
-                  .catch(err => {
-                    console.log(err)
-                    ToastAndroid.show(`fail to delete ${selected.name} !`, ToastAndroid.SHORT)
-                  })
+              .then(async () => {
+                const data = await props.getLoginEmployee()
+                if (data) {
+                  ToastAndroid.show(`${selected.name} deleted!`, ToastAndroid.SHORT)
+                  setRefreshing(false)
+                }
               })
               .catch(err => {
                 console.log(err);
               })
-
-            // console.log('deleted: ', deleted);
-
           }
         }
       ],
@@ -191,7 +194,7 @@ function RelationPage(props) {
             <Text style={activeSwitch == 'Office' ? styles.active : styles.unative}>Office</Text>
           </TouchableHighlight>
 
-          <TouchableHighlight onPress={() => (setActiveSwitch('Partner'), setDummy(props.dataLogin.employee.contacts))} underlayColor='rgba(255, 255, 255, 0.2)' style={{ justifyContent: 'center', borderRadius: 50 }}>
+          <TouchableHighlight onPress={() => (setActiveSwitch('Partner'), setDummy(props.dataLogin.contacts))} underlayColor='rgba(255, 255, 255, 0.2)' style={{ justifyContent: 'center', borderRadius: 50 }}>
             <Text style={activeSwitch == 'Partner' ? styles.active : styles.unative}>Partner</Text>
           </TouchableHighlight>
         </View>
@@ -211,8 +214,7 @@ function RelationPage(props) {
           <Icon name="search1" size={20} color="backgroundColor: 'rgba(0, 0, 0, 0.4)'" />
         </View>
         <ScrollView refreshControl={<RefreshControl refreshing={refreshing}
-            onRefresh={_onRefresh}/>} showsVerticalScrollIndicator={false} style={{ height: Dimensions.get('window').height }}>
-          {/* <Text>{JSON.stringify(props.dataLogin.employee.contacts, null, 2)}</Text> */}
+          onRefresh={_onRefresh} />} showsVerticalScrollIndicator={false} style={{ height: Dimensions.get('window').height }}>
           {
 
             dummy.map((el, i) => (
@@ -237,7 +239,7 @@ function RelationPage(props) {
                   <View style={{ height: 75, justifyContent: 'center', width: '100%' }}>
                     <View style={{ flexDirection: 'row', width: '100%' }}>
                       <View style={{ flexDirection: 'column', justifyContent: 'space-between' }}>
-                        <TouchableHighlight underlayColor='rgba(255, 255, 255, 0.4)' onPress={() => !props.showClose ? props.toggleCard(el) : null} style={{ minWidth: 200 }}>
+                        <TouchableHighlight underlayColor='rgba(255, 255, 255, 0.4)' onPress={() => !props.showClose ? props.toggleCardRelationsPage(el) : null} style={{ minWidth: 200 }}>
                           <View>
                             <Text style={{ fontSize: 16, fontWeight: 'bold' }}>{el.name}</Text>
                             <Text style={{ color: 'rgba(0,0,0,0.4)', fontSize: 14 }}>{el.position}</Text>
@@ -246,7 +248,6 @@ function RelationPage(props) {
                                 <Text style={{ color: 'rgba(0,0,0,0.4)', fontSize: 14 }}>at {el.company.name}</Text> :
                                 <Text style={{ color: 'rgba(0,0,0,0.4)', fontSize: 14 }}>at {el.company.name}</Text>
                             }
-
                           </View>
                         </TouchableHighlight>
                       </View>

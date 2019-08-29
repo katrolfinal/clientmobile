@@ -1,13 +1,16 @@
 const initState = {
   isLogin: false,
   isLoading: false,
+  isSuccess: false,
   error: null,
   dataLogin: {},
   modal: false,
   option: false,
-  dataEmployeesByCompany:[],
+  dataEmployeesByCompany: [],
   card: false,
-  dataCard: {}
+  dataCard: {},
+  cardRecentRelations: false,
+  cardRelationsPage: false
 }
 
 export default (state = initState, action) => {
@@ -15,26 +18,21 @@ export default (state = initState, action) => {
     case 'UPDATE_CONTACTS':
       return {
         ...state,
-        dataLogin : {
+        dataLogin: {
           ...state.dataLogin,
-          employee: {
-            ...state.dataLogin.employee,
-            contacts : action.payload
-          }
+          contacts: action.payload
+
         }
       }
     case 'UPDATE_EMPLOYEE_IMAGE':
       return {
         ...state,
-        dataLogin : {
+        dataLogin: {
           ...state.dataLogin,
-          employee : {
-            ...state.dataLogin.employee,
-            image : action.payload
-          }
+          image: action.payload
         }
 
-      }  
+      }
     case 'TOGGLE_LOADING':
       return {
         ...state,
@@ -60,10 +58,8 @@ export default (state = initState, action) => {
         ...state,
         dataLogin: {
           ...state.dataLogin,
-          employee: {
-            ...state.dataLogin.employee,
-            contacts: state.dataLogin.employee.contacts.concat([action.payload])
-          }
+          contacts: state.dataLogin.contacts.concat([action.payload])
+
         }
       }
     case 'TOGGLE_MODAL':
@@ -76,25 +72,42 @@ export default (state = initState, action) => {
         ...state,
         option: !state.option
       }
-    case 'ADD_EMPLOYEE_BY_COMPANY' :
+    case 'ADD_EMPLOYEE_BY_COMPANY':
       return {
         ...state,
-        dataEmployeesByCompany : action.payload
+        dataEmployeesByCompany: action.payload
       }
     case 'TOGGLE_CARD':
       return {
         ...state,
         card: !state.card,
+        dataCard: action.payload
+      }
+    case 'TOGGLE_CARD_RECENT_RELATIONS':
+      return {
+        ...state,
+        cardRecentRelations: !state.cardRecentRelations,
         dataCard : action.payload
       }
+    case 'TOGGLE_CARD_RELATIONS_PAGE':
+        return {
+          ...state,
+          cardRelationsPage: !state.cardRelationsPage,
+          dataCard : action.payload
+        }
     case 'SET_DATA_AFTER_DELETE':
       return {
         ...state,
-        dataLogin : {
+        dataLogin: {
           ...state.dataLogin,
-          employee : action.payload
-      
+          employee: action.payload
+
         }
+      }
+    case 'SET_LOADING': 
+      return {
+        ...state,
+        isLoading: !state.isLoading
       }
     default:
       return state
