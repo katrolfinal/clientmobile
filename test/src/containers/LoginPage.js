@@ -44,8 +44,6 @@ class LoginPage extends Component {
         .then(({ data }) => {
           console.log(data, 'ini datanya login');
           this._storeData({token : data.token , _id : data.employee._id})
-          this.props.login
-          this.props.fetchEmpoleyee(data.employee)
           this.props.navigation.navigate('DashboardPage')
           ToastAndroid.show(`Welcome ${data.employee.name}!`, ToastAndroid.SHORT)
         })
