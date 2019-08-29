@@ -6,8 +6,8 @@ import Entypo from 'react-native-vector-icons/dist/Entypo';
 import Feather from 'react-native-vector-icons/dist/Feather';
 import FontAwesome from 'react-native-vector-icons/dist/FontAwesome';
 import FontAwesome5 from 'react-native-vector-icons/dist/FontAwesome5';
-import { toggleModal, toggleCard, deleteContact, updateContacts ,fetchOfficeEmployee } from '../../stores/actions';
-import CardModal from '../components/card-modal';
+import { toggleModal, toggleCardRelationsPage, deleteContact, updateContacts ,fetchOfficeEmployee } from '../../stores/actions';
+import CardModal from '../components/card-modal-relations-page';
 import AsyncStorage from '@react-native-community/async-storage';
 import AntDesign from 'react-native-vector-icons/dist/AntDesign';
 
@@ -15,12 +15,12 @@ const mapStateToProps = state => ({
   modal: state.modal,
   dataEmployeesByCompany: state.dataEmployeesByCompany,
   dataLogin: state.dataLogin,
-  card: state.card
+  cardRelationsPage: state.cardRelationsPage
 });
 
 const mapDispatchToProps = {
   toggleModal,
-  toggleCard,
+  toggleCardRelationsPage,
   deleteContact,
   updateContacts,
   fetchOfficeEmployee
@@ -237,7 +237,7 @@ function RelationPage(props) {
                   <View style={{ height: 75, justifyContent: 'center', width: '100%' }}>
                     <View style={{ flexDirection: 'row', width: '100%' }}>
                       <View style={{ flexDirection: 'column', justifyContent: 'space-between' }}>
-                        <TouchableHighlight underlayColor='rgba(255, 255, 255, 0.4)' onPress={() => !props.showClose ? props.toggleCard(el) : null} style={{ minWidth: 200 }}>
+                        <TouchableHighlight underlayColor='rgba(255, 255, 255, 0.4)' onPress={() => !props.showClose ? props.toggleCardRelationsPage(el) : null} style={{ minWidth: 200 }}>
                           <View>
                             <Text style={{ fontSize: 16, fontWeight: 'bold' }}>{el.name}</Text>
                             <Text style={{ color: 'rgba(0,0,0,0.4)', fontSize: 14 }}>{el.position}</Text>

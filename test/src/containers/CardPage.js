@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableHighlight, Dimensions, ScrollView, Image } from 'react-native';
 import { connect } from 'react-redux';
-import { toggleCard, addContact } from '../../stores/actions';
+import { toggleCard, addContact, toggleCardRecentRelations, toggleCardRelationsPage } from '../../stores/actions';
 import NfcManager, { Ndef } from 'react-native-nfc-manager';
 import AntDesign from 'react-native-vector-icons/dist/AntDesign';
 import Entypo from 'react-native-vector-icons/dist/Entypo';
@@ -19,6 +19,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
+  toggleCardRelationsPage,
+  toggleCardRecentRelations,
   toggleCard,
   addContact
 };
@@ -193,6 +195,10 @@ function CardPage(props) {
   closeCard = () => {
     _stopDetection();
     _cancelAndroidBeam();
+    props.source == 'recent-relations' ? 
+    props.toggleCardRecentRelations() :
+    props.source == 'relations-page' ?
+    props.toggleCardRelationsPage() :
     props.toggleCard()
   }
   return (

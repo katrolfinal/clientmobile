@@ -161,6 +161,20 @@ export function toggleCard(el) {
   };
 }
 
+export function toggleCardRecentRelations(el) {
+  // console.log(el , 'ini elemen api menyerang')
+  return dispatch => {
+    dispatch({type: 'TOGGLE_CARD_RECENT_RELATIONS', payload: el});
+  };
+}
+
+export function toggleCardRelationsPage(el) {
+  // console.log(el , 'ini elemen api menyerang')
+  return dispatch => {
+    dispatch({type: 'TOGGLE_CARD_RELATIONS_PAGE', payload: el});
+  };
+}
+
 export function deleteContact(_id) {
   return dispatch => {
     return new Promise(async (resolve, reject) => {

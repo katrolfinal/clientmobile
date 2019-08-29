@@ -7,7 +7,9 @@ const initState = {
   option: false,
   dataEmployeesByCompany:[],
   card: false,
-  dataCard: {}
+  dataCard: {},
+  cardRecentRelations: false,
+  cardRelationsPage: false
 }
 
 export default (state = initState, action) => {
@@ -87,6 +89,18 @@ export default (state = initState, action) => {
         card: !state.card,
         dataCard : action.payload
       }
+    case 'TOGGLE_CARD_RECENT_RELATIONS':
+      return {
+        ...state,
+        cardRecentRelations: !state.cardRecentRelations,
+        dataCard : action.payload
+      }
+    case 'TOGGLE_CARD_RELATIONS_PAGE':
+        return {
+          ...state,
+          cardRelationsPage: !state.cardRelationsPage,
+          dataCard : action.payload
+        }
     case 'SET_DATA_AFTER_DELETE':
       return {
         ...state,
