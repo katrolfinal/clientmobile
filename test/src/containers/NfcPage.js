@@ -6,7 +6,8 @@ import {
   ScrollView,
   Dimensions,
   TouchableHighlight,
-  Image
+  Image,
+  ToastAndroid
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage'
 import { connect } from 'react-redux';
@@ -141,7 +142,8 @@ class NfcPage extends Component {
                     <FontAwesome5 name='link' size={25} color={employee.company.color} />
                   </View>
                   <View>
-                    <Text style={{ color: '#FFF', textAlign: 'right' }}>www.{employee.company.name}.com</Text>
+                    <Text style={{ color: '#FFF', textAlign: 'right' }}>www.{employee.company.name.toLowerCase().split(' ').join(' ')}.com</Text>
+                    <Text style={{ color: '#FFF', textAlign: 'right' }}>www.{employee.company.name.toLowerCase().split(' ').join(' ')}.employee.com</Text>
                     {/* <Text style={{color: '#FFF', textAlign: 'right'}}>www.pornhub.com</Text> */}
                   </View>
                 </View>
@@ -268,6 +270,7 @@ class NfcPage extends Component {
           try {
             const dataLogin = await this.props.getLoginEmployee()
             if(dataLogin){
+              ToastAndroid.show(` New Relation Added`, ToastAndroid.SHORT)
               this.props.navigation.navigate('Relations')
             }
           } catch (error) {

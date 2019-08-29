@@ -193,7 +193,7 @@ function RelationPage(props) {
             <Text style={activeSwitch == 'Office' ? styles.active : styles.unative}>Office</Text>
           </TouchableHighlight>
 
-          <TouchableHighlight onPress={() => (setActiveSwitch('Partner'), setDummy(props.dataLogin.contacts))} underlayColor='rgba(255, 255, 255, 0.2)' style={{ justifyContent: 'center', borderRadius: 50 }}>
+          <TouchableHighlight onPress={() => (setActiveSwitch('Partner'), setDummy(props.dataLogin.contacts.reverse()))} underlayColor='rgba(255, 255, 255, 0.2)' style={{ justifyContent: 'center', borderRadius: 50 }}>
             <Text style={activeSwitch == 'Partner' ? styles.active : styles.unative}>Partner</Text>
           </TouchableHighlight>
         </View>

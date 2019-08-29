@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, Platform, TouchableOpacity, Linking, PermissionsAndroid, TouchableHighlight, Dimensions } from 'react-native';
+import { StyleSheet, View, Text, Platform, TouchableOpacity, Linking, PermissionsAndroid, ToastAndroid, TouchableHighlight, Dimensions } from 'react-native';
 import { CameraKitCameraScreen, } from 'react-native-camera-kit';
 import { connect } from 'react-redux';
-import { addContact , getLoginEmployee} from '../../stores/actions'
+import { addContact, getLoginEmployee } from '../../stores/actions'
 import AsyncStorage from '@react-native-community/async-storage'
 import MaterialCommunityIcons from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 
@@ -20,22 +20,11 @@ class QRscanner extends Component {
 
       return (
         <View style={styles.MainContainer}>
-          {/* <Text style={styles.QR_text}>
-            {this.state.QR_Code_Value ? 'Scanned QR Code: ' + this.state.QR_Code_Value : ''}
-          </Text> */}
 
-          {this.state.QR_Code_Value.includes("http") ?
-            <TouchableOpacity
-              onPress={this.openLink_in_browser}
-              style={styles.button}>
-              <Text style={{ color: '#FFF', fontSize: 14 }}>Open Link in default Browser</Text>
-            </TouchableOpacity> : null
-          }
-
-          <TouchableOpacity onPress={this.open_QR_Code_Scanner} style={{borderRadius: 15, alignItems: 'flex-end', width: '100%', marginTop: 50, marginRight: 80}}>
-              <View style={{backgroundColor: '#FFF', padding: 10, borderRadius: 15, shadowColor: '#000', elevation: 15}}>
-                <MaterialCommunityIcons name="qrcode-scan" size={40} />
-              </View>
+          <TouchableOpacity onPress={this.open_QR_Code_Scanner} style={{ borderRadius: 15, alignItems: 'flex-end', width: '100%', marginTop: 50, marginRight: 80 }}>
+            <View style={{ backgroundColor: '#FFF', padding: 10, borderRadius: 15, shadowColor: '#000', elevation: 15 }}>
+              <MaterialCommunityIcons name="qrcode-scan" size={40} />
+            </View>
           </TouchableOpacity>
 
         </View>
@@ -81,7 +70,8 @@ class QRscanner extends Component {
       .then(async () => {
         try {
           const dataLogin = await this.props.getLoginEmployee()
-          if(dataLogin){
+          if (dataLogin) {
+            ToastAndroid.show(` New Relation Added`, ToastAndroid.SHORT)
             this.props.navigation.navigate('Relations')
           }
         } catch (error) {
