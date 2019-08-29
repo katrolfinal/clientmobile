@@ -224,13 +224,15 @@ function RelationPage(props) {
                   <View style={{ justifyContent: 'center' }}>
                     {
                       el.image ?
+                      <TouchableHighlight underlayColor='rgba(0, 0, 0, 0.6)' onPress={() => props.toggleCardRelationsPage(el)} style={{width: 75, height: 75, borderRadius: 200, marginRight: 15}}>
                         <Image
                           style={{ width: 75, height: 75, borderRadius: 200, marginRight: 15 }}
                           source={{ uri: `${el.image}` }}
-                        /> :
-                        <View style={{ width: 75, height: 75, borderRadius: 200, marginRight: 15, backgroundColor: 'rgba(0, 0, 0, 0.2)', justifyContent: 'center', alignItems: 'center' }}>
+                        /> 
+                      </TouchableHighlight> :
+                        <TouchableHighlight underlayColor='rgba(0, 0, 0, 0.6)' onPress={() => props.toggleCardRelationsPage(el)} style={{ width: 75, height: 75, borderRadius: 200, marginRight: 15, backgroundColor: 'rgba(0, 0, 0, 0.2)', justifyContent: 'center', alignItems: 'center' }}>
                           <Text style={{ fontSize: 30, fontWeight: 'bold', color: '#FFF', marginBottom: 3 }}>{el.name[0].toUpperCase()}</Text>
-                        </View>
+                        </TouchableHighlight>
                     }
                   </View>
                 }
